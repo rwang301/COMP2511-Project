@@ -42,7 +42,6 @@ public class Entity {
 
     @Override
     public boolean equals(Object obj) {
-        // TODO Auto-generated method stub
         if (obj == null) return false;
         if (obj instanceof Entity) {
             Entity entity = (Entity) obj;
