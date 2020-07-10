@@ -39,4 +39,20 @@ public class Entity {
     public int getX() {
         return x().get();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        // TODO Auto-generated method stub
+        if (obj == null) return false;
+        if (obj instanceof Entity) {
+            Entity entity = (Entity) obj;
+            return x.getValue() == entity.x.getValue() && y.getValue() == entity.y.getValue();
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [" + x + ", "+ y + "]";
+    }
 }
