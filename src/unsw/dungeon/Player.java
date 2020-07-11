@@ -97,8 +97,7 @@ public class Player extends Entity {
         } else if (isOn(Portal.class)) {
             teleport((Portal) getEntity(Portal.class));
         } else if (isOn(Key.class)) {
-            Key pickupable = (Key) getEntity(Key.class);
-            pickupable.pickup(this);
+            if (key == null) ((Key)getEntity(Key.class)).pickup(this);
         } else if (isOn(Door.class)) {
             if (!canEnter((Door) getEntity(Door.class))) {
                 setPosition(coordinate, position);

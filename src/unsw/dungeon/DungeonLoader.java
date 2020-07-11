@@ -2,6 +2,8 @@ package unsw.dungeon;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,9 +21,9 @@ import org.json.JSONTokener;
 public abstract class DungeonLoader {
 
     private JSONObject json;
-    private Portal portal = null;
-    private Key key = null;
-    private Door door = null;
+    private Map<Integer, Portal> portals = new HashMap<>();
+    private Map<Integer, Door> doors = new HashMap<>();
+    private Map<Integer, Key> keys = new HashMap<>();
 
     public DungeonLoader(String filename) throws FileNotFoundException {
         json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename)));
@@ -75,43 +77,44 @@ public abstract class DungeonLoader {
             Door door = new Door(x, y);
             onLoad(door);
             entity = door;
-            if (this.key != null) {
-                door.setKey(this.key);
-                if (this.door == null) {
-                    this.key.setDoor(door);
-                }
+
+            int doorId = json.getInt("id");
+            if (keys.containsKey(doorId)) {
+                keys.get(doorId).setDoor(door);
+                door.setKey(keys.get(doorId));
             } else {
-                this.door = door;
+                doors.put(doorId, door);
             }
             break;
         case "key":
             Key key = new Key(x, y);
             onLoad(key);
             entity = key;
-            if (this.door != null) {
-                key.setDoor(this.door);
-                if (this.key == null) {
-                    this.door.setKey(key);
-                }
+
+            int keyId = json.getInt("id");
+            if (doors.containsKey(keyId)) {
+                doors.get(keyId).setKey(key);
+                key.setDoor(doors.get(keyId));
             } else {
-                this.key = key;
+                keys.put(keyId, key);
             }
             break;
         case "boulder":
-            break;
-        case "switch":
             break;
         case "portal":
             Portal portal = new Portal(x, y);
             onLoad(portal);
             entity = portal;
-            if (this.portal != null) {
-                portal.setPortal(this.portal);
-                this.portal.setPortal(portal);
-                this.portal = null;
+
+            int portalId = json.getInt("id");
+            if (portals.containsKey(portalId)) {
+                portal.setPortal(portals.get(portalId));
+                portals.get(portalId).setPortal(portal);
             } else {
-                this.portal = portal;
+                portals.put(portalId, portal);
             }
+        case "switch":
+            break;
         case "enemy":
             break;
         case "sword":
