@@ -38,12 +38,12 @@ public class Player extends Entity {
         return key;
     }
 
-    public Door getKeyDoor() {
-        return key.getDoor();
-    }
-
     public void setKey(Key key) {
         this.key = key;
+    }
+
+    public Door getKeyDoor() {
+        return key.getDoor();
     }
 
     /**

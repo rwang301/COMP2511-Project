@@ -18,25 +18,17 @@ public class Door extends Entity implements Blockable {
         this.key = key;
     }
 
-    public boolean isOpen() {
-        return open;
-    }
-
-    public void open(Player player) {
-        open = !open;
-        player.setKey(null);
-    }
-
     /**
      * Check if the player can open a door
      * @param door
-     * @return true if the door is already open or the player met all the conditions of openning a door otherwise false
+     * @return true if the door is already open or the player has the complementary key otherwise false
      */
     private boolean canOpen(Player player) {
-        if (!isOpen()) {
-            if (player.getKey() == null) return false;
-            else if (player.getKeyDoor() == this) open(player);
-            else return false;
+        if (!open) {
+            if (player.getKey() != null && player.getKeyDoor() == this) {
+                open = !open;
+                player.setKey(null);
+            } else return false;
         }
         return true;
     }
