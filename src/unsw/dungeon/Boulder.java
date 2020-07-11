@@ -8,9 +8,22 @@ public class Boulder extends Entity implements Blockable {
         super(x, y);
     }
 
+    /**
+     * Check if the player can push the bouler
+     * @param player
+     * @return true if the boulder can be pushed in the direction given otherwise false
+     */
+    private boolean canPush(Player player, IntegerProperty coordinate, int position) {
+        return false;
+    }
+
     @Override
     public void block(Player player, IntegerProperty coordinate, int position) {
-        player.setPosition(coordinate, position);
+        if (!canPush(player, coordinate, position)) {
+            player.setPosition(coordinate, position);
+        } else {
+            this.setPosition(coordinate, position);
+        }
     }
 
 }

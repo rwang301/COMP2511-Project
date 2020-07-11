@@ -79,15 +79,6 @@ public class Player extends Entity {
     }
 
     /**
-     * Set the given coordinate to the given position
-     * @param coordinate a x or a y value of an entity
-     * @param position a new x or y value to set the corresponding coordinate to
-     */
-    public void setPosition(IntegerProperty coordinate, int position) {
-        coordinate.set(position);
-    }
-
-    /**
      * given a portal set the player's position to its corresponding portal
      * @param portal
      */

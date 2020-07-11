@@ -19,7 +19,7 @@ public class Door extends Entity implements Blockable {
     }
 
     /**
-     * Check if the player can open a door
+     * Check if the player can open the door
      * @param door
      * @return true if the door is already open or the player has the complementary key otherwise false
      */
