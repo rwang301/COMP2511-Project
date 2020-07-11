@@ -100,6 +100,14 @@ public abstract class DungeonLoader {
             }
             break;
         case "boulder":
+            Boulder boulder = new Boulder(x, y);
+            onLoad(boulder);
+            entity = boulder;
+            break;
+        case "switch":
+            Switch floorSwitch = new Switch(x, y);
+            onLoad(floorSwitch);
+            entity = floorSwitch;
             break;
         case "portal":
             Portal portal = new Portal(x, y);
@@ -113,8 +121,6 @@ public abstract class DungeonLoader {
             } else {
                 portals.put(portalId, portal);
             }
-        case "switch":
-            break;
         case "enemy":
             break;
         case "sword":
@@ -139,4 +145,8 @@ public abstract class DungeonLoader {
     public abstract void onLoad(Key key);
 
     public abstract void onLoad(Door door);
+
+    public abstract void onLoad(Switch floorSwitch);
+
+    public abstract void onLoad(Boulder boulder);
 }

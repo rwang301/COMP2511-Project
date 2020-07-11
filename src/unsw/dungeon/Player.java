@@ -42,6 +42,11 @@ public class Player extends Entity {
         this.key = key;
     }
 
+    /**
+     * Get all the entities of all the same type
+     * @param entityType
+     * @return a list of entities of a given type
+     */
     private List<Entity> getEntities(Class<?> entityType) {
         return dungeon.getEntities().stream().filter(entity -> entity.getClass() == entityType).collect(Collectors.toList());
     }
@@ -69,6 +74,11 @@ public class Player extends Entity {
         return getEntities(entityType).stream().filter(entity -> entity.isOn(this)).findFirst().get();
     }
 
+    /**
+     * Set the given coordinate to the given position
+     * @param coordinate a x or a y value of an entity
+     * @param position a new x or y value to set the corresponding coordinate to
+     */
     private void setPosition(IntegerProperty coordinate, int position) {
         coordinate.set(position);
     }
@@ -82,6 +92,11 @@ public class Player extends Entity {
         setPosition(y(), portal.getPortal().getY());
     }
 
+    /**
+     * Check if the player can enter a door
+     * @param door
+     * @return true if the player met all the conditions of entering a door otherwise false
+     */
     private boolean canEnter(Door door) {
         if (!door.isOpen()) {
             if (key == null) return false;
@@ -91,6 +106,11 @@ public class Player extends Entity {
         return true;
     }
 
+    /**
+     * Take certain actions depending on the corresponding entity that the player stepped on
+     * @param coordinate a x or y value the the player
+     * @param position the previous x or y value before the player took the move
+     */
     private void action(IntegerProperty coordinate, int position) {
         if (isOn(Wall.class)) {
             setPosition(coordinate, position);
