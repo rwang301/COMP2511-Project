@@ -38,17 +38,32 @@ public class Player extends Entity {
         return key;
     }
 
+    public Door getKeyDoor() {
+        return key.getDoor();
+    }
+
     public void setKey(Key key) {
         this.key = key;
     }
 
     /**
-     * Get all the entities of all the same type
+     * Get all the entities of the same type or implment the same interface
      * @param entityType
      * @return a list of entities of a given type
      */
     private List<Entity> getEntities(Class<?> entityType) {
-        return dungeon.getEntities().stream().filter(entity -> entity.getClass() == entityType).collect(Collectors.toList());
+        return dungeon.getEntities().stream().filter(entity -> entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
+    }
+
+    /**
+     * If the player is currently on the given entity,
+     * returns the entity,
+     * otherwise throws noSuchElementException
+     * @return the entity the player is on right now
+     * @throws noSuchElementException
+     */
+    private Entity getEntity(Class<?> entityType) {
+        return getEntities(entityType).stream().filter(entity -> this.isOn(entity)).findFirst().get();
     }
 
     /**
@@ -64,22 +79,11 @@ public class Player extends Entity {
     }
 
     /**
-     * If the player is currently on the given entity,
-     * returns the entity,
-     * otherwise throws noSuchElementException
-     * @return the entity the player is on right now
-     * @throws noSuchElementException
-     */
-    private Entity getEntity(Class<?> entityType) {
-        return getEntities(entityType).stream().filter(entity -> entity.isOn(this)).findFirst().get();
-    }
-
-    /**
      * Set the given coordinate to the given position
      * @param coordinate a x or a y value of an entity
      * @param position a new x or y value to set the corresponding coordinate to
      */
-    private void setPosition(IntegerProperty coordinate, int position) {
+    public void setPosition(IntegerProperty coordinate, int position) {
         coordinate.set(position);
     }
 
@@ -93,35 +97,17 @@ public class Player extends Entity {
     }
 
     /**
-     * Check if the player can enter a door
-     * @param door
-     * @return true if the player met all the conditions of entering a door otherwise false
-     */
-    private boolean canEnter(Door door) {
-        if (!door.isOpen()) {
-            if (key == null) return false;
-            else if (key.getDoor() == door) door.open(this);
-            else return false;
-        }
-        return true;
-    }
-
-    /**
      * Take certain actions depending on the corresponding entity that the player stepped on
      * @param coordinate a x or y value the the player
      * @param position the previous x or y value before the player took the move
      */
     private void action(IntegerProperty coordinate, int position) {
-        if (isOn(Wall.class)) {
-            setPosition(coordinate, position);
+        if (isOn(Blockable.class)) {
+            ((Blockable)getEntity(Blockable.class)).block(this, coordinate, position);
         } else if (isOn(Portal.class)) {
             teleport((Portal) getEntity(Portal.class));
-        } else if (isOn(Key.class)) {
-            if (key == null) ((Key)getEntity(Key.class)).pickup(this);
-        } else if (isOn(Door.class)) {
-            if (!canEnter((Door) getEntity(Door.class))) {
-                setPosition(coordinate, position);
-            }
+        } else if (isOn(Pickupable.class)) {
+            if (key == null) ((Pickupable)getEntity(Pickupable.class)).pickup(this);
         }
     }
 
