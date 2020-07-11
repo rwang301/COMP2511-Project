@@ -3,6 +3,8 @@ package unsw.dungeon;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.beans.property.IntegerProperty;
+
 /**
  * The player entity
  * 
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
  */
 public class Player extends Entity {
 
+    private Key key;
     private Dungeon dungeon;
 
     /**
@@ -23,22 +26,51 @@ public class Player extends Entity {
         this.dungeon = dungeon;
     }
 
+    public Dungeon getDungeon() {
+        return dungeon;
+    }
+
+    public void setDungeon(Dungeon dungeon) {
+        this.dungeon = dungeon;
+    }
+
+    public Key getKey() {
+        return key;
+    }
+
+    public void setKey(Key key) {
+        this.key = key;
+    }
+
     private List<Entity> getEntities(Class<?> entityType) {
         return dungeon.getEntities().stream().filter(entity -> entity.getClass() == entityType).collect(Collectors.toList());
     }
 
+    /**
+     * Check whether the player is on a given type of entity
+     * @param entityType
+     * @return true if the player is on the given type of entity otherwise false
+     */
     private boolean isOn(Class<?> entityType) {
-        if (getEntities(entityType).contains(this)) return true;
+        for (Entity entity: getEntities(entityType)) {
+            if (this.isOn(entity)) return true;
+        }
         return false;
     }
 
     /**
-     * can only call this method if the player is on a portal
-     * otherwise it will throw an exception
-     * @return the portal that the player is on right now
+     * If the player is currently on the given entity,
+     * returns the entity,
+     * otherwise throws noSuchElementException
+     * @return the entity the player is on right now
+     * @throws noSuchElementException
      */
-    private Portal getPortal() {
-        return (Portal)getEntities(Portal.class).stream().filter(portal -> portal.equals(this)).findFirst().get();
+    private Entity getEntity(Class<?> entityType) {
+        return getEntities(entityType).stream().filter(entity -> entity.isOn(this)).findFirst().get();
+    }
+
+    private void setPosition(IntegerProperty coordinate, int position) {
+        coordinate.set(position);
     }
 
     /**
@@ -46,43 +78,55 @@ public class Player extends Entity {
      * @param portal
      */
     private void teleport(Portal portal) {
-        x().set(portal.getPortal().getX());
-        y().set(portal.getPortal().getY());
+        setPosition(x(), portal.getPortal().getX());
+        setPosition(y(), portal.getPortal().getY());
+    }
+
+    private boolean canEnter(Door door) {
+        if (!door.isOpen()) {
+            if (key == null) return false;
+            else if (key.getDoor() == door) door.open(this);
+            else return false;
+        }
+        return true;
+    }
+
+    private void action(IntegerProperty coordinate, int position) {
+        if (isOn(Wall.class)) {
+            setPosition(coordinate, position);
+        } else if (isOn(Portal.class)) {
+            teleport((Portal) getEntity(Portal.class));
+        } else if (isOn(Key.class)) {
+            Key pickupable = (Key) getEntity(Key.class);
+            pickupable.pickup(this);
+        } else if (isOn(Door.class)) {
+            if (!canEnter((Door) getEntity(Door.class))) {
+                setPosition(coordinate, position);
+            }
+        }
     }
 
     public void moveUp() {
         if (getY() > 0)
             y().set(getY() - 1);
-        if (isOn(Wall.class))
-            y().set(getY() + 1);
-        if (isOn(Portal.class))
-            teleport(getPortal());
+        action(y(), getY() + 1);
     }
 
     public void moveDown() {
         if (getY() < dungeon.getHeight() - 1)
             y().set(getY() + 1);
-        if (isOn(Wall.class))
-            y().set(getY() - 1);
-        if (isOn(Portal.class))
-            teleport(getPortal());
+        action(y(), getY() - 1);
     }
 
     public void moveLeft() {
         if (getX() > 0)
             x().set(getX() - 1);
-        if (isOn(Wall.class))
-            x().set(getX() + 1);
-        if (isOn(Portal.class))
-            teleport(getPortal());
+        action(x(), getX() + 1);
     }
 
     public void moveRight() {
         if (getX() < dungeon.getWidth() - 1)
             x().set(getX() + 1);
-        if (isOn(Wall.class))
-            x().set(getX() - 1);
-        if (isOn(Portal.class))
-            teleport(getPortal());
+        action(x(), getX() - 1);
     }
 }

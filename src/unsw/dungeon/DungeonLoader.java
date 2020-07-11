@@ -20,6 +20,8 @@ public abstract class DungeonLoader {
 
     private JSONObject json;
     private Portal portal = null;
+    private Key key = null;
+    private Door door = null;
 
     public DungeonLoader(String filename) throws FileNotFoundException {
         json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename)));
@@ -70,8 +72,30 @@ public abstract class DungeonLoader {
         case "treasure":
             break;
         case "door":
+            Door door = new Door(x, y);
+            onLoad(door);
+            entity = door;
+            if (this.key != null) {
+                door.setKey(this.key);
+                if (this.door == null) {
+                    this.key.setDoor(door);
+                }
+            } else {
+                this.door = door;
+            }
             break;
         case "key":
+            Key key = new Key(x, y);
+            onLoad(key);
+            entity = key;
+            if (this.door != null) {
+                key.setDoor(this.door);
+                if (this.key == null) {
+                    this.door.setKey(key);
+                }
+            } else {
+                this.key = key;
+            }
             break;
         case "boulder":
             break;
@@ -109,4 +133,7 @@ public abstract class DungeonLoader {
 
     public abstract void onLoad(Portal portal);
 
+    public abstract void onLoad(Key key);
+
+    public abstract void onLoad(Door door);
 }

@@ -40,12 +40,16 @@ public class Entity {
         return x().get();
     }
 
+    public boolean isOn(Entity entity) {
+        return getX() == entity.getX() && getY() == entity.getY();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
-        if (obj instanceof Entity) {
+        if (getClass() == obj.getClass()) {
             Entity entity = (Entity) obj;
-            return x.getValue() == entity.x.getValue() && y.getValue() == entity.y.getValue();
+            return getX() == entity.getX() && getY() == entity.getY();
         }
         return false;
     }
