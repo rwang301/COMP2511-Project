@@ -22,6 +22,7 @@ public abstract class DungeonLoader implements Observer {
 
     private JSONObject json;
     private int treasure = 0;
+    private Component goal;
     private Map<Integer, Portal> portals = new HashMap<>();
     private Map<Integer, Door> doors = new HashMap<>();
     private Map<Integer, Key> keys = new HashMap<>();
@@ -43,11 +44,47 @@ public abstract class DungeonLoader implements Observer {
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 
+        loadGoals(json.getJSONObject("goal-condition"), null);
+
         for (int i = 0; i < jsonEntities.length(); i++) {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
         dungeon.setTreasure(treasure);
+        dungeon.setGoal(goal);
         return dungeon;
+    }
+
+    private void loadGoals(JSONObject goals, Composite condition){
+        String goal = goals.getString("goal");
+
+        switch (goal) {
+            case "AND":
+                Composite and = new And();
+                if (condition == null) this.goal = and;
+                condition(goals.getJSONArray("subgoals"), and);
+                break;
+            case "OR":
+                Composite or = new Or();
+                if (condition == null) this.goal = or;
+                condition(goals.getJSONArray("subgoals"), or);
+                break;
+            default:
+                Component leaf = new Leaf(goal);
+                if (condition == null) this.goal = leaf;
+                if (condition.getClass() == And.class) {
+                    condition.add(leaf);
+                } else if (condition.getClass() == Or.class) {
+                    condition.add(leaf);
+                }
+                break;
+        }
+
+    }
+
+    private void condition(JSONArray subgoals, Composite condition) {
+        for (int i = 0; i < subgoals.length(); i++) {
+            loadGoals(subgoals.getJSONObject(i), condition);
+        }
     }
 
     private void loadEntity(Dungeon dungeon, JSONObject json) {

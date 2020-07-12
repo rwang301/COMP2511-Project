@@ -125,6 +125,8 @@ public class Player extends Entity {
             ((Blockable)getEntity(Blockable.class)).block(this, coordinate, position);
         } else if (isOn(Pickupable.class)) {
             ((Pickupable)getEntity(Pickupable.class)).pickup(this);
+        } else if (isOn(Exit.class)) {
+            System.out.println("Game over!! Woo!");
         }
     }
 

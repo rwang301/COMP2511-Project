@@ -16,13 +16,14 @@ import java.util.List;
  *
  */
 public class Dungeon implements Subject {
-
+    
     private int width, height;
     private List<Entity> entities;
     private Player player;
     private List<Observer> observers = new ArrayList<>();
     private Entity update = null;
     private int treasure = 0;
+    private Component goal;
 
     public Dungeon(int width, int height) {
         this.width = width;
@@ -57,6 +58,10 @@ public class Dungeon implements Subject {
 
     public void setTreasure(int treasure) {
         this.treasure = treasure;
+    }
+
+    public void setGoal(Component goal) {
+        this.goal = goal;
     }
 
     public List<Entity> getEntities() {
