@@ -49,6 +49,7 @@ public abstract class DungeonLoader implements Observer {
         for (int i = 0; i < jsonEntities.length(); i++) {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
+
         dungeon.setTreasure(treasure);
         dungeon.setGoal(goal);
         return dungeon;
@@ -61,21 +62,35 @@ public abstract class DungeonLoader implements Observer {
             case "AND":
                 Composite and = new And();
                 if (condition == null) this.goal = and;
+                else condition.add(and);
                 condition(goals.getJSONArray("subgoals"), and);
                 break;
             case "OR":
                 Composite or = new Or();
                 if (condition == null) this.goal = or;
+                else condition.add(or);
                 condition(goals.getJSONArray("subgoals"), or);
                 break;
             default:
-                Component leaf = new Leaf(goal);
-                if (condition == null) this.goal = leaf;
-                if (condition.getClass() == And.class) {
-                    condition.add(leaf);
-                } else if (condition.getClass() == Or.class) {
-                    condition.add(leaf);
+                Component leaf = null;
+                switch(goal) {
+                    case "exit":
+                        leaf = new GoalExit();
+                        break;
+                    case "enemies":
+                        leaf = new GoalEnemies();
+                        break;
+                    case "boulders":
+                        leaf = new GoalBoulders();
+                        break;
+                    case "treasure":
+                        leaf = new GoalTreasure();
+                        break;
+                    default:
+                        break;
                 }
+                if (condition == null) this.goal = leaf;
+                else condition.add(leaf);
                 break;
         }
 

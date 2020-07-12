@@ -9,6 +9,7 @@ public class Treasure extends Entity implements Pickupable {
     @Override
     public void pickup(Player player) {
         player.setTreasure();
+        player.complete();
         player.pickup(this);
     }
 

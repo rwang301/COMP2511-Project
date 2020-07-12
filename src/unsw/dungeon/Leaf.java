@@ -1,11 +1,11 @@
 package unsw.dungeon;
 
-public class Leaf implements Component {
-    private String goal;
+public abstract class Leaf implements Component {
+    @Override
+    public abstract boolean complete(Player player);
 
-    public Leaf(String goal) {
-        this.goal = goal;
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
     }
-
-
 }

@@ -59,6 +59,14 @@ public class Player extends Entity {
         return key.getDoor();
     }
 
+    public int getTotalTreasure() {
+        return dungeon.getTreasure();
+    }
+
+    public void complete() {
+        dungeon.complete();
+    }
+
     /**
      * Notify the Dungeon Loader to change the image of the closed door to an open door
      * @param door
@@ -90,7 +98,7 @@ public class Player extends Entity {
      * @param entityType
      * @return true if the player is on the given type of entity otherwise false
      */
-    private boolean isOn(Class<?> entityType) {
+    public boolean isOn(Class<?> entityType) {
         for (Entity entity: getEntities(entityType)) {
             if (this.isOn(entity)) {
                 current = entity;
@@ -122,7 +130,7 @@ public class Player extends Entity {
         } else if (isOn(Pickupable.class)) {
             ((Pickupable)current).pickup(this);
         } else if (isOn(Exit.class)) {
-            System.out.println("Game over!! Woo!");
+            complete();
         }
     }
 
