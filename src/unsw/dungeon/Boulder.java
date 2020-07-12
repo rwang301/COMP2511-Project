@@ -22,6 +22,7 @@ public class Boulder extends Entity implements Blockable {
         if (!canPush(player, coordinate, position)) {
             player.setPosition(coordinate, position);
         } else {
+            // TODO figure out the new position of boulder
             this.setPosition(coordinate, position);
         }
     }
