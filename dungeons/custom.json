@@ -1,6 +1,25 @@
 {
   "width": 45,
   "height": 38,
+  "goal-condition": {
+    "goal": "OR", 
+    "subgoals": [ 
+      { "goal": "boulders" },
+      {
+        "goal": "AND", 
+        "subgoals": [
+          {
+            "goal": "OR",
+            "subgoals": [
+              {"goal": "treasure" },
+              {"goal": "enemies" }
+            ]
+          },
+          {"goal": "exit" }
+        ]
+      }
+    ]
+  },
   "entities": [
     {
       "x": 0,
@@ -234,7 +253,7 @@
       "type": "wall"
     },
     {
-      "x": 4,
+      "x": 6,
       "y": 3,
       "id": 0,
       "type": "key"
@@ -1119,18 +1138,5 @@
       "y": 17,
       "type": "wall"
     }
-  ],
-  "goal-condition": {
-    "goal": "AND", 
-    "subgoals": [ 
-      { "goal": "exit" },
-      { "goal": "OR", 
-        "subgoals":[
-          {"goal": "enemies" },
-          {"goal": "treasure" }
-        ]
-      }
-    ]
-  }
-  
+  ]
 }

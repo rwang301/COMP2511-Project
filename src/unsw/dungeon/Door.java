@@ -26,7 +26,7 @@ public class Door extends Entity implements Blockable {
     private boolean canOpen(Player player) {
         if (!open) {
             if (player.getKey() != null && player.getKeyDoor() == this) {
-                open = !open;
+                open = true;
                 player.open(this);
             } else return false;
         }
