@@ -46,6 +46,11 @@ public class Player extends Entity {
         return key.getDoor();
     }
 
+    public void open(Door door) {
+        dungeon.setDoor(door);
+        dungeon.notifyObservers();
+    }
+
     /**
      * Get all the entities of the same type or implment the same interface
      * @param entityType

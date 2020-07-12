@@ -15,11 +15,13 @@ import java.util.List;
  * @author Robert Clifton-Everest
  *
  */
-public class Dungeon {
+public class Dungeon implements Subject {
 
     private int width, height;
     private List<Entity> entities;
     private Player player;
+    private List<Observer> observers = new ArrayList<>();
+    private Door door = null;
 
     public Dungeon(int width, int height) {
         this.width = width;
@@ -44,6 +46,14 @@ public class Dungeon {
         this.player = player;
     }
 
+    public Door getDoor() {
+        return door;
+    }
+
+    public void setDoor(Door door) {
+        this.door = door;
+    }
+
     public void addEntity(Entity entity) {
         entities.add(entity);
     }
@@ -58,5 +68,20 @@ public class Dungeon {
 
     public void setEntities(List<Entity> entities) {
         this.entities = entities;
+    }
+
+    @Override
+    public void attach(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void detach(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers() {
+        observers.forEach(observer -> observer.update(this));
     }
 }
