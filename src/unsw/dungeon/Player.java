@@ -63,6 +63,9 @@ public class Player extends Entity {
         return dungeon.getTreasure();
     }
 
+    /**
+     * Check if the goal of this dungeon is met
+     */
     public void complete() {
         dungeon.complete();
     }
