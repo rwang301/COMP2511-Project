@@ -46,6 +46,10 @@ public class Player extends Entity {
         return key.getDoor();
     }
 
+    /**
+     * Notify the Dungeon Loader to change the image of the closed door to an open door
+     * @param door
+     */
     public void open(Door door) {
         key = null;
         dungeon.open(door);
@@ -106,10 +110,10 @@ public class Player extends Entity {
      * @param position the previous x or y value before the player took the move
      */
     private void action(IntegerProperty coordinate, int position) {
-        if (isOn(Blockable.class)) {
-            ((Blockable)getEntity(Blockable.class)).block(this, coordinate, position);
-        } else if (isOn(Portal.class)) {
+        if (isOn(Portal.class)) {
             teleport((Portal) getEntity(Portal.class));
+        } else if (isOn(Blockable.class)) {
+            ((Blockable)getEntity(Blockable.class)).block(this, coordinate, position);
         } else if (isOn(Pickupable.class)) {
             ((Pickupable)getEntity(Pickupable.class)).pickup(this);
         }

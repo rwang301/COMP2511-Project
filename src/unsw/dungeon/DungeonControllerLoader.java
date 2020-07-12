@@ -112,28 +112,33 @@ public class DungeonControllerLoader extends DungeonLoader {
     }
 
     private void removeEntity(Entity entity) {
-        if (entity.getClass() == Key.class) {
-            for (int i = 0; i < entities.size(); i++) {
-                if (keys.get((Key)entity).getId().equals(entities.get(i).getId())) {
-                    entities.get(i).setImage(null);
-                    entities.remove(i);
-                    break;
-                }
+        for (int i = 0; i < entities.size(); i++) {
+            if (keys.get((Key)entity).getId().equals(entities.get(i).getId())) {
+                entities.get(i).setImage(null);
+                entities.remove(i);
+                break;
             }
-        } else if (entity.getClass() == Door.class) {
-            for (int i = 0; i < entities.size(); i++) {
-                if (doors.get((Door)entity).getId().equals(entities.get(i).getId())) {
-                    entities.get(i).setImage(openDoorImage);
-                    entities.remove(i);
-                    break;
-                }
+        }
+    }
+
+    private void updateDoor(Door door) {
+        for (int i = 0; i < entities.size(); i++) {
+            if (doors.get(door).getId().equals(entities.get(i).getId())) {
+                entities.get(i).setImage(openDoorImage);
+                entities.remove(i);
+                break;
             }
         }
     }
 
     @Override
     public void update(Subject subject) {
-        removeEntity(((Dungeon)subject).getUpdate());
+        Entity entity = ((Dungeon)subject).getUpdate();
+        if (entity.getClass() == Door.class) {
+            updateDoor((Door)entity);
+        } else {// if it is a pickupable object
+            removeEntity(entity);
+        }
     }
 
     /**
