@@ -13,6 +13,10 @@ import javafx.beans.property.IntegerProperty;
  */
 public class Player extends Entity {
 
+    /**
+     * Stores the entity that the player is currently on
+     */
+    private Entity current;
     private Dungeon dungeon;
     private Key key = null;
     private int treasure = 0;
@@ -82,24 +86,16 @@ public class Player extends Entity {
     }
 
     /**
-     * If the player is currently on the given entity,
-     * returns the entity,
-     * otherwise throws noSuchElementException
-     * @return the entity the player is on right now
-     * @throws noSuchElementException
-     */
-    private Entity getEntity(Class<?> entityType) {
-        return getEntities(entityType).stream().filter(entity -> this.isOn(entity)).findFirst().get();
-    }
-
-    /**
      * Check whether the player is on a given type of entity
      * @param entityType
      * @return true if the player is on the given type of entity otherwise false
      */
     private boolean isOn(Class<?> entityType) {
         for (Entity entity: getEntities(entityType)) {
-            if (this.isOn(entity)) return true;
+            if (this.isOn(entity)) {
+                current = entity;
+                return true;
+            }
         }
         return false;
     }
@@ -120,11 +116,11 @@ public class Player extends Entity {
      */
     private void action(IntegerProperty coordinate, int position) {
         if (isOn(Portal.class)) {
-            teleport((Portal) getEntity(Portal.class));
+            teleport((Portal)current);
         } else if (isOn(Blockable.class)) {
-            ((Blockable)getEntity(Blockable.class)).block(this, coordinate, position);
+            ((Blockable)current).block(this, coordinate, position);
         } else if (isOn(Pickupable.class)) {
-            ((Pickupable)getEntity(Pickupable.class)).pickup(this);
+            ((Pickupable)current).pickup(this);
         } else if (isOn(Exit.class)) {
             System.out.println("Game over!! Woo!");
         }
