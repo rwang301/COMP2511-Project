@@ -13,8 +13,9 @@ import javafx.beans.property.IntegerProperty;
  */
 public class Player extends Entity {
 
-    private Key key;
     private Dungeon dungeon;
+    private Key key = null;
+    private int treasure = 0;
 
     /**
      * Create a player positioned in square (x,y)
@@ -40,6 +41,14 @@ public class Player extends Entity {
 
     public void setKey(Key key) {
         this.key = key;
+    }
+
+    public int getTreasure() {
+        return treasure;
+    }
+
+    public void setTreasure() {
+        treasure++;
     }
 
     public Door getKeyDoor() {

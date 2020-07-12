@@ -24,10 +24,10 @@ import java.io.File;
 public class DungeonControllerLoader extends DungeonLoader {
 
     private List<ImageView> entities;
-    private Map<Door, ImageView> doors = new HashMap<>();
-    private Map<Key, ImageView> keys = new HashMap<>();
+    private Map<Entity, ImageView> items = new HashMap<>();
 
     //Images
+    private Image change = null;
     private Image playerImage;
     private Image wallImage;
     private Image exitImage;
@@ -37,6 +37,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image closedDoorImage;
     private Image switchImage;
     private Image boulderImage;
+    private Image treasureImage;
 
     public DungeonControllerLoader(String filename)
             throws FileNotFoundException {
@@ -51,6 +52,7 @@ public class DungeonControllerLoader extends DungeonLoader {
         closedDoorImage = new Image((new File("images/closed_door.png")).toURI().toString());
         switchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
         boulderImage = new Image((new File("images/boulder.png")).toURI().toString());
+        treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
     }
 
     @Override
@@ -81,7 +83,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Key key) {
         ImageView view = new ImageView(keyImage);
         view.setId(key.toString());
-        keys.put(key, view);
+        items.put(key, view);
         addEntity(key, view);
     }
 
@@ -89,8 +91,16 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Door door) {
         ImageView view = new ImageView(closedDoorImage);
         view.setId(door.toString());
-        doors.put(door, view);
+        items.put(door, view);
         addEntity(door, view);
+    }
+
+    @Override
+    public void onLoad(Treasure treasure) {
+        ImageView view = new ImageView(treasureImage);
+        view.setId(treasure.toString());
+        items.put(treasure, view);
+        addEntity(treasure, view);
     }
 
     @Override
@@ -113,18 +123,8 @@ public class DungeonControllerLoader extends DungeonLoader {
 
     private void removeEntity(Entity entity) {
         for (int i = 0; i < entities.size(); i++) {
-            if (keys.get((Key)entity).getId().equals(entities.get(i).getId())) {
-                entities.get(i).setImage(null);
-                entities.remove(i);
-                break;
-            }
-        }
-    }
-
-    private void updateDoor(Door door) {
-        for (int i = 0; i < entities.size(); i++) {
-            if (doors.get(door).getId().equals(entities.get(i).getId())) {
-                entities.get(i).setImage(openDoorImage);
+            if (items.get(entity).getId().equals(entities.get(i).getId())) {
+                entities.get(i).setImage(change);
                 entities.remove(i);
                 break;
             }
@@ -134,11 +134,9 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void update(Subject subject) {
         Entity entity = ((Dungeon)subject).getUpdate();
-        if (entity.getClass() == Door.class) {
-            updateDoor((Door)entity);
-        } else {// if it is a pickupable object
-            removeEntity(entity);
-        }
+        if (entity.getClass() == Door.class) change = openDoorImage;
+        else change = null;
+        removeEntity(entity);
     }
 
     /**

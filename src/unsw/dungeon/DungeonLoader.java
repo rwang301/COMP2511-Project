@@ -21,6 +21,7 @@ import org.json.JSONTokener;
 public abstract class DungeonLoader implements Observer {
 
     private JSONObject json;
+    private int treasure = 0;
     private Map<Integer, Portal> portals = new HashMap<>();
     private Map<Integer, Door> doors = new HashMap<>();
     private Map<Integer, Key> keys = new HashMap<>();
@@ -45,6 +46,7 @@ public abstract class DungeonLoader implements Observer {
         for (int i = 0; i < jsonEntities.length(); i++) {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
+        dungeon.setTreasure(treasure);
         return dungeon;
     }
 
@@ -73,6 +75,10 @@ public abstract class DungeonLoader implements Observer {
             entity = exit;
             break;
         case "treasure":
+            Treasure treasure = new Treasure(x, y);
+            onLoad(treasure);
+            entity = treasure;
+            this.treasure++;
             break;
         case "door":
             Door door = new Door(x, y);
@@ -150,4 +156,6 @@ public abstract class DungeonLoader implements Observer {
     public abstract void onLoad(Switch floorSwitch);
 
     public abstract void onLoad(Boulder boulder);
+
+    public abstract void onLoad(Treasure treasure);
 }

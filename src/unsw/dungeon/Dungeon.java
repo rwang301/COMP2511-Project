@@ -22,6 +22,7 @@ public class Dungeon implements Subject {
     private Player player;
     private List<Observer> observers = new ArrayList<>();
     private Entity update = null;
+    private int treasure = 0;
 
     public Dungeon(int width, int height) {
         this.width = width;
@@ -50,6 +51,27 @@ public class Dungeon implements Subject {
         return update;
     }
 
+    public int getTreasure() {
+        return treasure;
+    }
+
+    public void setTreasure(int treasure) {
+        this.treasure = treasure;
+    }
+
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    public void addEntity(Entity entity) {
+        entities.add(entity);
+    }
+
+    public void removeEntity(Entity entity) {
+        entities.remove(entity);
+    }
+
+
     public void open(Door door) {
         update = door;
         notifyObservers();
@@ -62,21 +84,6 @@ public class Dungeon implements Subject {
         notifyObservers();
     }
 
-    public void addEntity(Entity entity) {
-        entities.add(entity);
-    }
-
-    public void removeEntity(Entity entity) {
-        entities.remove(entity);
-    }
-
-    public List<Entity> getEntities() {
-        return entities;
-    }
-
-    public void setEntities(List<Entity> entities) {
-        this.entities = entities;
-    }
 
     @Override
     public void attach(Observer o) {
