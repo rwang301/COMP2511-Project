@@ -21,7 +21,7 @@ public class Dungeon implements Subject {
     private List<Entity> entities;
     private Player player;
     private List<Observer> observers = new ArrayList<>();
-    private Door door = null;
+    private Entity update = null;
 
     public Dungeon(int width, int height) {
         this.width = width;
@@ -46,12 +46,20 @@ public class Dungeon implements Subject {
         this.player = player;
     }
 
-    public Door getDoor() {
-        return door;
+    public Entity getUpdate() {
+        return update;
     }
 
-    public void setDoor(Door door) {
-        this.door = door;
+    public void open(Door door) {
+        update = door;
+        notifyObservers();
+    }
+
+    public void pickup(Pickupable pickupable) {
+        Entity update = (Entity) pickupable;
+        this.update = update;
+        removeEntity(update);
+        notifyObservers();
     }
 
     public void addEntity(Entity entity) {

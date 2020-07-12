@@ -47,8 +47,16 @@ public class Player extends Entity {
     }
 
     public void open(Door door) {
-        dungeon.setDoor(door);
-        dungeon.notifyObservers();
+        key = null;
+        dungeon.open(door);
+    }
+
+    /**
+     * Notify the Dungeon Loader to make the item disappear after being picked up
+     * @param pickupable
+     */
+    public void pickup(Pickupable pickupable) {
+        dungeon.pickup(pickupable);
     }
 
     /**
@@ -103,7 +111,7 @@ public class Player extends Entity {
         } else if (isOn(Portal.class)) {
             teleport((Portal) getEntity(Portal.class));
         } else if (isOn(Pickupable.class)) {
-            if (key == null) ((Pickupable)getEntity(Pickupable.class)).pickup(this);
+            ((Pickupable)getEntity(Pickupable.class)).pickup(this);
         }
     }
 

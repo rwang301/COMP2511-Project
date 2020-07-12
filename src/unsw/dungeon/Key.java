@@ -17,8 +17,10 @@ public class Key extends Entity implements Pickupable {
 
     @Override
     public void pickup(Player player) {
-        player.setKey(this);
-        player.getDungeon().removeEntity(this);
+        if (player.getKey() == null) {
+            player.setKey(this);
+            player.pickup(this);
+        }
     }
 
 }
