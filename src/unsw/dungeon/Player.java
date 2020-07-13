@@ -19,10 +19,7 @@ public class Player extends Entity implements Subject {
      */
     private Entity current;
     private Dungeon dungeon;
-    private int treasure = 0;
-    private Key key = null;
-    private Potion potion = null;
-    private Sword sword = null;
+    private Backpack backpack = new Backpack();
     private ArrayList<Observer> enemies = new ArrayList<Observer>();
 
     /**
@@ -44,39 +41,39 @@ public class Player extends Entity implements Subject {
     }
 
     public int getTreasure() {
-        return treasure;
+        return backpack.getTreasure();
     }
 
     public void setTreasure() {
-        treasure++;
+        backpack.setTreasure();
     }
 
     public Key getKey() {
-        return key;
+        return backpack.getKey();
     }
 
     public void setKey(Key key) {
-        this.key = key;
+        backpack.setKey(key);
     }
 
     public Potion getPotion(){
-        return potion;
+        return backpack.getPotion();
     }
 
-    public void setPotion(Potion p) {
-        this.potion = p;
+    public void setPotion(Potion potion) {
+        backpack.setPotion(potion);
     }
 
     public Sword getSword() {
-        return sword;
+        return backpack.getSword();
     }
 
     public void setSword(Sword sword) {
-        this.sword = sword;
+        backpack.setSword(sword);
     }
 
     public Door getKeyDoor() {
-        return key.getDoor();
+        return backpack.getKeyDoor();
     }
 
     public int getTotalTreasure() {
@@ -89,10 +86,10 @@ public class Player extends Entity implements Subject {
 
 
     /**
-     * Check if the goal of this dungeon is met
+     * Reduce the times the sword can be used when hitting an enemy
      */
-    public void complete() {
-        dungeon.complete(false);
+    public void hit() {
+        backpack.hit();
     }
 
     /**
@@ -103,11 +100,18 @@ public class Player extends Entity implements Subject {
     }    
 
     /**
+     * Check if the goal of this dungeon is met
+     */
+    public void complete() {
+        dungeon.complete(false);
+    }
+
+    /**
      * Notify the Dungeon Loader to change the image of the closed door to an open door
      * @param door
      */
     public void open(Door door) {
-        key = null;
+        backpack.setKey(null);
         dungeon.open(door);
     }
 
@@ -153,6 +157,18 @@ public class Player extends Entity implements Subject {
     }
 
     /**
+     * Add a pickupable item to the backpack if the player does not have one already
+     * @param pickupable
+     */
+    private void pickup(Pickupable pickupable) {
+        if (backpack.noItem(pickupable)) {
+            backpack.setItem(pickupable);
+            disappear((Entity)pickupable);
+        }
+        if (pickupable.getClass() == Treasure.class) complete();
+    }
+
+    /**
      * Take certain actions depending on the corresponding entity that the player stepped on
      * @param coordinate a x or y value the the player
      * @param position the previous x or y value before the player took the move
@@ -164,7 +180,7 @@ public class Player extends Entity implements Subject {
         } else if (isOn(Blockable.class)) {
             ((Blockable)current).block(this, coordinate, position);
         } else if (isOn(Pickupable.class)) {
-            ((Pickupable)current).pickup(this);
+            pickup((Pickupable)current);
         } else if (isOn(Exit.class)) {
             complete();
         } else if (isOn(Enemy.class)) {

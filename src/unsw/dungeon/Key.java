@@ -14,13 +14,4 @@ public class Key extends Entity implements Pickupable {
     public void setDoor(Door door) {
         this.door = door;
     }
-
-    @Override
-    public void pickup(Player player) {
-        if (player.getKey() == null) {
-            player.setKey(this);
-            player.disappear(this);
-        }
-    }
-
 }
