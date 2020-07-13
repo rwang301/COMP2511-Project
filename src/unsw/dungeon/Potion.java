@@ -1,8 +1,5 @@
 package unsw.dungeon;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class Potion extends Entity implements Pickupable {
     public Potion(int x, int y) {
         super(x, y);
@@ -15,3 +12,4 @@ public class Potion extends Entity implements Pickupable {
             player.pickup(this);
         }
     }
+}

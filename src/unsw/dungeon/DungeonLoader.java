@@ -180,6 +180,7 @@ public abstract class DungeonLoader implements Observer {
             } else {
                 portals.put(portalId, portal);
             }
+            break;
         case "enemy":
             Enemy enemy = new Enemy(x, y);
             onLoad(enemy);
@@ -220,9 +221,9 @@ public abstract class DungeonLoader implements Observer {
 
     public abstract void onLoad(Treasure treasure);
 
-    public abstract void onLoad(Potion potion);
+    public abstract void onLoad(Enemy enemy);
 
     public abstract void onLoad(Sword sword);
 
-    public abstract void onLoad(Enemy Enemy);
+    public abstract void onLoad(Potion potion);
 }

@@ -19,11 +19,11 @@ public class Player extends Entity implements Subject {
      */
     private Entity current;
     private Dungeon dungeon;
-    private Key key = null;
     private int treasure = 0;
+    private Key key = null;
     private Potion potion = null;
     private Sword sword = null;
-    ArrayList<Observer> listObservers = new ArrayList<Observer>();
+    ArrayList<Observer> enemies = new ArrayList<Observer>();
     /**
      * Create a player positioned in square (x,y)
      * @param x
@@ -42,14 +42,6 @@ public class Player extends Entity implements Subject {
         this.dungeon = dungeon;
     }
 
-    public Key getKey() {
-        return key;
-    }
-
-    public void setKey(Key key) {
-        this.key = key;
-    }
-
     public int getTreasure() {
         return treasure;
     }
@@ -58,12 +50,20 @@ public class Player extends Entity implements Subject {
         treasure++;
     }
 
-    public void setPotion(Potion p) {
-        this.potion = p;
+    public Key getKey() {
+        return key;
+    }
+
+    public void setKey(Key key) {
+        this.key = key;
     }
 
     public Potion getPotion(){
         return potion;
+    }
+
+    public void setPotion(Potion p) {
+        this.potion = p;
     }
 
     public Sword getSword() {
@@ -82,22 +82,6 @@ public class Player extends Entity implements Subject {
         return dungeon.getTreasure();
     }
 
-    @Override
-	public void attach(Observer o) {
-		if(! listObservers.contains(o)) { listObservers.add(o); }
-	};
-
-	@Override
-	public void detach(Observer o) {
-		listObservers.remove(o);
-	}
-
-	@Override
-	public void notifyObservers() {
-		for(Observer obs : listObservers) {
-			obs.update(this);
-		}
-	}
 
     /**
      * Check if the goal of this dungeon is met
@@ -173,6 +157,7 @@ public class Player extends Entity implements Subject {
         }
     }
 
+
     public void moveUp() {
         if (getY() > 0)
             y().set(getY() - 1);
@@ -196,4 +181,20 @@ public class Player extends Entity implements Subject {
             x().set(getX() + 1);
         action(x(), getX() - 1);
     }
+
+
+    @Override
+	public void attach(Observer enemy) {
+        enemies.add(enemy);
+	};
+
+	@Override
+	public void detach(Observer enemy) {
+		enemies.remove(enemy);
+	}
+
+	@Override
+	public void notifyObservers() {
+        enemies.forEach(enemy -> enemy.update(this));
+	}
 }

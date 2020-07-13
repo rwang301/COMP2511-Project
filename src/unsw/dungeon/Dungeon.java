@@ -24,6 +24,7 @@ public class Dungeon implements Subject {
     private Entity update = null;
     private int treasure = 0;
     private Component goal;
+    private boolean complete = false;
 
     public Dungeon(int width, int height) {
         this.width = width;
@@ -92,7 +93,8 @@ public class Dungeon implements Subject {
 	public void complete() {
         if (goal.complete(player)) {
             // TODO implement game engine to deal with game over
-            System.exit(0);
+            complete = true;
+            System.out.println("Game over: " + complete);
         }
 	}
 
