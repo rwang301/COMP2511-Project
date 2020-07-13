@@ -46,7 +46,7 @@ public class DungeonControllerLoader extends DungeonLoader {
             throws FileNotFoundException {
         super(filename);
         entities = new ArrayList<>();
-        playerImage = new Image((new File("images/gnome.png")).toURI().toString());
+        playerImage = new Image((new File("images/deep_elf_master_archer.png")).toURI().toString());
         wallImage = new Image((new File("images/brick_brown_0.png")).toURI().toString());
         exitImage = new Image((new File("images/exit.png")).toURI().toString());
         portalImage = new Image((new File("images/portal.png")).toURI().toString());
@@ -56,7 +56,7 @@ public class DungeonControllerLoader extends DungeonLoader {
         switchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
         boulderImage = new Image((new File("images/boulder.png")).toURI().toString());
         treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
-        enemyImage = new Image((new File("images/hound.png")).toURI().toString());
+        enemyImage = new Image((new File("images/gnome.png")).toURI().toString());
         swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
         potionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
     }

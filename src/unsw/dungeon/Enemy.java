@@ -9,6 +9,6 @@ public class Enemy extends Entity implements Observer {
     @Override
     public void update(Subject subject) {
         // TODO Auto-generated method stub
-
+        System.out.println(this);
     }
 }

@@ -146,6 +146,7 @@ public class Player extends Entity implements Subject {
      * @param position the previous x or y value before the player took the move
      */
     private void action(IntegerProperty coordinate, int position) {
+        notifyObservers(); // every time the player moves notify all the enemies
         if (isOn(Portal.class)) {
             teleport((Portal)current);
         } else if (isOn(Blockable.class)) {
