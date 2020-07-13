@@ -44,10 +44,6 @@ public class Player extends Entity implements Subject {
         return backpack.getTreasure();
     }
 
-    public void setTreasure() {
-        backpack.setTreasure();
-    }
-
     public Key getKey() {
         return backpack.getKey();
     }
