@@ -19,7 +19,7 @@ public class Sword extends Entity implements Pickupable {
     public void pickup(Player player) {
         if (player.getSword() == null) {
             player.setSword(this);
-            player.pickup(this);
+            player.disappear(this);
         }
     }
 }

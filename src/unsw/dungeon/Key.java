@@ -19,7 +19,7 @@ public class Key extends Entity implements Pickupable {
     public void pickup(Player player) {
         if (player.getKey() == null) {
             player.setKey(this);
-            player.pickup(this);
+            player.disappear(this);
         }
     }
 

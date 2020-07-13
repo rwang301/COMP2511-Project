@@ -87,8 +87,15 @@ public class Player extends Entity implements Subject {
      * Check if the goal of this dungeon is met
      */
     public void complete() {
-        dungeon.complete();
+        dungeon.complete(false);
     }
+
+    /**
+     * Tell the Dungeon that the player is dead
+     */
+    public void die() {
+        dungeon.complete(true);
+    }    
 
     /**
      * Notify the Dungeon Loader to change the image of the closed door to an open door
@@ -100,11 +107,11 @@ public class Player extends Entity implements Subject {
     }
 
     /**
-     * Notify the Dungeon Loader to make the item disappear after being picked up
-     * @param pickupable
+     * Notify the Dungeon Loader to make an entity disappear
+     * @param entity
      */
-    public void pickup(Pickupable pickupable) {
-        dungeon.pickup(pickupable);
+    public void disappear(Entity entity) {
+        dungeon.disappear(entity);
     }
 
     /**
@@ -155,6 +162,8 @@ public class Player extends Entity implements Subject {
             ((Pickupable)current).pickup(this);
         } else if (isOn(Exit.class)) {
             complete();
+        } else if (isOn(Enemy.class)) {
+            ((Enemy)current).collide(this);
         }
     }
 

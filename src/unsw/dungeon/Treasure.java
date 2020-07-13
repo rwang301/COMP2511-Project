@@ -10,7 +10,7 @@ public class Treasure extends Entity implements Pickupable {
     public void pickup(Player player) {
         player.setTreasure();
         player.complete();
-        player.pickup(this);
+        player.disappear(this);
     }
 
 }

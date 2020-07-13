@@ -9,7 +9,7 @@ public class Potion extends Entity implements Pickupable {
     public void pickup(Player player) {
         if (player.getPotion() == null) {
             player.setPotion(this);
-            player.pickup(this);
+            player.disappear(this);
         }
     }
 }

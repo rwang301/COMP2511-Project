@@ -124,6 +124,8 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void onLoad(Enemy enemy) {
         ImageView view = new ImageView(enemyImage);
+        view.setId(enemy.toString());
+        items.put(enemy, view);
         addEntity(enemy, view);
     }
 
@@ -161,7 +163,7 @@ public class DungeonControllerLoader extends DungeonLoader {
 
     @Override
     public void update(Subject subject) {
-        Entity entity = ((Dungeon)subject).getUpdate();
+        Entity entity = ((Dungeon)subject).getEntity();
         if (entity.getClass() == Door.class) change = openDoorImage;
         else change = null;
         removeEntity(entity);

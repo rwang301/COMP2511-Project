@@ -6,9 +6,17 @@ public class Enemy extends Entity implements Observer {
         super(x, y);
     }
 
+	public void collide(Player player) {
+        if (player.getSword() != null || player.getPotion() != null) {
+            player.disappear(this);
+            player.detach(this);
+        } else {
+            player.die();
+        }
+	}
+
     @Override
     public void update(Subject subject) {
         // TODO Auto-generated method stub
-        System.out.println(this);
     }
 }

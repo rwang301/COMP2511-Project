@@ -21,7 +21,7 @@ public class Dungeon implements Subject {
     private List<Entity> entities;
     private Player player;
     private List<Observer> observers = new ArrayList<>();
-    private Entity update = null;
+    private Entity entity = null;
     private int treasure = 0;
     private Component goal;
     private boolean complete = false;
@@ -49,8 +49,8 @@ public class Dungeon implements Subject {
         this.player = player;
     }
 
-    public Entity getUpdate() {
-        return update;
+    public Entity getEntity() {
+        return entity;
     }
 
     public int getTreasure() {
@@ -79,23 +79,28 @@ public class Dungeon implements Subject {
 
 
     public void open(Door door) {
-        update = door;
+        entity = door;
         notifyObservers();
     }
 
-    public void pickup(Pickupable pickupable) {
-        Entity update = (Entity) pickupable;
-        this.update = update;
-        removeEntity(update);
+    public void disappear(Entity entity) {
+        this.entity = entity;
+        removeEntity(entity);
         notifyObservers();
     }
 
-	public void complete() {
-        if (goal.complete(player)) {
-            // TODO implement game engine to deal with game over
+    /**
+     * Check if the dungeon is completed by the player
+     * @param dead
+     */
+	public void complete(boolean dead) {
+        // TODO implement game engine to deal with game over
+        if (dead) {
+            complete = false;
+        } else if (goal.complete(player)) {
             complete = true;
-            System.out.println("Game over: " + complete);
         }
+        System.out.println("Game over: " + complete);
 	}
 
 
