@@ -181,10 +181,19 @@ public abstract class DungeonLoader implements Observer {
                 portals.put(portalId, portal);
             }
         case "enemy":
+            Enemy enemy = new Enemy(x, y);
+            onLoad(enemy);
+            entity = enemy;
             break;
         case "sword":
+            Sword sword = new Sword(x, y);
+            onLoad(sword);
+            entity = sword;
             break;
         case "invincibility":
+            Potion potion = new Potion(x, y);
+            onLoad(potion);
+            entity = potion;
             break;
         default:
             break;
@@ -210,4 +219,10 @@ public abstract class DungeonLoader implements Observer {
     public abstract void onLoad(Boulder boulder);
 
     public abstract void onLoad(Treasure treasure);
+
+    public abstract void onLoad(Potion potion);
+
+    public abstract void onLoad(Sword sword);
+
+    public abstract void onLoad(Enemy Enemy);
 }

@@ -1,5 +1,6 @@
 package unsw.dungeon;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,7 @@ import javafx.beans.property.IntegerProperty;
  * @author Robert Clifton-Everest
  *
  */
-public class Player extends Entity {
+public class Player extends Entity implements Subject {
 
     /**
      * Stores the entity that the player is currently on
@@ -20,7 +21,9 @@ public class Player extends Entity {
     private Dungeon dungeon;
     private Key key = null;
     private int treasure = 0;
-
+    private Potion potion = null;
+    private Sword sword = null;
+    ArrayList<Observer> listObservers = new ArrayList<Observer>();
     /**
      * Create a player positioned in square (x,y)
      * @param x
@@ -55,6 +58,22 @@ public class Player extends Entity {
         treasure++;
     }
 
+    public void setPotion(Potion p) {
+        this.potion = p;
+    }
+
+    public Potion getPotion(){
+        return potion;
+    }
+
+    public Sword getSword() {
+        return sword;
+    }
+
+    public void setSword(Sword sword) {
+        this.sword = sword;
+    }
+
     public Door getKeyDoor() {
         return key.getDoor();
     }
@@ -62,6 +81,23 @@ public class Player extends Entity {
     public int getTotalTreasure() {
         return dungeon.getTreasure();
     }
+
+    @Override
+	public void attach(Observer o) {
+		if(! listObservers.contains(o)) { listObservers.add(o); }
+	};
+
+	@Override
+	public void detach(Observer o) {
+		listObservers.remove(o);
+	}
+
+	@Override
+	public void notifyObservers() {
+		for(Observer obs : listObservers) {
+			obs.update(this);
+		}
+	}
 
     /**
      * Check if the goal of this dungeon is met
