@@ -44,7 +44,7 @@ public class Backpack {
 
 	public void hit() {
         sword.setHit();
-        if (sword.getHits() == 5) sword = null;
+        if (!sword.capable()) sword = null;
 	}
     
     public boolean noItem(Pickupable pickupable) {

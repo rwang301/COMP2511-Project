@@ -2,6 +2,7 @@ package unsw.dungeon;
 
 public class Sword extends Entity implements Pickupable {
     private int hits = 0;
+
     public Sword(int x, int y) {
         super(x, y);
     }
@@ -12,5 +13,9 @@ public class Sword extends Entity implements Pickupable {
 
 	public void setHit() {
 		hits++;
+	}
+
+	public boolean capable() {
+		return hits < 5;
 	}
 }
