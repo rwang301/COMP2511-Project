@@ -192,6 +192,41 @@ public class Player extends Entity implements Subject {
         action(x(), getX() - 1);
     }
 
+    /**
+     * The adjacent position of player to the boulder determines what direction it moves
+     */
+    public void moveBoulder() {
+        for (Entity entity: getEntities(Boulder.class)) {
+            if (this.getY() == entity.getY() && (this.getX() - entity.getX() == 1)) {
+                //player is standing to the right of boulder
+                //boulder will be pushed to the left
+                ((Boulder)entity).push(this, "left");
+                return;
+            } else if (this.getY() == entity.getY() && (this.getX() - entity.getX() == -1)) {
+                ((Boulder)entity).push(this, "right");
+                return;
+            } else if ((this.getY() - entity.getY() == -1) && this.getX() == entity.getX()) {
+                ((Boulder)entity).push(this, "down");
+                return;
+            } else if ((this.getY() - entity.getY() == 1) && this.getX() == entity.getX()) {
+                ((Boulder)entity).push(this, "up");
+                return;
+            }
+        }
+    }
+
+    /**
+     * Check whether the square adjacent to boulder is empty
+     * @param x x coordinate of the square the boulder is to be moved to
+     * @param y y coordinate of the square the boulder is to be moved to
+     * @return true if there's an entity in adjacent square other than floor switch otherwise false
+     */
+    public boolean hasEntity(int x, int y) {
+        for (Entity entity: dungeon.getEntities()) {
+            if (entity.getX() == x && entity.getY() == y && entity.getClass() != Switch.class) return true; //exclude floor switch
+        }
+        return false;
+    }
 
     @Override
 	public void attach(Observer enemy) {

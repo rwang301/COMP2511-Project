@@ -9,22 +9,31 @@ public class Boulder extends Entity implements Blockable {
     }
 
     /**
-     * Check if the player can push the bouler
+     * Check if the player can push the boulder in the required direction
+     * If so, move boulder one sqaure in that direction otherwise do nothing
      * @param player
-     * @return true if the boulder can be pushed in the direction given otherwise false
+     * @param direction direction the boulder is to be pushed
      */
-    private boolean canPush(Player player, IntegerProperty coordinate, int position) {
-        return false;
+    public void push(Player player, String direction) {
+        if (direction.equals("right")) {
+            //check square to the right for entity
+            if (player.hasEntity((getX() + 1), getY())) return;
+            x().set(getX() + 1);
+        } else if (direction.equals("down")) {
+            if (player.hasEntity(getX(), (getY() + 1))) return;
+        } else if (direction.equals("left")) {
+            if (player.hasEntity((getX() - 1), getY())) return;
+            x().set(getX() - 1);
+        } else {
+            if (player.hasEntity(getX(), (getY() - 1))) return;
+            y().set(getY() - 1);
+        }
+        return;
     }
 
     @Override
     public void block(Player player, IntegerProperty coordinate, int position) {
-        if (!canPush(player, coordinate, position)) {
-            player.setPosition(coordinate, position);
-        } else {
-            // TODO figure out the new position of boulder
-            this.setPosition(coordinate, position);
-        }
+        player.setPosition(coordinate, position);
     }
-
+    
 }
