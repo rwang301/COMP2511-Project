@@ -31,6 +31,7 @@ public class Enemy extends Entity implements Observer {
 
     public void startMoving() {
         strategy.setPlayer(player);
+        strategy.setCurrentPosition();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override

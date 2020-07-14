@@ -10,6 +10,8 @@ public abstract class Strategy {
     Player player;
     private List<Enemy> visited = new ArrayList<>();
 
+    public abstract void move();
+
     public Strategy(Dungeon dungeon, Enemy enemy) {
         this.dungeon = dungeon;
         this.enemy = enemy;
@@ -19,7 +21,9 @@ public abstract class Strategy {
         this.player = player;
     }
 
-    public abstract void move();
+	public void setCurrentPosition() {
+        visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
+	}
 
     public List<Entity> getEntities(Class<?> entityType) {
         return dungeon.getEntities().stream().filter(entity -> entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
