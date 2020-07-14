@@ -196,6 +196,7 @@ public class Player extends Entity implements Subject {
      * @param position the previous x or y value before the player took the move
      */
     private void action(IntegerProperty coordinate, int position) {
+        notifyObservers(); // notify the enemies every time the player moves
         if (isOn(Portal.class)) {
             teleport((Portal)current);
         } else if (isOn(Blockable.class)) {
@@ -271,6 +272,7 @@ public class Player extends Entity implements Subject {
 
 	@Override
 	public void notifyObservers() {
-        enemies.forEach(enemy -> enemy.update(this));
+        if (isOn(Potion.class)) enemies.forEach(enemy -> enemy.update(this));
+        else enemies.forEach(enemy -> ((Enemy)enemy).reset(this));
 	}
 }

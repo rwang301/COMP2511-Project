@@ -8,10 +8,12 @@ public class Potion extends Entity implements Pickupable {
     }
 
     /**
-     * Record the time of pickup in milliseconds
+     * Record the time of pickup in milliseconds.
+     * If the player already had a potion record the time as the existing potion plus 5 seconds to extend the effect time
      * @return this potion
      */
     public Potion pickup(Potion potion) {
+        // TODO set a timer
         time = (potion == null) ? System.currentTimeMillis() : potion.time + 5000;
         return this;
     }

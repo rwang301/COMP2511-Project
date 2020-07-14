@@ -25,6 +25,10 @@ public abstract class Strategy {
         visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
 	}
 
+	public void reset() {
+        visited = new ArrayList<>();
+	}
+
     public List<Entity> getEntities(Class<?> entityType) {
         return dungeon.getEntities().stream().filter(entity -> entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
     }

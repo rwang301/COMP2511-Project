@@ -46,4 +46,8 @@ public class Enemy extends Entity implements Observer {
         strategy = new MoveAway(dungeon, this);
         strategy.setPlayer(player);
     }
+
+    public void reset(Subject subject) {
+        strategy.reset();
+    }
 }
