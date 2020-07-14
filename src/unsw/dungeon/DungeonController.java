@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
@@ -26,6 +27,8 @@ public class DungeonController {
     private Player player;
 
     private Dungeon dungeon;
+
+    private boolean shift = false;
 
     public DungeonController(Dungeon dungeon, List<ImageView> initialEntities) {
         this.dungeon = dungeon;
@@ -51,21 +54,42 @@ public class DungeonController {
 
     @FXML
     public void handleKeyPress(KeyEvent event) {
+        if (event.getCode() == KeyCode.SHIFT) {
+            this.shift = true;
+        }
         switch (event.getCode()) {
         case UP:
-            player.moveUp();
+            if (shift == true) {
+                player.moveBoulder("up");
+                this.shift = false;
+            } else {
+                player.moveUp();
+            }
             break;
         case DOWN:
-            player.moveDown();
+            if (shift == true) {
+                player.moveBoulder("down");
+                this.shift = false;
+            } else {
+                player.moveDown();
+            }
             break;
         case LEFT:
-            player.moveLeft();
+            if (shift == true) {
+                player.moveBoulder("left");
+                this.shift = false;
+            } else {
+                player.moveLeft();
+            }
             break;
         case RIGHT:
-            player.moveRight();
+            if (shift == true) {
+                player.moveBoulder("right");
+                this.shift = false;
+            } else {
+                player.moveRight();
+            }
             break;
-        case SHIFT:
-            player.moveBoulder();
         default:
             break;
         }

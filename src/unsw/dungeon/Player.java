@@ -237,21 +237,21 @@ public class Player extends Entity implements Subject {
     /**
      * The adjacent position of player to the boulder determines what direction it moves
      */
-    public void moveBoulder() {
+    public void moveBoulder(String direction) {
         for (Entity entity: getEntities(Boulder.class)) {
             if (this.getY() == entity.getY() && (this.getX() - entity.getX() == 1)) {
                 //player is standing to the right of boulder
                 //boulder will be pushed to the left
-                ((Boulder)entity).push(this, "left");
+                ((Boulder)entity).push(this, direction);
                 return;
             } else if (this.getY() == entity.getY() && (this.getX() - entity.getX() == -1)) {
-                ((Boulder)entity).push(this, "right");
+                ((Boulder)entity).push(this, direction);
                 return;
             } else if ((this.getY() - entity.getY() == -1) && this.getX() == entity.getX()) {
-                ((Boulder)entity).push(this, "down");
+                ((Boulder)entity).push(this, direction);
                 return;
             } else if ((this.getY() - entity.getY() == 1) && this.getX() == entity.getX()) {
-                ((Boulder)entity).push(this, "up");
+                ((Boulder)entity).push(this, direction);
                 return;
             }
         }
