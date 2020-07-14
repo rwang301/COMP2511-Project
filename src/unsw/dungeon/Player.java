@@ -151,7 +151,11 @@ public class Player extends Entity implements Subject {
      */
     public boolean hasEntity(int x, int y) {
         for (Entity entity: dungeon.getEntities()) {
-            if (entity.getX() == x && entity.getY() == y && entity.getClass() != Switch.class) return true;
+            if (entity.getX() == x && entity.getY() == y) {
+                if (entity.getClass() == Switch.class) return false;
+                else if (entity.getClass() == Door.class) return !((Door)entity).isOpen();
+                else return true;
+            }
         }
         return false;
     }

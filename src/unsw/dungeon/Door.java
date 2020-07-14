@@ -18,6 +18,10 @@ public class Door extends Entity implements Blockable {
         this.key = key;
     }
 
+    public boolean isOpen() {
+        return open;
+    }
+
     /**
      * Check if the player can open the door
      * @param door
