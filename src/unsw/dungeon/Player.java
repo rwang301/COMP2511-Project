@@ -206,6 +206,7 @@ public class Player extends Entity implements Subject {
         } else if (isOn(Enemy.class)) {
             ((Enemy)current).collide(this);
         }
+        // TODO walk on top of switches
     }
 
 

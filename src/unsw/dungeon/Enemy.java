@@ -11,6 +11,7 @@ public class Enemy extends Entity implements Observer {
             if (player.getPotion() == null) player.hit(); // if the player doesn't have a potion they must've had a sword
             player.disappear(this);
             player.detach(this);
+            player.complete();
         } else {
             player.die();
         }
