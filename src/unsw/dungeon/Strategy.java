@@ -39,9 +39,8 @@ public abstract class Strategy {
     }
 
     private boolean canMove() {
-        if (isOn(Blockable.class) || visited.contains(enemy)) {
-            return false;
-        }
+        if (isOn(Blockable.class) || visited.contains(enemy)) return false;
+        else if (isOn(Player.class)) player.die();
         return true;
     }
 
