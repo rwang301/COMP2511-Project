@@ -42,53 +42,49 @@ public abstract class Strategy {
     }
 
     public boolean moveUp() {
-        Enemy tmp = new Enemy(dungeon, enemy.getX(), enemy.getY());
         if (enemy.getY() > 0)
             enemy.y().set(enemy.getY() - 1);
         if (!canMove()) {
             enemy.y().set(enemy.getY() + 1);
             return false;
         } else {
-            visited.add(tmp);
+            visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
             return true;
         }
     }
 
     public boolean moveDown() {
-        Enemy tmp = new Enemy(dungeon, enemy.getX(), enemy.getY());
         if (enemy.getY() < dungeon.getHeight() - 1)
             enemy.y().set(enemy.getY() + 1);
         if (!canMove()) {
             enemy.y().set(enemy.getY() - 1);
             return false;
         } else {
-            visited.add(tmp);
+            visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
             return true;
         }
     }
 
     public boolean moveLeft() {
-        Enemy tmp = new Enemy(dungeon, enemy.getX(), enemy.getY());
         if (enemy.getX() > 0)
             enemy.x().set(enemy.getX() - 1);
         if (!canMove()){
             enemy.x().set(enemy.getX() + 1);
             return false;
         } else {
-            visited.add(tmp);
+            visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
             return true;
         }
     }
 
     public boolean moveRight() {
-        Enemy tmp = new Enemy(dungeon, enemy.getX(), enemy.getY());
         if (enemy.getX() < dungeon.getWidth() - 1)
             enemy.x().set(enemy.getX() + 1);
         if (!canMove()) {
             enemy.x().set(enemy.getX() - 1);
             return false;
         } else {
-            visited.add(tmp);
+            visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
             return true;
         }
     }
