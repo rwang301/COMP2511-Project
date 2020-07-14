@@ -97,10 +97,11 @@ public class Dungeon implements Subject {
         // TODO implement game engine to deal with game over
         if (dead) {
             complete = false;
+            System.out.println("Game over: " + complete);
         } else if (goal.complete(player)) {
             complete = true;
+            System.out.println("Game over: " + complete);
         }
-        System.out.println("Game over: " + complete);
 	}
 
 

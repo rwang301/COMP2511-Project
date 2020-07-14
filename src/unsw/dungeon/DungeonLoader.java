@@ -124,7 +124,6 @@ public abstract class DungeonLoader implements Observer {
             onLoad(wall);
             entity = wall;
             break;
-        // TODO Handle other possible entities
         case "exit":
             Exit exit = new Exit(x, y);
             onLoad(exit);
@@ -211,7 +210,6 @@ public abstract class DungeonLoader implements Observer {
 
     public abstract void onLoad(Wall wall);
 
-    // TODO Create additional abstract methods for the other entities
     public abstract void onLoad(Exit exit);
 
     public abstract void onLoad(Portal portal);

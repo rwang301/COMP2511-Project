@@ -27,7 +27,11 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Map<Entity, ImageView> items = new HashMap<>();
 
     //Images
-    private Image change = null;
+    /**
+     * If the update image is Door then it will be openDoorImage
+     * otherwise it will be null so that images can be removed
+     */
+    private Image update = null;
     private Image playerImage;
     private Image wallImage;
     private Image exitImage;
@@ -154,7 +158,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     private void removeEntity(Entity entity) {
         for (int i = 0; i < entities.size(); i++) {
             if (items.get(entity).getId().equals(entities.get(i).getId())) {
-                entities.get(i).setImage(change);
+                entities.get(i).setImage(update);
                 entities.remove(i);
                 break;
             }
@@ -164,8 +168,8 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void update(Subject subject) {
         Entity entity = ((Dungeon)subject).getEntity();
-        if (entity.getClass() == Door.class) change = openDoorImage;
-        else change = null;
+        if (entity.getClass() == Door.class) update = openDoorImage;
+        else update = null;
         removeEntity(entity);
     }
 

@@ -23,7 +23,8 @@ public class Player extends Entity implements Subject {
     private Key key = null;
     private Potion potion = null;
     private Sword sword = null;
-    ArrayList<Observer> enemies = new ArrayList<Observer>();
+    private ArrayList<Observer> enemies = new ArrayList<Observer>();
+
     /**
      * Create a player positioned in square (x,y)
      * @param x
@@ -80,6 +81,10 @@ public class Player extends Entity implements Subject {
 
     public int getTotalTreasure() {
         return dungeon.getTreasure();
+    }
+
+    public int getEnemies() {
+        return enemies.size();
     }
 
 
