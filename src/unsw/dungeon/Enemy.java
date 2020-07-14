@@ -1,9 +1,21 @@
 package unsw.dungeon;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Enemy extends Entity implements Observer {
-    //subject is player, observer is enemy
-    public Enemy(int x, int y) {
+    private Strategy strategy;
+    private Dungeon dungeon;
+    private Player player;
+
+    public Enemy(Dungeon dungeon, int x, int y) {
         super(x, y);
+        this.dungeon = dungeon;
+        strategy = new MoveToward(dungeon, this);
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
 	public void collide(Player player) {
@@ -15,10 +27,22 @@ public class Enemy extends Entity implements Observer {
         } else {
             player.die();
         }
-	}
+    }
+
+    public void startMoving() {
+        strategy.setPlayer(player);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                strategy.move();
+            }
+        }, 3000, 500);
+    }
 
     @Override
     public void update(Subject subject) {
-        // TODO Auto-generated method stub
+        strategy = new MoveAway(dungeon, this);
+        strategy.setPlayer(player);
     }
 }

@@ -181,9 +181,11 @@ public class Player extends Entity implements Subject {
      * @param pickupable
      */
     private void pickup(Pickupable pickupable) {
+        boolean potion = getPotion() == null;
         if (backpack.noItem(pickupable)) {
             backpack.setItem(pickupable);
             disappear((Entity)pickupable);
+            if (potion && getPotion() != null) notifyObservers(); // if the player doesn't have a potion and then picks one up
         }
         if (pickupable.getClass() == Treasure.class) complete();
     }
@@ -194,7 +196,6 @@ public class Player extends Entity implements Subject {
      * @param position the previous x or y value before the player took the move
      */
     private void action(IntegerProperty coordinate, int position) {
-        notifyObservers(); // every time the player moves notify all the enemies
         if (isOn(Portal.class)) {
             teleport((Portal)current);
         } else if (isOn(Blockable.class)) {

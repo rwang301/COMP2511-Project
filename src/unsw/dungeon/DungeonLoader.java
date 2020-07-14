@@ -24,6 +24,7 @@ public abstract class DungeonLoader implements Observer {
 
     private JSONObject json;
     private int treasure = 0;
+    private Player player;
     private Component goal;
     private Map<Integer, Portal> portals = new HashMap<>();
     private Map<Integer, Door> doors = new HashMap<>();
@@ -52,7 +53,10 @@ public abstract class DungeonLoader implements Observer {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
 
-        enemies.forEach(enemy -> dungeon.getPlayer().attach(enemy));
+        enemies.forEach(enemy -> player.attach(enemy));
+        enemies.forEach(enemy -> enemy.setPlayer(player));
+        enemies.forEach(enemy -> enemy.startMoving());
+
         dungeon.attach(this);
         dungeon.setTreasure(treasure);
         dungeon.setGoal(goal);
@@ -118,6 +122,7 @@ public abstract class DungeonLoader implements Observer {
             dungeon.setPlayer(player);
             onLoad(player);
             entity = player;
+            this.player = player;
             break;
         case "wall":
             Wall wall = new Wall(x, y);
@@ -185,7 +190,7 @@ public abstract class DungeonLoader implements Observer {
             }
             break;
         case "enemy":
-            Enemy enemy = new Enemy(x, y);
+            Enemy enemy = new Enemy(dungeon, x, y);
             enemies.add(enemy);
             onLoad(enemy);
             entity = enemy;
