@@ -88,6 +88,13 @@ public class Player extends Entity implements Subject {
     }
 
 
+	public boolean checkSwitches() {
+        for (Entity floorSwitch: getEntities(Switch.class)) {
+            if (!((Switch)floorSwitch).isTriggered()) return false;
+        }
+        return true;
+	}
+
     /**
      * Check if the goal of this dungeon is met
      */
@@ -124,7 +131,7 @@ public class Player extends Entity implements Subject {
      * @param entityType
      * @return a list of entities of a given type
      */
-    private List<Entity> getEntities(Class<?> entityType) {
+    public List<Entity> getEntities(Class<?> entityType) {
         return dungeon.getEntities().stream().filter(entity -> entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
     }
 
