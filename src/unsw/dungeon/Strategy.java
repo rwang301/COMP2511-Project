@@ -1,5 +1,6 @@
 package unsw.dungeon;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,7 +8,7 @@ public abstract class Strategy {
     private Dungeon dungeon;
     Enemy enemy;
     Player player;
-    private Enemy previous = null;
+    private List<Enemy> visited = new ArrayList<>();
 
     public Strategy(Dungeon dungeon, Enemy enemy) {
         this.dungeon = dungeon;
@@ -34,7 +35,7 @@ public abstract class Strategy {
     }
 
     private boolean canMove() {
-        if (isOn(Blockable.class) || previous != null && enemy.isOn(previous)) {
+        if (isOn(Blockable.class) || visited.contains(enemy)) {
             return false;
         }
         return true;
@@ -48,7 +49,7 @@ public abstract class Strategy {
             enemy.y().set(enemy.getY() + 1);
             return false;
         } else {
-            previous = tmp;
+            visited.add(tmp);
             return true;
         }
     }
@@ -61,7 +62,7 @@ public abstract class Strategy {
             enemy.y().set(enemy.getY() - 1);
             return false;
         } else {
-            previous = tmp;
+            visited.add(tmp);
             return true;
         }
     }
@@ -74,7 +75,7 @@ public abstract class Strategy {
             enemy.x().set(enemy.getX() + 1);
             return false;
         } else {
-            previous = tmp;
+            visited.add(tmp);
             return true;
         }
     }
@@ -87,7 +88,7 @@ public abstract class Strategy {
             enemy.x().set(enemy.getX() - 1);
             return false;
         } else {
-            previous = tmp;
+            visited.add(tmp);
             return true;
         }
     }
