@@ -20,11 +20,10 @@ public class Dungeon implements Subject {
     private int width, height;
     private List<Entity> entities;
     private Player player;
-    private List<Observer> observers = new ArrayList<>();
+    private Observer dungeonLoader;
     private Entity entity = null;
     private int treasure = 0;
     private Component goal;
-    private boolean complete = false;
 
     public Dungeon(int width, int height) {
         this.width = width;
@@ -96,27 +95,25 @@ public class Dungeon implements Subject {
 	public void complete(boolean dead) {
         // TODO implement game engine to deal with game over
         if (dead) {
-            complete = false;
-            System.out.println("Game over: " + complete);
+            System.out.println("You lost");
         } else if (goal.complete(player)) {
-            complete = true;
-            System.out.println("Game over: " + complete);
+            System.out.println("You won");
         }
 	}
 
 
     @Override
-    public void attach(Observer o) {
-        observers.add(o);
+    public void attach(Observer observer) {
+        dungeonLoader = observer;
     }
 
     @Override
     public void detach(Observer o) {
-        observers.remove(o);
+        dungeonLoader = null;
     }
 
     @Override
     public void notifyObservers() {
-        observers.forEach(observer -> observer.update(this));
+        dungeonLoader.update(this);
     }
 }
