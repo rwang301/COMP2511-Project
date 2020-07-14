@@ -144,6 +144,19 @@ public class Player extends Entity implements Subject {
     }
 
     /**
+     * Check whether a given coordinate has entities on it
+     * @param x
+     * @param y
+     * @return true if there's an entity on the given coordinate except for a floor switch otherwise false
+     */
+    public boolean hasEntity(int x, int y) {
+        for (Entity entity: dungeon.getEntities()) {
+            if (entity.getX() == x && entity.getY() == y && entity.getClass() != Switch.class) return true;
+        }
+        return false;
+    }
+
+    /**
      * given a portal set the player's position to its corresponding portal
      * @param portal
      */
@@ -220,18 +233,6 @@ public class Player extends Entity implements Subject {
         }
     }
 
-    /**
-     * Check whether the square adjacent to boulder is empty
-     * @param x x coordinate of the square the boulder is to be moved to
-     * @param y y coordinate of the square the boulder is to be moved to
-     * @return true if there's an entity in adjacent square other than floor switch otherwise false
-     */
-    public boolean hasEntity(int x, int y) {
-        for (Entity entity: dungeon.getEntities()) {
-            if (entity.getX() == x && entity.getY() == y && entity.getClass() != Switch.class) return true; //exclude floor switch
-        }
-        return false;
-    }
 
     @Override
 	public void attach(Observer enemy) {
