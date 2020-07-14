@@ -81,6 +81,13 @@ public class Player extends Entity implements Subject {
     }
 
 
+	public boolean checkSwitches() {
+        for (Entity floorSwitch: getEntities(Switch.class)) {
+            if (!((Switch)floorSwitch).isTriggered()) return false;
+        }
+        return true;
+	}
+
     /**
      * Reduce the times the sword can be used when hitting an enemy
      */
@@ -124,7 +131,7 @@ public class Player extends Entity implements Subject {
      * @param entityType
      * @return a list of entities of a given type
      */
-    private List<Entity> getEntities(Class<?> entityType) {
+    public List<Entity> getEntities(Class<?> entityType) {
         return dungeon.getEntities().stream().filter(entity -> entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
     }
 
@@ -138,6 +145,23 @@ public class Player extends Entity implements Subject {
             if (this.isOn(entity)) {
                 current = entity;
                 return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check whether a given coordinate has entities on it
+     * @param x
+     * @param y
+     * @return true if there's an entity on the given coordinate except for a floor switch otherwise false
+     */
+    public boolean hasEntity(int x, int y) {
+        for (Entity entity: dungeon.getEntities()) {
+            if (entity.getX() == x && entity.getY() == y) {
+                if (entity.getClass() == Switch.class) return false;
+                else if (entity.getClass() == Door.class) return !((Door)entity).isOpen();
+                else return true;
             }
         }
         return false;
@@ -207,6 +231,29 @@ public class Player extends Entity implements Subject {
         if (getX() < dungeon.getWidth() - 1)
             x().set(getX() + 1);
         action(x(), getX() - 1);
+    }
+
+    /**
+     * The adjacent position of player to the boulder determines what direction it moves
+     */
+    public void moveBoulder() {
+        for (Entity entity: getEntities(Boulder.class)) {
+            if (this.getY() == entity.getY() && (this.getX() - entity.getX() == 1)) {
+                //player is standing to the right of boulder
+                //boulder will be pushed to the left
+                ((Boulder)entity).push(this, "left");
+                return;
+            } else if (this.getY() == entity.getY() && (this.getX() - entity.getX() == -1)) {
+                ((Boulder)entity).push(this, "right");
+                return;
+            } else if ((this.getY() - entity.getY() == -1) && this.getX() == entity.getX()) {
+                ((Boulder)entity).push(this, "down");
+                return;
+            } else if ((this.getY() - entity.getY() == 1) && this.getX() == entity.getX()) {
+                ((Boulder)entity).push(this, "up");
+                return;
+            }
+        }
     }
 
 

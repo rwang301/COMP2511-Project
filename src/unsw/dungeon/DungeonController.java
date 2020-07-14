@@ -64,6 +64,8 @@ public class DungeonController {
         case RIGHT:
             player.moveRight();
             break;
+        case SHIFT:
+            player.moveBoulder();
         default:
             break;
         }
