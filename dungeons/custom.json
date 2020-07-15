@@ -680,7 +680,7 @@
     {
       "x": 3,
       "y": 10,
-      "type": "sword"
+      "type": "enemy"
     },
     {
       "x": 5,
@@ -740,7 +740,7 @@
     {
       "x": 3,
       "y": 11,
-      "type": "enemy"
+      "type": "sword"
     },
     {
       "x": 5,

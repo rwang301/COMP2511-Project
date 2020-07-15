@@ -8,6 +8,7 @@ public abstract class Strategy {
     private Dungeon dungeon;
     Enemy enemy;
     Player player;
+    Entity current;
     private List<Enemy> visited = new ArrayList<>();
 
     public abstract void move();
@@ -36,6 +37,7 @@ public abstract class Strategy {
     public boolean isOn(Class<?> entityType) {
         for (Entity entity: getEntities(entityType)) {
             if (enemy.isOn(entity)) {
+                current = entity;
                 return true;
             }
         }
@@ -43,7 +45,13 @@ public abstract class Strategy {
     }
 
     private boolean canMove() {
-        if (isOn(Blockable.class) || visited.contains(enemy)) return false;
+        if (visited.contains(enemy)) return false;
+        if (isOn(Blockable.class)) {
+            if (current.getClass() == Door.class) {
+                return ((Door)current).isOpen();
+            }
+            return false;
+        }
         else if (isOn(Player.class)) player.die();
         return true;
     }
