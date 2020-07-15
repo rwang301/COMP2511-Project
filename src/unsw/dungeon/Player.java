@@ -102,7 +102,7 @@ public class Player extends Entity implements Subject {
      */
     public void kill(Enemy enemy) {
         disappear(enemy);
-        getPotion().detach(enemy);
+        if (getPotion() != null) getPotion().detach(enemy);
         detach(enemy);
         complete();
     }

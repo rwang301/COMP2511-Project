@@ -7,19 +7,21 @@ public class Enemy extends Entity implements Observer {
     private Strategy strategy;
     private Strategy moveToward;
     private Strategy moveAway;
-    private Dungeon dungeon;
-    private Player player;
 
     public Enemy(Dungeon dungeon, int x, int y) {
         super(x, y);
-        this.dungeon = dungeon;
         moveToward = new MoveToward(dungeon, this);
         moveAway = new MoveAway(dungeon, this);
         strategy = moveToward;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void initilise(Player player) {
+        moveToward.setPlayer(player);
+        moveToward.setCurrentPosition();
+        moveAway.setPlayer(player);
+        moveAway.setCurrentPosition();
+
+        startMoving();
     }
 
 	public void collide(Player player) {
@@ -31,11 +33,7 @@ public class Enemy extends Entity implements Observer {
         }
     }
 
-    public void startMoving() {
-        moveToward.setPlayer(player);
-        moveToward.setCurrentPosition();
-        moveAway.setPlayer(player);
-        moveAway.setCurrentPosition();
+    private void startMoving() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
