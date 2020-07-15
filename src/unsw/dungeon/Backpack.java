@@ -19,7 +19,6 @@ public class Backpack {
     }
 
     public Potion getPotion() {
-        if (potion != null && potion.timesUp()) potion = null;
         return potion;
     }
 
@@ -58,7 +57,7 @@ public class Backpack {
     public void setItem(Pickupable pickupable) {
         if (pickupable.getClass() == Key.class) key = (Key)pickupable;
         else if (pickupable.getClass() == Sword.class) sword = (Sword)pickupable;
-        else if (pickupable.getClass() == Potion.class) potion = ((Potion)pickupable).pickup(potion);
+        else if (pickupable.getClass() == Potion.class) potion = ((Potion)pickupable).pickup(potion, this);
         else treasure++;
     }
 }
