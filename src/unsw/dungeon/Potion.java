@@ -1,7 +1,11 @@
 package unsw.dungeon;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Potion extends Entity implements Pickupable {
-    private long time = 0;
+    private long pickupTime = 0;
+    private long effectTime = 5000;
 
     public Potion(int x, int y) {
         super(x, y);
@@ -12,17 +16,18 @@ public class Potion extends Entity implements Pickupable {
      * If the player already had a potion record the time as the existing potion plus 5 seconds to extend the effect time
      * @return this potion
      */
-    public Potion pickup(Potion potion) {
-        // TODO set a timer
-        time = (potion == null) ? System.currentTimeMillis() : potion.time + 5000;
+    public Potion pickup(Potion potion, Backpack backpack) {
+        pickupTime = System.currentTimeMillis();
+        if (potion != null) {
+            effectTime += potion.effectTime - (System.currentTimeMillis() - potion.pickupTime);
+        }
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                backpack.setPotion(null);
+            }
+        }, effectTime);
         return this;
-    }
-
-    /**
-     * Check if it has been 5 seconds since pickup
-     * @return true if 5 seconds has passed otherwise false
-     */
-    public boolean timesUp() {
-        return System.currentTimeMillis() - time > 5000;
     }
 }
