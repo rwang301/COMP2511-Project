@@ -6,6 +6,7 @@ import java.util.TimerTask;
 public class Potion extends Entity implements Pickupable {
     private long pickupTime = 0;
     private long effectTime = 5000;
+    private Timer timer;
 
     public Potion(int x, int y) {
         super(x, y);
@@ -20,8 +21,9 @@ public class Potion extends Entity implements Pickupable {
         pickupTime = System.currentTimeMillis();
         if (potion != null) {
             effectTime += potion.effectTime - (System.currentTimeMillis() - potion.pickupTime);
+            potion.cancelTimer();
         }
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -29,5 +31,10 @@ public class Potion extends Entity implements Pickupable {
             }
         }, effectTime);
         return this;
+    }
+
+    private void cancelTimer() {
+        timer.cancel();
+        timer.purge();
     }
 }
