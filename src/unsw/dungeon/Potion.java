@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Potion extends Entity implements Pickupable {
-    private long pickupTime = 0;
+    private long pickupTime;
     private long effectTime = 5000;
     private Timer timer;
 
@@ -14,8 +14,8 @@ public class Potion extends Entity implements Pickupable {
 
     /**
      * Record the time of pickup in milliseconds.
-     * If the player already had a potion record the time as the existing potion plus 5 seconds to extend the effect time
-     * @return this potion
+     * If the player already had a potion extend the effect time
+     * @return the new potion which just got picked up
      */
     public Potion pickup(Potion potion, Backpack backpack) {
         pickupTime = System.currentTimeMillis();

@@ -16,8 +16,9 @@ public class Player extends Entity implements Subject {
 
     /**
      * Stores the entity that the player is currently on
+     * starting at the player itself
      */
-    private Entity current;
+    private Entity current = this;
     private Dungeon dungeon;
     private Backpack backpack = new Backpack();
     private ArrayList<Observer> enemies = new ArrayList<Observer>();
@@ -96,7 +97,17 @@ public class Player extends Entity implements Subject {
     }
 
     /**
-     * Tell the Dungeon that the player is dead
+     * Remove the enemy entity when killed
+     * @param enemy
+     */
+    public void kill(Enemy enemy) {
+        disappear(enemy);
+        detach(enemy);
+        complete();
+    }
+
+    /**
+     * Inform the dungeon that the player is dead
      */
     public void die() {
         dungeon.complete(true);
@@ -181,11 +192,9 @@ public class Player extends Entity implements Subject {
      * @param pickupable
      */
     private void pickup(Pickupable pickupable) {
-        boolean potion = getPotion() == null;
         if (backpack.noItem(pickupable)) {
             backpack.setItem(pickupable);
             disappear((Entity)pickupable);
-            if (potion && getPotion() != null) notifyObservers(); // if the player doesn't have a potion and then picks one up
         }
         if (pickupable.getClass() == Treasure.class) complete();
     }
@@ -196,7 +205,6 @@ public class Player extends Entity implements Subject {
      * @param position the previous x or y value before the player took the move
      */
     private void action(IntegerProperty coordinate, int position) {
-        notifyObservers(); // notify the enemies every time the player moves
         if (isOn(Portal.class)) {
             teleport((Portal)current);
         } else if (isOn(Blockable.class)) {
@@ -208,6 +216,7 @@ public class Player extends Entity implements Subject {
         } else if (isOn(Enemy.class)) {
             ((Enemy)current).collide(this);
         }
+        notifyObservers(); // notify the enemies every time the player moves
         // TODO walk on top of switches
     }
 
@@ -272,7 +281,7 @@ public class Player extends Entity implements Subject {
 
 	@Override
 	public void notifyObservers() {
-        if (isOn(Potion.class)) enemies.forEach(enemy -> enemy.update(this));
-        else enemies.forEach(enemy -> ((Enemy)enemy).reset(this));
+        if (current.getClass() == Potion.class) enemies.forEach(enemy -> enemy.update(this));
+        else enemies.forEach(enemy -> ((Enemy)enemy).reset());
 	}
 }
