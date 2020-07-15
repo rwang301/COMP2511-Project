@@ -1,12 +1,15 @@
 package unsw.dungeon;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Potion extends Entity implements Pickupable {
+public class Potion extends Entity implements Pickupable, Subject {
     private long pickupTime;
     private long effectTime = 5000;
     private Timer timer;
+    private List<Observer> enemies = new ArrayList<>();
 
     public Potion(int x, int y) {
         super(x, y);
@@ -17,7 +20,8 @@ public class Potion extends Entity implements Pickupable {
      * If the player already had a potion extend the effect time
      * @return the new potion which just got picked up
      */
-    public Potion pickup(Potion potion, Backpack backpack) {
+    public Potion pickup(Potion potion, Player player) {
+        enemies = player.getEnemies();
         pickupTime = System.currentTimeMillis();
         if (potion != null) {
             effectTime += potion.effectTime - (System.currentTimeMillis() - potion.pickupTime);
@@ -27,7 +31,8 @@ public class Potion extends Entity implements Pickupable {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                backpack.setPotion(null);
+                player.setPotion(null);
+                notifyObservers();
             }
         }, effectTime);
         return this;
@@ -37,4 +42,20 @@ public class Potion extends Entity implements Pickupable {
         timer.cancel();
         timer.purge();
     }
+
+
+    @Override
+	public void attach(Observer enemy) {
+        enemies.add(enemy);
+	};
+
+	@Override
+	public void detach(Observer enemy) {
+		enemies.remove(enemy);
+	}
+
+	@Override
+	public void notifyObservers() {
+        enemies.forEach(enemy -> enemy.update(this));
+	}
 }

@@ -5,13 +5,17 @@ import java.util.TimerTask;
 
 public class Enemy extends Entity implements Observer {
     private Strategy strategy;
+    private Strategy moveToward;
+    private Strategy moveAway;
     private Dungeon dungeon;
     private Player player;
 
     public Enemy(Dungeon dungeon, int x, int y) {
         super(x, y);
         this.dungeon = dungeon;
-        strategy = new MoveToward(dungeon, this);
+        moveToward = new MoveToward(dungeon, this);
+        moveAway = new MoveAway(dungeon, this);
+        strategy = moveToward;
     }
 
     public void setPlayer(Player player) {
@@ -28,8 +32,10 @@ public class Enemy extends Entity implements Observer {
     }
 
     public void startMoving() {
-        strategy.setPlayer(player);
-        strategy.setCurrentPosition();
+        moveToward.setPlayer(player);
+        moveToward.setCurrentPosition();
+        moveAway.setPlayer(player);
+        moveAway.setCurrentPosition();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -41,8 +47,8 @@ public class Enemy extends Entity implements Observer {
 
     @Override
     public void update(Subject subject) {
-        strategy = new MoveAway(dungeon, this);
-        strategy.setPlayer(player);
+        if (subject.getClass() == Player.class) strategy = moveAway;
+        else if (subject.getClass() == Potion.class) strategy = moveToward;
     }
 
     public void reset() {

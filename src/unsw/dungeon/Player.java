@@ -41,6 +41,10 @@ public class Player extends Entity implements Subject {
         this.dungeon = dungeon;
     }
 
+    public List<Observer> getEnemies() {
+        return enemies;
+    }
+
     public int getTreasure() {
         return backpack.getTreasure();
     }
@@ -77,10 +81,6 @@ public class Player extends Entity implements Subject {
         return dungeon.getTreasure();
     }
 
-    public int getEnemies() {
-        return enemies.size();
-    }
-
 
 	public boolean checkSwitches() {
         for (Entity floorSwitch: getEntities(Switch.class)) {
@@ -102,6 +102,7 @@ public class Player extends Entity implements Subject {
      */
     public void kill(Enemy enemy) {
         disappear(enemy);
+        getPotion().detach(enemy);
         detach(enemy);
         complete();
     }
@@ -191,12 +192,12 @@ public class Player extends Entity implements Subject {
      * Add a pickupable item to the backpack if the player does not have one already
      * @param pickupable
      */
-    private void pickup(Pickupable pickupable) {
-        if (backpack.noItem(pickupable)) {
-            backpack.setItem(pickupable);
-            disappear((Entity)pickupable);
+    private void pickup() {
+        if (backpack.noItem((Pickupable)current)) {
+            backpack.setItem((Pickupable)current, this);
+            disappear(current);
         }
-        if (pickupable.getClass() == Treasure.class) complete();
+        if (current.getClass() == Treasure.class) complete();
     }
 
     /**
@@ -205,18 +206,18 @@ public class Player extends Entity implements Subject {
      * @param position the previous x or y value before the player took the move
      */
     private void action(IntegerProperty coordinate, int position) {
+        notifyObservers(); // notify the enemies every time the player moves
         if (isOn(Portal.class)) {
             teleport((Portal)current);
         } else if (isOn(Blockable.class)) {
             ((Blockable)current).block(this, coordinate, position);
         } else if (isOn(Pickupable.class)) {
-            pickup((Pickupable)current);
+            pickup();
         } else if (isOn(Exit.class)) {
             complete();
         } else if (isOn(Enemy.class)) {
             ((Enemy)current).collide(this);
         }
-        notifyObservers(); // notify the enemies every time the player moves
         // TODO walk on top of switches
     }
 
@@ -281,7 +282,7 @@ public class Player extends Entity implements Subject {
 
 	@Override
 	public void notifyObservers() {
-        if (current.getClass() == Potion.class) enemies.forEach(enemy -> enemy.update(this));
+        if (isOn(Potion.class)) enemies.forEach(enemy -> enemy.update(this));
         else enemies.forEach(enemy -> ((Enemy)enemy).reset());
 	}
 }
