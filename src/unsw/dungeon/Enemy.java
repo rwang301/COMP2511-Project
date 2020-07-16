@@ -5,33 +5,35 @@ import java.util.TimerTask;
 
 public class Enemy extends Entity implements Observer {
     private Strategy strategy;
-    private Dungeon dungeon;
-    private Player player;
+    private Strategy moveToward;
+    private Strategy moveAway;
 
     public Enemy(Dungeon dungeon, int x, int y) {
         super(x, y);
-        this.dungeon = dungeon;
-        strategy = new MoveToward(dungeon, this);
+        moveToward = new MoveToward(dungeon, this);
+        moveAway = new MoveAway(dungeon, this);
+        strategy = moveToward;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void initilise(Player player) {
+        moveToward.setPlayer(player);
+        moveToward.setCurrentPosition();
+        moveAway.setPlayer(player);
+        moveAway.setCurrentPosition();
+
+        startMoving();
     }
 
 	public void collide(Player player) {
         if (player.getSword() != null || player.getPotion() != null) {
             if (player.getPotion() == null) player.hit(); // if the player doesn't have a potion they must've had a sword
-            player.disappear(this);
-            player.detach(this);
-            player.complete();
+            player.kill(this);
         } else {
             player.die();
         }
     }
 
-    public void startMoving() {
-        strategy.setPlayer(player);
-        strategy.setCurrentPosition();
+    private void startMoving() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -43,11 +45,11 @@ public class Enemy extends Entity implements Observer {
 
     @Override
     public void update(Subject subject) {
-        strategy = new MoveAway(dungeon, this);
-        strategy.setPlayer(player);
+        if (subject.getClass() == Player.class) strategy = moveAway;
+        else if (subject.getClass() == Potion.class) strategy = moveToward;
     }
 
-    public void reset(Subject subject) {
+    public void reset() {
         strategy.reset();
     }
 }

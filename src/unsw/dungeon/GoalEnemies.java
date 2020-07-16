@@ -4,7 +4,7 @@ public class GoalEnemies extends Leaf {
 
     @Override
     public boolean complete(Player player) {
-        return player.getEnemies() == 0;
+        return player.getEnemies().size() == 0;
     }
 
 }

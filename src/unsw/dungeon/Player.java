@@ -16,8 +16,9 @@ public class Player extends Entity implements Subject {
 
     /**
      * Stores the entity that the player is currently on
+     * starting at the player itself
      */
-    private Entity current;
+    private Entity current = this;
     private Dungeon dungeon;
     private Backpack backpack = new Backpack();
     private ArrayList<Observer> enemies = new ArrayList<Observer>();
@@ -38,6 +39,10 @@ public class Player extends Entity implements Subject {
 
     public void setDungeon(Dungeon dungeon) {
         this.dungeon = dungeon;
+    }
+
+    public List<Observer> getEnemies() {
+        return enemies;
     }
 
     public int getTreasure() {
@@ -76,10 +81,6 @@ public class Player extends Entity implements Subject {
         return dungeon.getTreasure();
     }
 
-    public int getEnemies() {
-        return enemies.size();
-    }
-
 
 	public boolean checkSwitches() {
         for (Entity floorSwitch: getEntities(Switch.class)) {
@@ -96,7 +97,18 @@ public class Player extends Entity implements Subject {
     }
 
     /**
-     * Tell the Dungeon that the player is dead
+     * Remove the enemy entity when killed
+     * @param enemy
+     */
+    public void kill(Enemy enemy) {
+        disappear(enemy);
+        if (getPotion() != null) getPotion().detach(enemy);
+        detach(enemy);
+        complete();
+    }
+
+    /**
+     * Inform the dungeon that the player is dead
      */
     public void die() {
         dungeon.complete(true);
@@ -180,14 +192,12 @@ public class Player extends Entity implements Subject {
      * Add a pickupable item to the backpack if the player does not have one already
      * @param pickupable
      */
-    private void pickup(Pickupable pickupable) {
-        boolean potion = getPotion() == null;
-        if (backpack.noItem(pickupable)) {
-            backpack.setItem(pickupable);
-            disappear((Entity)pickupable);
-            if (potion && getPotion() != null) notifyObservers(); // if the player doesn't have a potion and then picks one up
+    private void pickup() {
+        if (backpack.noItem((Pickupable)current)) {
+            backpack.setItem((Pickupable)current, this);
+            disappear(current);
         }
-        if (pickupable.getClass() == Treasure.class) complete();
+        if (current.getClass() == Treasure.class) complete();
     }
 
     /**
@@ -202,7 +212,7 @@ public class Player extends Entity implements Subject {
         } else if (isOn(Blockable.class)) {
             ((Blockable)current).block(this, coordinate, position);
         } else if (isOn(Pickupable.class)) {
-            pickup((Pickupable)current);
+            pickup();
         } else if (isOn(Exit.class)) {
             complete();
         } else if (isOn(Enemy.class)) {
@@ -273,6 +283,6 @@ public class Player extends Entity implements Subject {
 	@Override
 	public void notifyObservers() {
         if (isOn(Potion.class)) enemies.forEach(enemy -> enemy.update(this));
-        else enemies.forEach(enemy -> ((Enemy)enemy).reset(this));
+        else enemies.forEach(enemy -> ((Enemy)enemy).reset());
 	}
 }

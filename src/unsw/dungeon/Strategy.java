@@ -52,7 +52,7 @@ public abstract class Strategy {
             }
             return false;
         }
-        else if (isOn(Player.class)) player.die();
+        else if (isOn(Player.class)) enemy.collide(player);
         return true;
     }
 

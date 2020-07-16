@@ -54,10 +54,10 @@ public class Backpack {
         else return true;
     }
 
-    public void setItem(Pickupable pickupable) {
+    public void setItem(Pickupable pickupable, Player player) {
         if (pickupable.getClass() == Key.class) key = (Key)pickupable;
         else if (pickupable.getClass() == Sword.class) sword = (Sword)pickupable;
-        else if (pickupable.getClass() == Potion.class) potion = ((Potion)pickupable).pickup(potion, this);
+        else if (pickupable.getClass() == Potion.class) potion = ((Potion)pickupable).pickup(potion, player);
         else treasure++;
     }
 }

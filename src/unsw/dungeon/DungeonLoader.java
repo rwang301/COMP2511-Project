@@ -54,8 +54,7 @@ public abstract class DungeonLoader implements Observer {
         }
 
         enemies.forEach(enemy -> player.attach(enemy));
-        enemies.forEach(enemy -> enemy.setPlayer(player));
-        enemies.forEach(enemy -> enemy.startMoving());
+        enemies.forEach(enemy -> enemy.initilise(player));
 
         dungeon.attach(this);
         dungeon.setTreasure(treasure);
