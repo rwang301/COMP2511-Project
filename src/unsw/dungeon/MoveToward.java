@@ -13,13 +13,13 @@ public class MoveToward extends Strategy {
                 if (enemy.getY() > player.getY()) {
                     if (!moveUp()) {
                         if (!moveRight()) {
-                            if(!moveDown()) reset();
+                            moveDown();
                         }
                     }
                 } else {
                     if (!moveDown()) {
                         if (!moveRight()) {
-                            if(!moveUp()) reset();
+                            moveUp();
                         }
                     }
                 }
@@ -29,13 +29,13 @@ public class MoveToward extends Strategy {
                 if (enemy.getY() > player.getY()) {
                     if (!moveUp()) {
                         if (!moveRight()) {
-                            if(!moveDown()) reset();
+                            moveDown();
                         }
                     }
                 } else {
                     if (!moveDown()) {
                         if (!moveRight()) {
-                            if(!moveUp()) reset();
+                            moveUp();
                         }
                     }
                 }
