@@ -21,7 +21,13 @@ public class Enemy extends Entity implements Observer {
         moveAway.setPlayer(player);
         moveAway.setCurrentPosition();
 
-        startMoving();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                strategy.move();
+            }
+        }, 3000, 500);
     }
 
 	public void collide(Player player) {
@@ -33,15 +39,6 @@ public class Enemy extends Entity implements Observer {
         }
     }
 
-    private void startMoving() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                strategy.move();
-            }
-        }, 3000, 500);
-    }
 
     @Override
     public void update(Subject subject) {
