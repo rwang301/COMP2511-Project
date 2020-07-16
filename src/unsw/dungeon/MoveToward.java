@@ -41,6 +41,6 @@ public class MoveToward extends Strategy {
                 }
             }
         }
-
+        // TODO consider the case of equal
     }
 }
