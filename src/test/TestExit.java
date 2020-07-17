@@ -1,6 +1,7 @@
 package test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Test;
 
@@ -46,9 +47,9 @@ public class TestExit {
     @Test
     public void testExitGoal() {
         initilise();
-        assertEquals(dungeon.getComplete(), false);
+        assertFalse(dungeon.isComplete());
         player.moveDown();
-        assertEquals(dungeon.getComplete(), true);
+        assertTrue(dungeon.isComplete());
     }
 
     /**
@@ -63,9 +64,9 @@ public class TestExit {
         initialiseGoals();
         dungeon.setGoal(goalBoulders);
         player.moveDown();
-        assertEquals(dungeon.getComplete(), false);
+        assertFalse(dungeon.isComplete());
         player.moveBoulder("right");
-        assertEquals(dungeon.getComplete(), true);
+        assertTrue(dungeon.isComplete());
         //TODO: add more goals
     }  
 }

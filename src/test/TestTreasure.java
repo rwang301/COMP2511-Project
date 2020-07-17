@@ -1,6 +1,8 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 
 import unsw.dungeon.Dungeon;
@@ -20,6 +22,7 @@ public class TestTreasure {
         dungeon.setPlayer(player);
         dungeon.setGoal(goalTreasure);
         dungeon.addEntity(treasure);
+        dungeon.addEntity(treasure2);
     }
 
     /**
@@ -29,9 +32,10 @@ public class TestTreasure {
     @Test
     public void testTreasurePickUp() {
         initilise();
-        assertEquals(dungeon.getEntities().contains(treasure), true);
+        assertTrue(dungeon.getEntities().contains(treasure));
         player.moveDown();
-        assertEquals(dungeon.getEntities().contains(treasure), false);
+        assertEquals(player.getTreasure(), 1);
+        assertFalse(dungeon.getEntities().contains(treasure));
     }
 
     /**
@@ -40,12 +44,9 @@ public class TestTreasure {
      */
     @Test
     public void testTreasureGoal() {
-        initilise();
-        dungeon.addEntity(treasure2);
-        assertEquals(dungeon.getComplete(), false);
+        testTreasurePickUp();
+        assertFalse(dungeon.isComplete());
         player.moveDown();
-        assertEquals(dungeon.getComplete(), false);
-        player.moveDown();
-        assertEquals(dungeon.getComplete(), true);
+        assertTrue(dungeon.isComplete());
     }
 }

@@ -1,6 +1,8 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,9 +34,9 @@ public class TestSwitch {
         initilise();
         Boulder b = new Boulder(1, 1);
         dungeon.addEntity(b);
-        assertEquals(s.isTriggered(), false);
+        assertFalse(s.isTriggered());
         player.moveBoulder("right");
-        assertEquals(s.isTriggered(), true);
+        assertTrue(s.isTriggered());
     }
 
     /**
@@ -46,7 +48,7 @@ public class TestSwitch {
         testSwitchTriggered();
         player.moveRight();
         player.moveBoulder("right");
-        assertEquals(s.isTriggered(), false);
+        assertFalse(s.isTriggered());
     }
 
     /**
@@ -59,7 +61,7 @@ public class TestSwitch {
         initilise();
         player.moveRight();
         player.moveRight();
-        assertEquals(player.isOn(s), true);
+        assertTrue(player.isOn(s));
         player.moveRight();
         assertEquals(player.getX(), 3);
         assertEquals(player.getY(), 1);
@@ -80,9 +82,9 @@ public class TestSwitch {
         initilise();
         Boulder b = new Boulder(1, 1);
         dungeon.addEntity(b);
-        assertEquals(dungeon.getComplete(), false);
+        assertFalse(dungeon.isComplete());
         player.moveBoulder("right");
-        assertEquals(dungeon.getComplete(), true);
+        assertTrue(dungeon.isComplete());
 
         //TODO: add entities test
     }
