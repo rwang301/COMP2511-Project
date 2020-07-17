@@ -47,12 +47,14 @@ public abstract class Strategy {
     private boolean canMove() {
         if (visited.contains(enemy)) return false;
         if (isOn(Blockable.class)) {
-            if (current.getClass() == Door.class) {
-                return ((Door)current).isOpen();
-            }
-            return false;
+            if (current.getClass() == Door.class) return ((Door)current).isOpen();
+            else return false;
+        } else if (isOn(Player.class)) {
+            enemy.collide(player);
+        } else if (isOn(Portal.class)) {
+            enemy.x().set(((Portal)current).getPortal().getX());
+            enemy.y().set(((Portal)current).getPortal().getY());
         }
-        else if (isOn(Player.class)) enemy.collide(player);
         return true;
     }
 
