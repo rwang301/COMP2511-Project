@@ -24,11 +24,8 @@ public class TestSwitch {
     }
 
     /**
-     * Given a boulder is pushed onto a floor switch. 
-     * Then the floor switch is triggered. 
-     * 
-     * Given a boulder is pushed off a floor switch. 
-     * Then the floor switch is untriggered
+     * Given a boulder is pushed onto a floor switch.
+     * Then the floor switch is triggered.
      */
     @Test
     public void testSwitchTriggered() {
@@ -38,16 +35,24 @@ public class TestSwitch {
         assertEquals(s.isTriggered(), false);
         player.moveBoulder("right");
         assertEquals(s.isTriggered(), true);
-        
+    }
+
+    /**
+     * Given a boulder is pushed off a floor switch.
+     * Then the floor switch is untriggered.
+     */
+    @Test
+    public void testSwitchUntriggered() {
+        testSwitchTriggered();
         player.moveRight();
         player.moveBoulder("right");
         assertEquals(s.isTriggered(), false);
     }
 
     /**
-     * Given a floor switch has no entities on it. 
-     * When a player tries to go over the floor switch. 
-     * Then the player goes through.
+     * Given a floor switch has no entities on it.
+     * When a player tries to go over the floor switch.
+     * Then the player goes through
      */
     @Test
     public void testPlayerOnSwitch() {

@@ -30,8 +30,6 @@ public class TestKey {
         initilise();
         player.moveRight();
         assertEquals(dungeon.getEntities().contains(key1), false);
-        player.moveRight();
-        assertEquals(dungeon.getEntities().contains(key2), true);
     }
 
     /**
@@ -41,6 +39,8 @@ public class TestKey {
      */
     @Test
     public void testCannotPickup() {
-        initilise();
+        testPickup();
+        player.moveRight();
+        assertEquals(dungeon.getEntities().contains(key2), true);
     }
 }
