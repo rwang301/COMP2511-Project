@@ -93,4 +93,20 @@ public class TestSword {
         player.moveDown();
         assertTrue(dungeon.isComplete());
     }
+
+    /**
+     * Given a player holds a sword but no potion.
+     * When the player collides with 6 enemies.
+     * Then the player dies upon the sixth collision.
+     */
+    @Test
+    public void testCapbility() {
+        testKill();
+        player.moveDown();
+        player.moveDown();
+        player.moveRight();
+        player.moveUp();
+        player.moveUp();
+        assertFalse(dungeon.isComplete());
+    }
 }
