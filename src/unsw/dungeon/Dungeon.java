@@ -21,9 +21,13 @@ public class Dungeon implements Subject {
     private List<Entity> entities;
     private Player player;
     private Observer dungeonLoader;
+    /**
+     * A temperory copy of an eneity to be updated in the UI
+     */
     private Entity entity = null;
     private int treasure = 0;
     private Component goal;
+    private boolean complete = false;
 
     public Dungeon(int width, int height) {
         this.width = width;
@@ -64,6 +68,10 @@ public class Dungeon implements Subject {
         this.goal = goal;
     }
 
+    public boolean getComplete() {
+        return complete;
+    }
+
     public List<Entity> getEntities() {
         return entities;
     }
@@ -95,9 +103,11 @@ public class Dungeon implements Subject {
 	public void complete(boolean dead) {
         // TODO implement game engine to deal with game over
         if (dead) {
-            System.out.println("You lost");
+            complete = false;
+            System.out.println("You win: " + complete);
         } else if (goal.complete(player)) {
-            System.out.println("You won");
+            complete = true;
+            System.out.println("You win: " + complete);
         }
 	}
 

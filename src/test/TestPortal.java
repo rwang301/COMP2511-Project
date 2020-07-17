@@ -15,6 +15,7 @@ public class TestPortal {
     Portal portal2 = new Portal(1, 0);
 
     public void initilise() {
+        dungeon.setPlayer(player);
         portal1.setPortal(portal2);
         portal2.setPortal(portal1);
         dungeon.addEntity(portal1);
@@ -40,5 +41,6 @@ public class TestPortal {
     @Test
     public void testEnemy() {
         initilise();
+        // TODO test enemy moving through a portal
     }
 }
