@@ -70,5 +70,14 @@ public class TestSwitch {
      */
     //TODO: add entities test
 
+    @Test
+    public void testSwitchGoal() {
+        initilise();
+        Boulder b = new Boulder(1, 1);
+        dungeon.addEntity(b);
+        player.moveBoulder("right");
+        player.complete();
+        assertEquals(dungeon.getComplete(), true);
+    }
 
 }
