@@ -144,7 +144,6 @@ public abstract class DungeonLoader implements Observer {
             int doorId = json.getInt("id");
             if (keys.containsKey(doorId)) {
                 keys.get(doorId).setDoor(door);
-                door.setKey(keys.get(doorId));
             } else {
                 doors.put(doorId, door);
             }
@@ -156,7 +155,6 @@ public abstract class DungeonLoader implements Observer {
 
             int keyId = json.getInt("id");
             if (doors.containsKey(keyId)) {
-                doors.get(keyId).setKey(key);
                 key.setDoor(doors.get(keyId));
             } else {
                 keys.put(keyId, key);
