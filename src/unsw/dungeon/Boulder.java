@@ -17,19 +17,15 @@ public class Boulder extends Entity implements Blockable {
     public void push(Player player, String direction) {
         if (direction.equals("right")) {
             if (player.hasEntity((getX() + 1), getY())) return;
-            trigger(player);
             x().set(getX() + 1);
         } else if (direction.equals("down")) {
             if (player.hasEntity(getX(), (getY() + 1))) return;
-            trigger(player);
             y().set(getY() + 1);
         } else if (direction.equals("left")) {
             if (player.hasEntity((getX() - 1), getY())) return;
-            trigger(player);
             x().set(getX() - 1);
         } else {
             if (player.hasEntity(getX(), (getY() - 1))) return;
-            trigger(player);
             y().set(getY() - 1);
         }
         trigger(player);

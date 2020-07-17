@@ -169,14 +169,15 @@ public class Player extends Entity implements Subject {
      * @return true if there's an entity on the given coordinate except for a floor switch otherwise false
      */
     boolean hasEntity(int x, int y) {
+        boolean hasBlockable = false;
         for (Entity entity: dungeon.getEntities()) {
             if (entity.getX() == x && entity.getY() == y) {
-                if (entity.getClass() == Switch.class) return false;
-                else if (entity.getClass() == Door.class) return !((Door)entity).isOpen();
-                else return true;
+                if (entity.getClass() == Door.class) hasBlockable = !((Door)entity).isOpen();
+                else if (entity.getClass() == Switch.class) hasBlockable = false;
+                else hasBlockable = true;
             }
         }
-        return false;
+        return hasBlockable;
     }
 
     /**
@@ -252,19 +253,13 @@ public class Player extends Entity implements Subject {
     public void moveBoulder(String direction) {
         for (Entity entity: getEntities(Boulder.class)) {
             if (this.getY() == entity.getY() && (this.getX() - entity.getX() == 1)) {
-                //player is standing to the right of boulder
-                //boulder will be pushed to the left
-                ((Boulder)entity).push(this, direction);
-                return;
+                if (direction.equals("left")) ((Boulder)entity).push(this, direction);
             } else if (this.getY() == entity.getY() && (this.getX() - entity.getX() == -1)) {
-                ((Boulder)entity).push(this, direction);
-                return;
+                if (direction.equals("right")) ((Boulder)entity).push(this, direction);
             } else if ((this.getY() - entity.getY() == -1) && this.getX() == entity.getX()) {
-                ((Boulder)entity).push(this, direction);
-                return;
+                if (direction.equals("down")) ((Boulder)entity).push(this, direction);
             } else if ((this.getY() - entity.getY() == 1) && this.getX() == entity.getX()) {
-                ((Boulder)entity).push(this, direction);
-                return;
+                if (direction.equals("up")) ((Boulder)entity).push(this, direction);
             }
         }
     }
