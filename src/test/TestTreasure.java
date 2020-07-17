@@ -23,7 +23,8 @@ public class TestTreasure {
     }
 
     /**
-     * Given a player picked up a treasure. Then it disappears. 
+     * Given a player picked up a treasure.
+     * Then it disappears.
      */
     @Test
     public void testTreasurePickUp() {
@@ -34,8 +35,8 @@ public class TestTreasure {
     }
 
     /**
-     * Given a player has picked up all the treasure in a dungeon. 
-     * Then the goal of collecting all treasure is completed. 
+     * Given a player has picked up all the treasure in a dungeon.
+     * Then the goal of collecting all treasure is completed.
      */
     @Test
     public void testTreasureGoal() {
