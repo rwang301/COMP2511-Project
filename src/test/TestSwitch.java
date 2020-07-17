@@ -75,6 +75,8 @@ public class TestSwitch {
         initilise();
         Boulder b = new Boulder(1, 1);
         dungeon.addEntity(b);
+        player.complete();
+        assertEquals(dungeon.getComplete(), false);
         player.moveBoulder("right");
         player.complete();
         assertEquals(dungeon.getComplete(), true);
