@@ -9,12 +9,12 @@ import unsw.dungeon.GoalBoulders;
 import unsw.dungeon.Player;
 import unsw.dungeon.Boulder;
 import unsw.dungeon.Switch;
-import unsw.dungeon.Treasure;
+import unsw.dungeon.Component;
 
 public class TestSwitch {
     private Dungeon dungeon = new Dungeon(4, 4);
     private Player player = new Player(dungeon, 0, 1);
-    private GoalBoulders goal = new GoalBoulders();
+    private Component goal = new GoalBoulders();
     Switch s = new Switch(2, 1);
 
     public void initilise() {
@@ -70,5 +70,15 @@ public class TestSwitch {
      */
     //TODO: add entities test
 
+    @Test
+    public void testSwitchGoal() {
+        initilise();
+        Boulder b = new Boulder(1, 1);
+        dungeon.addEntity(b);
+        player.complete();
+        assertEquals(dungeon.getComplete(), false);
+        player.moveBoulder("right");
+        assertEquals(dungeon.getComplete(), true);
+    }
 
 }
