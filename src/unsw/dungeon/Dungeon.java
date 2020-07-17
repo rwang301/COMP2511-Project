@@ -60,10 +60,6 @@ public class Dungeon implements Subject {
         return treasure;
     }
 
-    public void setTreasure(int treasure) {
-        this.treasure = treasure;
-    }
-
     public void setGoal(Component goal) {
         this.goal = goal;
     }
@@ -77,6 +73,7 @@ public class Dungeon implements Subject {
     }
 
     public void addEntity(Entity entity) {
+        if (entity.getClass() == Treasure.class) treasure++;
         entities.add(entity);
     }
 

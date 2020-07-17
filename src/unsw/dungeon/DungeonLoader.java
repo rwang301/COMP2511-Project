@@ -23,7 +23,6 @@ import org.json.JSONTokener;
 public abstract class DungeonLoader implements Observer {
 
     private JSONObject json;
-    private int treasure = 0;
     private Player player;
     private Component goal;
     private Map<Integer, Portal> portals = new HashMap<>();
@@ -57,7 +56,6 @@ public abstract class DungeonLoader implements Observer {
         enemies.forEach(enemy -> enemy.initilise(player));
 
         dungeon.attach(this);
-        dungeon.setTreasure(treasure);
         dungeon.setGoal(goal);
         return dungeon;
     }
@@ -137,7 +135,6 @@ public abstract class DungeonLoader implements Observer {
             Treasure treasure = new Treasure(x, y);
             onLoad(treasure);
             entity = treasure;
-            this.treasure++;
             break;
         case "door":
             Door door = new Door(x, y);

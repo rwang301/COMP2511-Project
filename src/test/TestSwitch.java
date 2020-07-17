@@ -66,15 +66,15 @@ public class TestSwitch {
     }
 
     /**
-     * Given a floor switch has no entities on it. When an enemy tries to go over the floor switch. Then the enemy goes through.
+     * Given a floor switch has no entities on it.
+     * When an enemy tries to go over the floor switch.
+     * Then the enemy goes through.
      */
     //TODO: add tests
 
     /**
      * There are other entities appearing on top of a floor switch. 
      */
-    //TODO: add entities test
-
     @Test
     public void testSwitchGoal() {
         initilise();
@@ -83,6 +83,7 @@ public class TestSwitch {
         assertEquals(dungeon.getComplete(), false);
         player.moveBoulder("right");
         assertEquals(dungeon.getComplete(), true);
-    }
 
+        //TODO: add entities test
+    }
 }
