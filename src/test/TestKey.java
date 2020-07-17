@@ -1,6 +1,7 @@
 package test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Test;
 
@@ -36,8 +37,8 @@ public class TestKey {
     public void testCanPickup() {
         initilise();
         player.moveRight();
-        assertEquals(dungeon.getEntities().contains(key1), false);
-        assertEquals(player.getKey() != null, true);
+        assertFalse(dungeon.getEntities().contains(key1));
+        assertTrue(player.getKey() != null);
     }
 
     /**
@@ -49,7 +50,7 @@ public class TestKey {
     public void testCannotPickup() {
         testCanPickup();
         player.moveRight();
-        assertEquals(dungeon.getEntities().contains(key2), true);
+        assertTrue(dungeon.getEntities().contains(key2));
     }
 
     /**
@@ -61,9 +62,9 @@ public class TestKey {
     public void testCannotOpen() {
         initilise();
         player.moveRight();
-        assertEquals(door1.isOpen(), false);
+        assertFalse(door1.isOpen());
         player.moveRight();
-        assertEquals(door1.isOpen(), false);
+        assertFalse(door1.isOpen());
     }
 
     /**
@@ -75,10 +76,10 @@ public class TestKey {
     public void testCanOpen() {
         initilise();
         player.moveRight();
-        assertEquals(door1.isOpen(), false);
+        assertFalse(door1.isOpen());
         player.moveDown();
         player.moveDown();
-        assertEquals(door1.isOpen(), true);
+        assertTrue(door1.isOpen());
     }
 
     /**
@@ -89,12 +90,12 @@ public class TestKey {
     @Test
     public void testOpen() {
         testCanOpen();
-        assertEquals(player.getKey() == null, true);
+        assertTrue(player.getKey() == null);
 
         player.moveUp();
         player.moveUp();
         player.moveRight();
-        assertEquals(dungeon.getEntities().contains(key2), false);
-        assertEquals(player.getKey() != null, true);
+        assertFalse(dungeon.getEntities().contains(key2));
+        assertTrue(player.getKey() != null);
     }
 }

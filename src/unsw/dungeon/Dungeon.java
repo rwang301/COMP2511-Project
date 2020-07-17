@@ -64,7 +64,7 @@ public class Dungeon implements Subject {
         this.goal = goal;
     }
 
-    public boolean getComplete() {
+    public boolean isComplete() {
         return complete;
     }
 
