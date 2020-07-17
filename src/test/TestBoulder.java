@@ -15,8 +15,8 @@ public class TestBoulder {
 
     /**
      * Given a player tires to push a boulder. 
-     * When there is no entity on the adjacent sqaure in the direction of pushing. 
-     * Then the boulder moves to that square and the player stays where they were. 
+     * When there is no entity on the adjacent sqaure in the direction of pushing.
+     * Then the boulder moves to that square and the player stays where they were.
      */
     @Test
     public void testMoveBoulder() {
@@ -57,9 +57,9 @@ public class TestBoulder {
     }
 
     /**
-     * Given a player tries to push a boulder. 
-     * When there is another boulder on the adjacent square in the direction of pushing. 
-     * Then the boulder and the player stay where they were. 
+     * Given a player tries to push a boulder.
+     * When there is another boulder on the adjacent square in the direction of pushing.
+     * Then the boulder and the player stay where they were.
      */
     @Test
     public void testBlockableBoulder(){
@@ -121,9 +121,9 @@ public class TestBoulder {
     }
 
     /**
-     * Given a player tries to move to a square where a boulder is on. 
-     * When there is another entity on the adjacent square in the direction of pushing. 
-     * Then the player and the boulder stay where they were. 
+     * Given a player tries to move to a square where a boulder is on.
+     * When there is another entity on the adjacent square in the direction of pushing.
+     * Then the player and the boulder stay where they were.
      */
     @Test
     public void testBlockPlayer() {
@@ -161,9 +161,9 @@ public class TestBoulder {
     }
 
     /**
-     * Given a wall is on a square. 
-     * When a player tries to push a boulder onto that square.
-     * The player and boulder stay where they were
+     * Given a wall is on a square.
+     * When a player tries to push a boulder onto that square
+     * The player and boulder stay where they were.
      */
     @Test
     public void testBlockWall() {
