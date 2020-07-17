@@ -1,5 +1,7 @@
 package test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.Test;
 
 import unsw.dungeon.Dungeon;
@@ -27,9 +29,9 @@ public class TestKey {
     public void testPickup() {
         initilise();
         player.moveRight();
-        assert !dungeon.getEntities().contains(key1);
+        assertEquals(dungeon.getEntities().contains(key1), false);
         player.moveRight();
-        assert dungeon.getEntities().contains(key1);
+        assertEquals(dungeon.getEntities().contains(key2), true);
     }
 
     /**
@@ -40,8 +42,5 @@ public class TestKey {
     @Test
     public void testCannotPickup() {
         initilise();
-        player.moveDown();
-        player.moveDown();
-        assert dungeon.getEntities().contains(key1);
     }
 }

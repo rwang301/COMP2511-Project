@@ -82,7 +82,7 @@ public class Player extends Entity implements Subject {
     }
 
 
-	public boolean checkSwitches() {
+    boolean checkSwitches() {
         for (Entity floorSwitch: getEntities(Switch.class)) {
             if (!((Switch)floorSwitch).isTriggered()) return false;
         }
@@ -92,7 +92,7 @@ public class Player extends Entity implements Subject {
     /**
      * Reduce the times the sword can be used when hitting an enemy
      */
-    public void hit() {
+    void hit() {
         backpack.hit();
     }
 
@@ -100,7 +100,7 @@ public class Player extends Entity implements Subject {
      * Remove the enemy entity when killed
      * @param enemy
      */
-    public void kill(Enemy enemy) {
+    void kill(Enemy enemy) {
         disappear(enemy);
         if (getPotion() != null) getPotion().detach(enemy);
         detach(enemy);
@@ -110,14 +110,14 @@ public class Player extends Entity implements Subject {
     /**
      * Inform the dungeon that the player is dead
      */
-    public void die() {
+    void die() {
         dungeon.complete(true);
     }    
 
     /**
      * Check if the goal of this dungeon is met
      */
-    public void complete() {
+    void complete() {
         dungeon.complete(false);
     }
 
@@ -152,7 +152,7 @@ public class Player extends Entity implements Subject {
      * @param entityType
      * @return true if the player is on the given type of entity otherwise false
      */
-    public boolean isOn(Class<?> entityType) {
+    boolean isOn(Class<?> entityType) {
         for (Entity entity: getEntities(entityType)) {
             if (this.isOn(entity)) {
                 current = entity;
@@ -168,7 +168,7 @@ public class Player extends Entity implements Subject {
      * @param y
      * @return true if there's an entity on the given coordinate except for a floor switch otherwise false
      */
-    public boolean hasEntity(int x, int y) {
+    boolean hasEntity(int x, int y) {
         for (Entity entity: dungeon.getEntities()) {
             if (entity.getX() == x && entity.getY() == y) {
                 if (entity.getClass() == Switch.class) return false;

@@ -12,48 +12,48 @@ import unsw.dungeon.Wall;
 public class TestBoulder {
     private Dungeon dungeon = new Dungeon(4, 4);
     private Player player = new Player(dungeon, 0, 1);
+    Boulder boulder = new Boulder(1, 1);
+
+    private void initilise() {
+        dungeon.setPlayer(player);
+        dungeon.addEntity(boulder);
+    }
+
+    private void assertCoordinates(int playerX, int playerY, int boulderX, int boulderY) {
+        assertEquals(player.getX(), playerX);
+        assertEquals(player.getY(), playerY);
+        assertEquals(boulder.getX(), boulderX);
+        assertEquals(boulder.getY(), boulderY);
+    }
 
     /**
-     * Given a player tires to push a boulder. 
+     * Given a player tires to push a boulder.
      * When there is no entity on the adjacent sqaure in the direction of pushing.
      * Then the boulder moves to that square and the player stays where they were.
      */
     @Test
     public void testMoveBoulder() {
-        Boulder b = new Boulder(1, 1);
-        dungeon.addEntity(b);
+        initilise();
         player.moveBoulder("right");
-        assertEquals(player.getX(), 0);
-        assertEquals(player.getY(), 1);
-        assertEquals(b.getX(), 2);
-        assertEquals(b.getY(), 1);
+        assertCoordinates(0, 1, 2, 1);
+
         player.moveRight();
         player.moveUp();
         player.moveRight();
-
         player.moveBoulder("down");
-        assertEquals(player.getX(), 2);
-        assertEquals(player.getY(), 0);
-        assertEquals(b.getX(), 2);
-        assertEquals(b.getY(), 2);
+        assertCoordinates(2, 0, 2, 2);
+
         player.moveDown();
         player.moveRight();
         player.moveDown();
-        
         player.moveBoulder("left");
-        assertEquals(player.getX(), 3);
-        assertEquals(player.getY(), 2);
-        assertEquals(b.getX(), 1);
-        assertEquals(b.getY(), 2);
+        assertCoordinates(3, 2, 1, 2);
+
         player.moveLeft();
         player.moveDown();
         player.moveLeft();
-
         player.moveBoulder("up");
-        assertEquals(player.getX(), 1);
-        assertEquals(player.getY(), 3);
-        assertEquals(b.getX(), 1);
-        assertEquals(b.getY(), 1);
+        assertCoordinates(1, 3, 1, 1);
     }
 
     /**
@@ -63,30 +63,24 @@ public class TestBoulder {
      */
     @Test
     public void testBlockableBoulder(){
-        Boulder b1 = new Boulder(1, 1);
+        initilise();
         Boulder b2 = new Boulder(2, 1);
-        dungeon.addEntity(b1);
         dungeon.addEntity(b2);
         player.moveBoulder("right");
-        assertEquals(player.getX(), 0);
-        assertEquals(player.getY(), 1);
-        assertEquals(b1.getX(), 1);
-        assertEquals(b1.getY(), 1);
+        assertCoordinates(0, 1, 1, 1);
         assertEquals(b2.getX(), 2);
         assertEquals(b2.getY(), 1);
+
         player.moveDown();
         player.moveRight();
         player.moveRight();
         player.moveRight();
         player.moveUp();
-        
         player.moveBoulder("left");
-        assertEquals(player.getX(), 3);
-        assertEquals(player.getY(), 1);
-        assertEquals(b1.getX(), 1);
-        assertEquals(b1.getY(), 1);
+        assertCoordinates(3, 1, 1, 1);
         assertEquals(b2.getX(), 2);
         assertEquals(b2.getY(), 1);
+
         player.moveUp();
         player.moveLeft();
         player.moveBoulder("down");
@@ -99,23 +93,17 @@ public class TestBoulder {
         player.moveLeft();
 
         player.moveBoulder("up");
-        assertEquals(player.getX(), 1);
-        assertEquals(player.getY(), 3);
-        assertEquals(b1.getX(), 1);
-        assertEquals(b1.getY(), 1);
+        assertCoordinates(1, 3, 1, 1);
         assertEquals(b2.getX(), 1);
         assertEquals(b2.getY(), 2);
+
         player.moveLeft();
         player.moveUp();
         player.moveUp();
         player.moveUp();
         player.moveRight();
-
         player.moveBoulder("down");
-        assertEquals(player.getX(), 1);
-        assertEquals(player.getY(), 0);
-        assertEquals(b1.getX(), 1);
-        assertEquals(b1.getY(), 1);
+        assertCoordinates(1, 0, 1, 1);
         assertEquals(b2.getX(), 1);
         assertEquals(b2.getY(), 2);
     }
@@ -127,37 +115,24 @@ public class TestBoulder {
      */
     @Test
     public void testBlockPlayer() {
-        Boulder b = new Boulder(1, 1);
-        dungeon.addEntity(b);
+        initilise();
         player.moveRight();
-        assertEquals(player.getX(), 0);
-        assertEquals(player.getY(), 1);
-        assertEquals(b.getX(), 1);
-        assertEquals(b.getY(), 1);
+        assertCoordinates(0, 1, 1, 1);
 
         player.moveUp();
         player.moveRight();
         player.moveDown();
-        assertEquals(player.getX(), 1);
-        assertEquals(player.getY(), 0);
-        assertEquals(b.getX(), 1);
-        assertEquals(b.getY(), 1);
+        assertCoordinates(1, 0, 1, 1);
 
         player.moveRight();
         player.moveDown();
         player.moveLeft();
-        assertEquals(player.getX(), 2);
-        assertEquals(player.getY(), 1);
-        assertEquals(b.getX(), 1);
-        assertEquals(b.getY(), 1);
+        assertCoordinates(2, 1, 1, 1);
 
         player.moveDown();
         player.moveLeft();
         player.moveUp();
-        assertEquals(player.getX(), 1);
-        assertEquals(player.getY(), 2);
-        assertEquals(b.getX(), 1);
-        assertEquals(b.getY(), 1);
+        assertCoordinates(1, 2, 1, 1);
     }
 
     /**
@@ -167,28 +142,21 @@ public class TestBoulder {
      */
     @Test
     public void testBlockWall() {
-        Boulder b = new Boulder(1, 1);
+        initilise();
         Boulder b2 = new Boulder(2, 2);
         Wall w = new Wall (2, 1);
         Wall w2 = new Wall(1, 2);
-        dungeon.addEntity(b);
         dungeon.addEntity(w);
         dungeon.addEntity(w2);
         player.moveBoulder("right");
-        assertEquals(player.getX(), 0);
-        assertEquals(player.getY(), 1);
-        assertEquals(b.getX(), 1);
-        assertEquals(b.getY(), 1);
+        assertCoordinates(0, 1, 1, 1);
         assertEquals(w.getX(), 2);
         assertEquals(w.getY(), 1);
 
         player.moveUp();
         player.moveRight();
         player.moveBoulder("down");
-        assertEquals(player.getX(), 1);
-        assertEquals(player.getY(), 0);
-        assertEquals(b.getX(), 1);
-        assertEquals(b.getY(), 1);
+        assertCoordinates(1, 0, 1, 1);
         assertEquals(w2.getX(), 1);
         assertEquals(w2.getY(), 2);
 
