@@ -46,7 +46,6 @@ public class TestExit {
     @Test
     public void testExitGoal() {
         initilise();
-        player.complete();
         assertEquals(dungeon.getComplete(), false);
         player.moveDown();
         assertEquals(dungeon.getComplete(), true);
