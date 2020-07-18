@@ -153,7 +153,6 @@ public class Player extends Entity implements Subject {
      * @return true if the player is on the given type of entity otherwise false
      */
     boolean isOn(Class<?> entityType) {
-        // TODO player can go through if there's a boulder in a door
         for (Entity entity: getEntities(entityType)) {
             if (this.isOn(entity)) {
                 if (entity.getClass() == Door.class && ((Door)entity).isOpen()) continue;
