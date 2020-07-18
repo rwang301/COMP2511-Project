@@ -11,30 +11,31 @@ public abstract class Strategy {
     Entity current;
     private List<Enemy> visited = new ArrayList<>();
 
-    public abstract void move();
+    abstract void move();
 
-    public Strategy(Dungeon dungeon, Enemy enemy) {
+    Strategy(Dungeon dungeon, Enemy enemy) {
         this.dungeon = dungeon;
         this.enemy = enemy;
     }
 
-    public void setPlayer(Player player) {
+    void setPlayer(Player player) {
         this.player = player;
     }
 
-	public void setCurrentPosition() {
+	void setCurrentPosition() {
         visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
 	}
 
-	public void reset() {
+	void reset() {
         visited = new ArrayList<>();
 	}
 
-    public List<Entity> getEntities(Class<?> entityType) {
+    List<Entity> getEntities(Class<?> entityType) {
+        // TODO potential null pointer exception somewhere
         return dungeon.getEntities().stream().filter(entity -> entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
     }
 
-    public boolean isOn(Class<?> entityType) {
+    boolean isOn(Class<?> entityType) {
         for (Entity entity: getEntities(entityType)) {
             if (enemy.isOn(entity)) {
                 current = entity;
@@ -44,7 +45,7 @@ public abstract class Strategy {
         return false;
     }
 
-    private boolean canMove() {
+    boolean canMove() {
         if (visited.contains(enemy)) return false;
         if (isOn(Blockable.class)) {
             if (current.getClass() == Door.class) return ((Door)current).isOpen();
@@ -58,7 +59,7 @@ public abstract class Strategy {
         return true;
     }
 
-    public boolean moveUp() {
+    boolean moveUp() {
         if (enemy.getY() > 0)
             enemy.y().set(enemy.getY() - 1);
         if (!canMove()) {
@@ -70,7 +71,7 @@ public abstract class Strategy {
         }
     }
 
-    public boolean moveDown() {
+    boolean moveDown() {
         if (enemy.getY() < dungeon.getHeight() - 1)
             enemy.y().set(enemy.getY() + 1);
         if (!canMove()) {
@@ -82,7 +83,7 @@ public abstract class Strategy {
         }
     }
 
-    public boolean moveLeft() {
+    boolean moveLeft() {
         if (enemy.getX() > 0)
             enemy.x().set(enemy.getX() - 1);
         if (!canMove()){
@@ -94,7 +95,7 @@ public abstract class Strategy {
         }
     }
 
-    public boolean moveRight() {
+    boolean moveRight() {
         if (enemy.getX() < dungeon.getWidth() - 1)
             enemy.x().set(enemy.getX() + 1);
         if (!canMove()) {

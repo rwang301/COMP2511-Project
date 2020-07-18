@@ -2,12 +2,12 @@ package unsw.dungeon;
 
 public class MoveAway extends Strategy {
 
-    public MoveAway(Dungeon dungeon, Enemy enemy) {
+    MoveAway(Dungeon dungeon, Enemy enemy) {
         super(dungeon, enemy);
     }
 
     @Override
-    public void move() {
+    void move() {
         if (enemy.getX() < player.getX()) {
             if (!moveLeft()) {
                 if (enemy.getY() < player.getY()) {

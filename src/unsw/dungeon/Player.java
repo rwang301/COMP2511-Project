@@ -139,7 +139,7 @@ public class Player extends Entity implements Subject {
     }
 
     /**
-     * Get all the entities of the same type or implment the same interface
+     * Get all the entities of the same type or implement the same interface
      * @param entityType
      * @return a list of entities of a given type
      */
@@ -203,7 +203,7 @@ public class Player extends Entity implements Subject {
 
     /**
      * Take certain actions depending on the corresponding entity that the player stepped on
-     * @param coordinate a x or y value the the player
+     * @param coordinate current x or y value of the player
      * @param position the previous x or y value before the player took the move
      */
     private void action(IntegerProperty coordinate, int position) {
