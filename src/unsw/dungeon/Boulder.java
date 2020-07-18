@@ -17,28 +17,44 @@ public class Boulder extends Entity implements Blockable {
     public void push(Player player, String direction) {
         if (direction.equals("right")) {
             if (player.hasEntity((getX() + 1), getY())) return;
-            trigger(player);
+            untrigger(player);
             x().set(getX() + 1);
         } else if (direction.equals("down")) {
             if (player.hasEntity(getX(), (getY() + 1))) return;
-            trigger(player);
+            untrigger(player);
             y().set(getY() + 1);
         } else if (direction.equals("left")) {
             if (player.hasEntity((getX() - 1), getY())) return;
-            trigger(player);
+            untrigger(player);
             x().set(getX() - 1);
-        } else {
+        } else if (direction.equals("up")) {
             if (player.hasEntity(getX(), (getY() - 1))) return;
-            trigger(player);
+            untrigger(player);
             y().set(getY() - 1);
+        } else {
+            return;
         }
         trigger(player);
     }
 
-    private void trigger(Player player) {
+    /**
+     * If the boulder is on a floor switch before being pushed then untrigger the floor switch
+     * @param player
+     */
+    private void untrigger(Player player) {
         player.getEntities(Switch.class).forEach(floorSwitch -> {
-            if (this.isOn(floorSwitch)) ((Switch)floorSwitch).setTriggered(player);
+            if (this.isOn(floorSwitch)) ((Switch)floorSwitch).setTriggered();
         });
+    }
+
+    /**
+     * If the boulder is on a floor switch after being pushed then trigger the floor switch
+     * and check for the goal of having a boulder on all floor switches
+     * @param player
+     */
+    private void trigger(Player player) {
+        untrigger(player);
+        player.complete();
     }
 
     @Override

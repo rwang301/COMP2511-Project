@@ -11,8 +11,7 @@ public class Switch extends Entity {
         return triggered;
     }
 
-    public void setTriggered(Player player) {
+    public void setTriggered() {
         triggered = !triggered;
-        player.complete();
     }
 }
