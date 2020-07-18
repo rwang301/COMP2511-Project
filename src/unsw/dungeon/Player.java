@@ -155,6 +155,7 @@ public class Player extends Entity implements Subject {
     boolean isOn(Class<?> entityType) {
         for (Entity entity: getEntities(entityType)) {
             if (this.isOn(entity)) {
+                if (entity.getClass() == Door.class && ((Door)entity).isOpen()) continue;
                 current = entity;
                 return true;
             }
