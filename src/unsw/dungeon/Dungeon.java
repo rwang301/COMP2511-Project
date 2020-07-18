@@ -82,12 +82,12 @@ public class Dungeon implements Subject {
     }
 
 
-    public void open(Door door) {
+    void open(Door door) {
         entity = door;
         notifyObservers();
     }
 
-    public void disappear(Entity entity) {
+    void disappear(Entity entity) {
         this.entity = entity;
         removeEntity(entity);
         notifyObservers();
@@ -97,7 +97,7 @@ public class Dungeon implements Subject {
      * Check if the dungeon is completed by the player
      * @param dead
      */
-	public void complete(boolean dead) {
+	void complete(boolean dead) {
         // TODO implement game engine to deal with game over
         if (dead) {
             complete = false;
