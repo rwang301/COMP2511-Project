@@ -14,14 +14,14 @@ import unsw.dungeon.GoalTreasure;
 public class TestTreasure {
     private Dungeon dungeon = new Dungeon(4, 4);
     private Player player = new Player(dungeon, 0, 0);
-    private Treasure treasure = new Treasure(0, 1);
+    private Treasure treasure1 = new Treasure(0, 1);
     private Treasure treasure2 = new Treasure(0, 2);
     private Component goalTreasure = new GoalTreasure();
 
     private void initilise() {
         dungeon.setPlayer(player);
         dungeon.setGoal(goalTreasure);
-        dungeon.addEntity(treasure);
+        dungeon.addEntity(treasure1);
         dungeon.addEntity(treasure2);
     }
 
@@ -32,10 +32,10 @@ public class TestTreasure {
     @Test
     public void testTreasurePickUp() {
         initilise();
-        assertTrue(dungeon.getEntities().contains(treasure));
+        assertTrue(dungeon.getEntities().contains(treasure1));
         player.moveDown();
         assertEquals(player.getTreasure(), 1);
-        assertFalse(dungeon.getEntities().contains(treasure));
+        assertFalse(dungeon.getEntities().contains(treasure1));
     }
 
     /**
@@ -47,6 +47,7 @@ public class TestTreasure {
         testTreasurePickUp();
         assertFalse(dungeon.isComplete());
         player.moveDown();
+        assertEquals(player.getTreasure(), 2);
         assertTrue(dungeon.isComplete());
     }
 }
