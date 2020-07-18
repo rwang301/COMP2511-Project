@@ -10,7 +10,7 @@ public class Boulder extends Entity implements Blockable {
 
     /**
      * Check if the player can push the boulder in the required direction
-     * If so, move boulder one sqaure in that direction otherwise do nothing
+     * If so, move boulder one square in that direction otherwise do nothing
      * @param player
      * @param direction direction the boulder is to be pushed
      */

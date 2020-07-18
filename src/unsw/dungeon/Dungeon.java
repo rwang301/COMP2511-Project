@@ -22,7 +22,7 @@ public class Dungeon implements Subject {
     private Player player;
     private Observer dungeonLoader;
     /**
-     * A temperory copy of an eneity to be updated in the UI
+     * A temporary copy of an entity to be updated in the UI
      */
     private Entity entity = null;
     private int treasure = 0;
