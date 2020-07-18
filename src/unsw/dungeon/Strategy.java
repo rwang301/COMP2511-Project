@@ -31,6 +31,7 @@ public abstract class Strategy {
 	}
 
     List<Entity> getEntities(Class<?> entityType) {
+        // TODO potential null pointer exception somewhere
         return dungeon.getEntities().stream().filter(entity -> entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
     }
 
