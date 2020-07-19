@@ -282,5 +282,9 @@ public class TestBoulder {
         initialise();
         player.moveBoulder("down");
         assertCoordinates(0, 1, 1, 1);
+        player.moveBoulder("left");
+        assertCoordinates(0, 1, 1, 1);
+        player.moveBoulder("up");
+        assertCoordinates(0, 1, 1, 1);
     }
 }

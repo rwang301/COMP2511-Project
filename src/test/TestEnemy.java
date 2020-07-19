@@ -9,16 +9,34 @@ import org.junit.Test;
 import unsw.dungeon.Enemy;
 import unsw.dungeon.Dungeon;
 import unsw.dungeon.Player;
+import unsw.dungeon.Portal;
+import unsw.dungeon.Potion;
+import unsw.dungeon.Switch;
+import unsw.dungeon.Wall;
 
 public class TestEnemy {
-    private Dungeon dungeon = new Dungeon(4, 4);
+    private Dungeon dungeon = new Dungeon(3, 3);
     private Player player = new Player(dungeon, 0, 0);
-    private Enemy enemy = new Enemy(dungeon, 0, 3);
+    private Enemy enemy = new Enemy(dungeon, 0, 2);
 
     public void initialise() {
         dungeon.setPlayer(player);
         dungeon.addEntity(enemy);
+        player.attach(enemy);
         enemy.initialise(player);
+    }
+
+    public void sleep(long time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+        }
+    }
+
+    private void assertCoordinates(int x, int y) {
+        assertEquals(enemy.getX(), x);
+        assertEquals(enemy.getY(), y);
     }
 
     /**
@@ -27,19 +45,24 @@ public class TestEnemy {
     @Test
     public void testMoveToward() {
         initialise();
-        try {
-            Thread.sleep(1050);
-            assertEquals(enemy.getX(), 0);
-            assertEquals(enemy.getY(), 2);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-        }
+        sleep(1050);
+        assertCoordinates(0, 1);
     }
 
-
-     /**
-      * Given the player holds a potion. Then the enemies move away from them. 
-      */
+    /**
+     * Given the player holds a potion.
+     * Then the enemies move away from them.
+     */
+    @Test
+    public void testPotion() {
+        initialise();
+        Potion potion = new Potion(0, 1);
+        dungeon.addEntity(potion);
+        player.moveDown();
+        assertTrue(player.getPotion() != null);
+        assertCoordinates(0, 2);
+        assertFalse(dungeon.isComplete());
+    }
 
     /**
      * Given the player does not hold a potion. When the enemies cannot move any closer to the player. Then the enemies stop. 
@@ -49,18 +72,56 @@ public class TestEnemy {
      * Given a wall is on a square. When an enemy tries to move onto that square.
      * The enemy stays where they were. 
      */
+    @Test
+    public void testBlock() {
+        Wall wall = new Wall(0, 1);
+        dungeon.addEntity(wall);
+        initialise();
+        sleep(1050);
+        assertCoordinates(1, 2);
+    }
     
-     /**
-      * Given a player does not hold a sword nor a potion. When an enemy collides with the player. Then the player dies. 
-      */
+    /**
+     * Given a player does not hold a sword nor a potion.
+     * When an enemy collides with the player.
+     * Then the player dies.
+     */
+    @Test
+    public void testDie() {
+        testMoveToward();
+        sleep(500);
+        assertFalse(dungeon.isComplete());
+    }
 
+    /**
+     * Given a floor switch has no entities on it.
+     * When an enemy tries to go over the floor switch.
+     * Then the enemy goes through.
+     */
+    @Test
+    public void testSwitch() {
+        Switch floorSwitch = new Switch(0, 1);
+        dungeon.addEntity(floorSwitch);
+        testMoveToward();
+        assertTrue(enemy.isOn(floorSwitch));
+    }
 
-     /**
-      * Given a floor switch has no entities on it. When an enemy tries to go over the floor switch. 
-      * Then the enemy goes through. 
-      */
+    /**
+     * Given an enemy goes through a portal.
+     * Then the enemy appears on the corresponding portal.
+     */
+    @Test
+    public void testPortal() {
+        Portal portal1 = new Portal(0, 1);
+        Portal portal2 = new Portal(1, 0);
+        portal1.setPortal(portal2);
+        portal2.setPortal(portal1);
+        dungeon.addEntity(portal1);
+        dungeon.addEntity(portal2);
 
-      /**
-       * Given an enemy goes through a portal. Then the enemy appears on the corresponding portal. 
-       */
+        initialise();
+        sleep(1050);
+        assertCoordinates(1, 0);
+        assertTrue(enemy.isOn(portal2));
+    }
 }

@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Test;
 
@@ -11,8 +12,8 @@ import unsw.dungeon.Portal;
 public class TestPortal {
     private Dungeon dungeon = new Dungeon(4, 4);
     private Player player = new Player(dungeon, 0, 0);
-    Portal portal1 = new Portal(0, 1);
-    Portal portal2 = new Portal(1, 0);
+    private Portal portal1 = new Portal(0, 1);
+    private Portal portal2 = new Portal(1, 0);
 
     public void initialise() {
         dungeon.setPlayer(player);
@@ -32,15 +33,5 @@ public class TestPortal {
         player.moveDown();
         assertEquals(player.getX(), 1);
         assertEquals(player.getY(), 0);
-    }
-
-    /**
-     * Given an enemy goes through a portal.
-     * Then the enemy appears on the corresponding portal.
-     */
-    @Test
-    public void testEnemy() {
-        initialise();
-        // TODO test enemy moving through a portal
     }
 }

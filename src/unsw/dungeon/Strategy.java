@@ -62,6 +62,7 @@ public abstract class Strategy {
         if (isOn(Blockable.class) || isOn(Enemy.class)) {
             return false;
         } else if (isOn(Player.class)) {
+            if (player.getPotion() != null) return false;
             enemy.collide(player);
         } else if (isOn(Portal.class)) {
             enemy.x().set(((Portal)current).getPortal().getX());
@@ -71,50 +72,58 @@ public abstract class Strategy {
     }
 
     boolean moveUp() {
-        if (enemy.getY() > 0)
+        if (enemy.getY() > 0) {
             enemy.y().set(enemy.getY() - 1);
-        if (!canMove()) {
-            enemy.y().set(enemy.getY() + 1);
-            return false;
-        } else {
-            visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
-            return true;
+            if (!canMove()) {
+                enemy.y().set(enemy.getY() + 1);
+                return false;
+            } else {
+                visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
+                return true;
+            }
         }
+        return false;
     }
 
     boolean moveDown() {
-        if (enemy.getY() < dungeon.getHeight() - 1)
+        if (enemy.getY() < dungeon.getHeight() - 1) {
             enemy.y().set(enemy.getY() + 1);
-        if (!canMove()) {
-            enemy.y().set(enemy.getY() - 1);
-            return false;
-        } else {
-            visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
-            return true;
+            if (!canMove()) {
+                enemy.y().set(enemy.getY() - 1);
+                return false;
+            } else {
+                visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
+                return true;
+            }
         }
+        return false;
     }
 
     boolean moveLeft() {
-        if (enemy.getX() > 0)
+        if (enemy.getX() > 0) {
             enemy.x().set(enemy.getX() - 1);
-        if (!canMove()){
-            enemy.x().set(enemy.getX() + 1);
-            return false;
-        } else {
-            visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
-            return true;
+            if (!canMove()){
+                enemy.x().set(enemy.getX() + 1);
+                return false;
+            } else {
+                visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
+                return true;
+            }
         }
+        return false;
     }
 
     boolean moveRight() {
-        if (enemy.getX() < dungeon.getWidth() - 1)
+        if (enemy.getX() < dungeon.getWidth() - 1) {
             enemy.x().set(enemy.getX() + 1);
-        if (!canMove()) {
-            enemy.x().set(enemy.getX() - 1);
-            return false;
-        } else {
-            visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
-            return true;
+            if (!canMove()) {
+                enemy.x().set(enemy.getX() - 1);
+                return false;
+            } else {
+                visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
+                return true;
+            }
         }
+        return false;
     }
 }
