@@ -32,7 +32,7 @@ public abstract class Strategy {
 
     List<Entity> getEntities(Class<?> entityType) {
         // TODO null pointer exception when enemies move toward the player who holds a sword
-        return dungeon.getEntities().stream().filter(entity -> entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
+        return dungeon.getEntities().stream().filter(entity -> entity != null && entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
     }
 
     boolean isOn(Class<?> entityType) {
