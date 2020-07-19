@@ -25,7 +25,7 @@ public class TestExit {
     Switch floorSwitch = new Switch(2, 1);
     Boulder boulder = new Boulder(1, 1);
 
-    private void initilise() {
+    private void initialise() {
         dungeon.setPlayer(player);
         dungeon.setGoal(goalExit);
         dungeon.addEntity(exit);
@@ -46,27 +46,34 @@ public class TestExit {
 
     @Test
     public void testExitGoal() {
-        initilise();
+        initialise();
         assertFalse(dungeon.isComplete());
         player.moveDown();
         assertTrue(dungeon.isComplete());
     }
 
     /**
-     * Given a player has completed all the other goals. 
-     * When the player goes through the exit. Then the game ends.
      * Given a player has not completed all the other goals. 
      * When the player goes through the exit. Then nothing happens. 
      */
     @Test
-    public void testGoalOrder() {
-        initilise();
+    public void testGoalOrderNotComplete() {
+        initialise();
         initialiseGoals();
         dungeon.setGoal(goalBoulders);
         player.moveDown();
         assertFalse(dungeon.isComplete());
-        player.moveBoulder("right");
-        assertTrue(dungeon.isComplete());
         //TODO: add more goals
     }  
+
+    /**
+     * Given a player has completed all the other goals. 
+     * When the player goes through the exit. Then the game ends.
+     */
+    @Test
+    public void testGoalOrderComplete() {
+        testGoalOrderNotComplete();
+        player.moveBoulder("right");
+        assertTrue(dungeon.isComplete());
+    }
 }
