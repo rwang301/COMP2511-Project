@@ -25,7 +25,7 @@ public class TestSword {
     private Enemy enemy5 = new Enemy(dungeon, 2, 2);
     private Enemy enemy6 = new Enemy(dungeon, 2, 3);
 
-    public void initilise() {
+    public void initialise() {
         dungeon.setPlayer(player);
         dungeon.setGoal(goalTreasure);
         dungeon.addEntity(sword1);
@@ -36,6 +36,12 @@ public class TestSword {
         dungeon.addEntity(enemy4);
         dungeon.addEntity(enemy5);
         dungeon.addEntity(enemy6);
+        enemy1.initialise(player);
+        enemy2.initialise(player);
+        enemy3.initialise(player);
+        enemy4.initialise(player);
+        enemy5.initialise(player);
+        enemy6.initialise(player);
     }
 
     /**
@@ -45,7 +51,7 @@ public class TestSword {
      */
     @Test
     public void testCanPickup() {
-        initilise();
+        initialise();
         player.moveRight();
         assertFalse(dungeon.getEntities().contains(sword1));
         assertTrue(player.getSword() != null);
