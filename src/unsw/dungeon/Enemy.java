@@ -16,6 +16,10 @@ public class Enemy extends Entity implements Observer {
         strategy = moveToward;
     }
 
+    /**
+     * Initialise a timer for the enemy
+     * @param player
+     */
     public void initialise(Player player) {
         moveToward.setPlayer(player);
         moveToward.setCurrentPosition();
@@ -36,6 +40,13 @@ public class Enemy extends Entity implements Observer {
         timer.purge();
     }
 
+    /**
+     * When the enemy collides with a player
+     * if the player does not hold a sword or potion
+     * then the player dies
+     * otherwise the enemy dies
+     * @param player
+     */
 	public void collide(Player player) {
         if (player.getSword() != null || player.getPotion() != null) {
             if (player.getPotion() == null) player.hit(); // if the player doesn't have a potion they must've had a sword
@@ -53,6 +64,9 @@ public class Enemy extends Entity implements Observer {
         else if (subject.getClass() == Potion.class) strategy = moveToward;
     }
 
+    /**
+     * reset the visited array
+     */
     public void reset() {
         strategy.reset();
     }

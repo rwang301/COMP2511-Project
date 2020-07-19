@@ -14,7 +14,7 @@ public class TestBoulder {
     private Player player = new Player(dungeon, 0, 1);
     Boulder boulder = new Boulder(1, 1);
 
-    private void initilise() {
+    private void initialise() {
         dungeon.setPlayer(player);
         dungeon.addEntity(boulder);
     }
@@ -33,7 +33,7 @@ public class TestBoulder {
      */
     @Test
     public void testMoveBoulder() {
-        initilise();
+        initialise();
         player.moveBoulder("right");
         assertCoordinates(0, 1, 2, 1);
 
@@ -63,7 +63,7 @@ public class TestBoulder {
      */
     @Test
     public void testBlockableBoulder(){
-        initilise();
+        initialise();
         Boulder b2 = new Boulder(2, 1);
         dungeon.addEntity(b2);
         player.moveBoulder("right");
@@ -115,7 +115,7 @@ public class TestBoulder {
      */
     @Test
     public void testBlockPlayer() {
-        initilise();
+        initialise();
         player.moveRight();
         assertCoordinates(0, 1, 1, 1);
 
@@ -142,7 +142,7 @@ public class TestBoulder {
      */
     @Test
     public void testBlockWall() {
-        initilise();
+        initialise();
         Boulder b2 = new Boulder(2, 2);
         Wall w = new Wall (2, 1);
         Wall w2 = new Wall(1, 2);

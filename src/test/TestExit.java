@@ -39,11 +39,12 @@ public class TestExit {
         dungeon.addEntity(floorSwitch);
         dungeon.setGoal(and);
     }
+
     /**
      * Given getting to an exit is the only goal in a dungeon.
-     * When a player goes through the exit. Then the game ends.  
+     * When a player goes through the exit.
+     * Then the game ends.
     */
-
     @Test
     public void testExitGoal() {
         initialise();
@@ -53,8 +54,9 @@ public class TestExit {
     }
 
     /**
-     * Given a player has not completed all the other goals. 
-     * When the player goes through the exit. Then nothing happens. 
+     * Given a player has not completed all the other goals.
+     * When the player goes through the exit.
+     * Then nothing happens.
      */
     @Test
     public void testGoalOrderNotComplete() {
@@ -63,12 +65,12 @@ public class TestExit {
         dungeon.setGoal(goalBoulders);
         player.moveDown();
         assertFalse(dungeon.isComplete());
-        //TODO: add more goals
-    }  
+    }
 
     /**
-     * Given a player has completed all the other goals. 
-     * When the player goes through the exit. Then the game ends.
+     * Given a player has completed all the other goals.
+     * When the player goes through the exit.
+     * Then the game ends.
      */
     @Test
     public void testGoalOrderComplete() {
@@ -76,4 +78,6 @@ public class TestExit {
         player.moveBoulder("right");
         assertTrue(dungeon.isComplete());
     }
+
+    //TODO test more goals combination
 }

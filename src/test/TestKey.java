@@ -18,7 +18,7 @@ public class TestKey {
     private Door door1 = new Door(1, 2);
     private Door door2 = new Door(2, 1);
 
-    public void initilise() {
+    public void initialise() {
         dungeon.setPlayer(player);
         dungeon.addEntity(key1);
         dungeon.addEntity(key2);
@@ -35,7 +35,7 @@ public class TestKey {
      */
     @Test
     public void testCanPickup() {
-        initilise();
+        initialise();
         player.moveRight();
         assertFalse(dungeon.getEntities().contains(key1));
         assertTrue(player.getKey() != null);
@@ -60,7 +60,7 @@ public class TestKey {
      */
     @Test
     public void testCannotOpen() {
-        initilise();
+        initialise();
         player.moveRight();
         assertFalse(door1.isOpen());
         player.moveRight();
@@ -74,7 +74,7 @@ public class TestKey {
      */
     @Test
     public void testCanOpen() {
-        initilise();
+        initialise();
         player.moveRight();
         assertFalse(door1.isOpen());
         player.moveDown();

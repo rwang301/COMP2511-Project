@@ -11,6 +11,9 @@ public abstract class Strategy {
     Entity current;
     private List<Enemy> visited = new ArrayList<>();
 
+    /**
+     * Implementation of the strategy for how the enemy should move
+     */
     abstract void move();
 
     Strategy(Dungeon dungeon, Enemy enemy) {
@@ -35,20 +38,29 @@ public abstract class Strategy {
     }
 
     boolean isOn(Class<?> entityType) {
+        boolean hasDoor = false;
         for (Entity entity: getEntities(entityType)) {
             if (!enemy.equals(entity) && enemy.isOn(entity)) {
+                if (entity.getClass() == Door.class && ((Door)entity).isOpen()) {
+                    hasDoor = true;
+                    continue;
+                }
                 current = entity;
                 return true;
             }
         }
-        return false;
+        if (hasDoor) return true;
+        else return false;
     }
 
+    /**
+     * Check if the enemy is able to move to the current square
+     * @return true if the enemy can move to the current square otherwise false
+     */
     boolean canMove() {
         if (visited.contains(enemy)) return false;
         if (isOn(Blockable.class) || isOn(Enemy.class)) {
-            if (current.getClass() == Door.class) return ((Door)current).isOpen();
-            else return false;
+            return false;
         } else if (isOn(Player.class)) {
             enemy.collide(player);
         } else if (isOn(Portal.class)) {

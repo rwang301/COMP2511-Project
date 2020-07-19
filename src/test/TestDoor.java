@@ -18,7 +18,7 @@ public class TestDoor {
     Door door2 = new Door(4, 4);
     Door door3 = new Door(3, 4);
 
-    public void initilise() {
+    public void initialise() {
         dungeon.setPlayer(player);
         dungeon.addEntity(key);
         key.setDoor(door);
@@ -35,7 +35,7 @@ public class TestDoor {
      */
     @Test
     public void testDoorStaysOpen() {
-        initilise();
+        initialise();
         player.moveRight();
         player.moveRight();
         assertEquals(player.getX(), 2);
@@ -57,7 +57,7 @@ public class TestDoor {
      */
     @Test
     public void testDoorClosed() {
-        initilise();
+        initialise();
         player.moveDown();
         player.moveRight();
         player.moveRight();
@@ -75,7 +75,7 @@ public class TestDoor {
      */
     @Test
     public void testThreeDoors() {
-        initilise();
+        initialise();
         int count = player.getEntities(Door.class).size();
         assertEquals(count, 3);
     }

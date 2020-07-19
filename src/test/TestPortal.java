@@ -14,7 +14,7 @@ public class TestPortal {
     Portal portal1 = new Portal(0, 1);
     Portal portal2 = new Portal(1, 0);
 
-    public void initilise() {
+    public void initialise() {
         dungeon.setPlayer(player);
         portal1.setPortal(portal2);
         portal2.setPortal(portal1);
@@ -28,7 +28,7 @@ public class TestPortal {
      */
     @Test
     public void testPlayer() {
-        initilise();
+        initialise();
         player.moveDown();
         assertEquals(player.getX(), 1);
         assertEquals(player.getY(), 0);
@@ -40,7 +40,7 @@ public class TestPortal {
      */
     @Test
     public void testEnemy() {
-        initilise();
+        initialise();
         // TODO test enemy moving through a portal
     }
 }

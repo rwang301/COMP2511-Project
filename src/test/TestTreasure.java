@@ -18,7 +18,7 @@ public class TestTreasure {
     private Treasure treasure2 = new Treasure(0, 2);
     private Component goalTreasure = new GoalTreasure();
 
-    private void initilise() {
+    private void initialise() {
         dungeon.setPlayer(player);
         dungeon.setGoal(goalTreasure);
         dungeon.addEntity(treasure1);
@@ -31,7 +31,7 @@ public class TestTreasure {
      */
     @Test
     public void testTreasurePickUp() {
-        initilise();
+        initialise();
         assertTrue(dungeon.getEntities().contains(treasure1));
         player.moveDown();
         assertEquals(player.getTreasure(), 1);

@@ -19,7 +19,7 @@ public class TestSwitch {
     private Component goal = new GoalBoulders();
     Switch s = new Switch(2, 1);
 
-    public void initilise() {
+    public void initialise() {
         dungeon.setGoal(goal);
         dungeon.setPlayer(player);
         dungeon.addEntity(s);
@@ -31,7 +31,7 @@ public class TestSwitch {
      */
     @Test
     public void testSwitchTriggered() {
-        initilise();
+        initialise();
         Boulder b = new Boulder(1, 1);
         dungeon.addEntity(b);
         assertFalse(s.isTriggered());
@@ -58,7 +58,7 @@ public class TestSwitch {
      */
     @Test
     public void testPlayerOnSwitch() {
-        initilise();
+        initialise();
         player.moveRight();
         player.moveRight();
         assertTrue(player.isOn(s));
@@ -79,7 +79,7 @@ public class TestSwitch {
      */
     @Test
     public void testSwitchGoal() {
-        initilise();
+        initialise();
         Boulder b = new Boulder(1, 1);
         dungeon.addEntity(b);
         assertFalse(dungeon.isComplete());
