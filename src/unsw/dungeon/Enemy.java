@@ -28,7 +28,7 @@ public class Enemy extends Entity implements Observer {
             public void run() {
                 strategy.move();
             }
-        }, 5000, 500);
+        }, 3000, 500);
     }
 
     public void cancelTimer() {
