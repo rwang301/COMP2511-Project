@@ -13,22 +13,29 @@ import unsw.dungeon.Player;
 public class TestEnemy {
     private Dungeon dungeon = new Dungeon(4, 4);
     private Player player = new Player(dungeon, 0, 0);
-    private Enemy enemy1 = new Enemy(dungeon, 1, 1);
-    private Enemy enemy2 = new Enemy(dungeon, 1, 2);
-    private Enemy enemy3 = new Enemy(dungeon, 1, 3);
-    private Enemy enemy4 = new Enemy(dungeon, 2, 1);
-    private Enemy enemy5 = new Enemy(dungeon, 2, 2);
-    private Enemy enemy6 = new Enemy(dungeon, 2, 3);
+    private Enemy enemy = new Enemy(dungeon, 0, 3);
 
     public void initialise() {
         dungeon.setPlayer(player);
-        dungeon.addEntity(enemy1);
-        enemy1.initialise(player);
+        dungeon.addEntity(enemy);
+        enemy.initialise(player);
     }
 
     /**
-     * Given the player does not hold a potion. Then the enemies move toward them. 
+     * Given the player does not hold a potion. Then the enemies move toward them.
      */
+    @Test
+    public void testMoveToward() {
+        initialise();
+        try {
+            Thread.sleep(1050);
+            assertEquals(enemy.getX(), 0);
+            assertEquals(enemy.getY(), 2);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+        }
+    }
+
 
      /**
       * Given the player holds a potion. Then the enemies move away from them. 

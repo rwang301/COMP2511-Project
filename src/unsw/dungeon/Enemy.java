@@ -32,7 +32,7 @@ public class Enemy extends Entity implements Observer {
             public void run() {
                 strategy.move();
             }
-        }, 3000, 500);
+        }, 1000, 500);
     }
 
     public void cancelTimer() {

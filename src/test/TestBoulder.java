@@ -276,4 +276,11 @@ public class TestBoulder {
         assertCoordinates(0, 1, 2, 1);
         assertTrue(dungeon.isComplete());
     }
+
+    @Test
+    public void testInvalidPush() {
+        initialise();
+        player.moveBoulder("down");
+        assertCoordinates(0, 1, 1, 1);
+    }
 }

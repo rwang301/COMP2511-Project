@@ -12,7 +12,6 @@ import unsw.dungeon.Dungeon;
 import unsw.dungeon.GoalEnemies;
 import unsw.dungeon.Potion;
 import unsw.dungeon.Player;
-import java.time.LocalTime;
 
 public class TestPotion {
     private Dungeon dungeon = new Dungeon(4, 4);
@@ -35,15 +34,17 @@ public class TestPotion {
     }
 
     /**
-      * Given a player has picked up a potion. When 5 seconds of time has passed. Then the potion effect disappears.
-      */
+     * Given a player has picked up a potion.
+     * When 5 seconds of time has passed.
+     * Then the potion effect disappears.
+     */
     @Test
     public void testCanPickup() {
         initialise();
         player.moveRight();
         assertFalse(dungeon.getEntities().contains(potion1));
         assertTrue(player.getPotion() != null);
-        LocalTime startTime = java.time.LocalTime.now();
+        System.currentTimeMillis();
     }
 
     /**
