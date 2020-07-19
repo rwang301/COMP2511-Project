@@ -31,9 +31,7 @@ public abstract class Strategy {
 	}
 
     List<Entity> getEntities(Class<?> entityType) {
-        // TODO null pointer exception when combine sword and potion to collide with enemies
-        System.out.println(entityType);
-        System.out.println(dungeon);
+        // TODO null pointer exception when try to kill enemies with both sword and potion
         return dungeon.getEntities().stream().filter(entity -> entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
     }
 
