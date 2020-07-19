@@ -17,6 +17,7 @@ public class TestSword {
     private Player player = new Player(dungeon, 0, 0);
     private Sword sword1 = new Sword(1, 0);
     private Sword sword2 = new Sword(2, 0);
+    //TODO should be goalEnemies potential bug?
     private Component goalTreasure = new GoalTreasure();
     private Enemy enemy1 = new Enemy(dungeon, 1, 1);
     private Enemy enemy2 = new Enemy(dungeon, 1, 2);
@@ -52,6 +53,7 @@ public class TestSword {
     @Test
     public void testCanPickup() {
         initialise();
+        assertTrue(dungeon.getEntities().contains(sword1));
         player.moveRight();
         assertFalse(dungeon.getEntities().contains(sword1));
         assertTrue(player.getSword() != null);
@@ -65,6 +67,7 @@ public class TestSword {
     @Test
     public void testCannotPickup() {
         testCanPickup();
+        assertTrue(dungeon.getEntities().contains(sword2));
         player.moveRight();
         assertTrue(dungeon.getEntities().contains(sword2));
     }
@@ -95,7 +98,8 @@ public class TestSword {
         player.moveRight();
         player.moveUp();
         player.moveUp();
-        player.moveLeft();
+        player.moveLeft(); // Pick up a second sword
+        assertFalse(dungeon.isComplete());
         player.moveDown();
         assertTrue(dungeon.isComplete());
     }

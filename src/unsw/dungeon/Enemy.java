@@ -32,7 +32,7 @@ public class Enemy extends Entity implements Observer {
             public void run() {
                 strategy.move();
             }
-        }, 1000, 500); // Be careful when change the speed it will fail the JUnit tests
+        }, 1000, 500); // Be careful when change the delay and period it will fail the JUnit tests
     }
 
     public void cancelTimer() {

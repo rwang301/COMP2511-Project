@@ -40,59 +40,8 @@ public class TestEnemy {
     }
 
     /**
-     * Given the player does not hold a potion.
-     * Then the enemies move toward them.
-     */
-    @Test
-    public void testMoveToward() {
-        initialise();
-        sleep(1050);
-        assertCoordinates(0, 1);
-    }
-
-    /**
-     * Given the player holds a potion.
-     * Then the enemies move away from them.
-     */
-    @Test
-    public void testPotion() {
-        initialise();
-        Potion potion = new Potion(0, 1);
-        dungeon.addEntity(potion);
-        player.moveDown();
-        // TODO werid doesn't even work
-        assertTrue(player.getPotion() != null);
-        assertCoordinates(0, 2);
-        assertFalse(dungeon.isComplete());
-    }
-
-    /**
-     * Given the player does not hold a potion.
-     * When the enemies cannot move any closer to the player.
-     * Then the enemies stop.
-     */
-    @Test
-    public void testStop() {
-        initialise();
-        Wall wall1 = new Wall(0, 1);
-        Wall wall2 = new Wall(1, 0);
-        dungeon.addEntity(wall1);
-        dungeon.addEntity(wall2);
-        sleep(1050);
-        assertCoordinates(1, 2);
-        sleep(500);
-        assertCoordinates(1, 1);
-        sleep(500);
-        assertCoordinates(2, 1);
-        sleep(500);
-        assertCoordinates(2, 0);
-        sleep(500);
-        assertCoordinates(2, 0);
-    }
-
-    /**
      * Given a wall is on a square. When an enemy tries to move onto that square.
-     * The enemy stays where they were. 
+     * The enemy stays where they were.
      */
     @Test
     public void testBlock() {
@@ -101,19 +50,6 @@ public class TestEnemy {
         dungeon.addEntity(wall);
         sleep(1050);
         assertCoordinates(1, 2);
-    }
-    
-    /**
-     * Given a player does not hold a sword nor a potion.
-     * When an enemy collides with the player.
-     * Then the player dies.
-     */
-    @Test
-    public void testDie() {
-        testMoveToward();
-        sleep(500);
-        assertCoordinates(0, 0);
-        assertFalse(dungeon.isComplete());
     }
 
     /**
@@ -145,5 +81,69 @@ public class TestEnemy {
         sleep(1050);
         assertCoordinates(1, 0);
         assertTrue(enemy.isOn(portal2));
+    }
+
+    /**
+     * Given the player does not hold a potion.
+     * Then the enemies move toward them.
+     */
+    @Test
+    public void testMoveToward() {
+        initialise();
+        sleep(1050);
+        assertCoordinates(0, 1);
+    }
+
+    /**
+     * Given the player holds a potion.
+     * Then the enemies move away from them.
+     */
+    @Test
+    public void testPotion() {
+        initialise();
+        Potion potion = new Potion(0, 1);
+        dungeon.addEntity(potion);
+        player.moveDown(); // Pick up a potion
+        // TODO werid doesn't even work
+        assertTrue(player.getPotion() != null);
+        assertCoordinates(0, 2);
+        assertFalse(dungeon.isComplete());
+    }
+
+    /**
+     * Given the player does not hold a potion.
+     * When the enemies cannot move any closer to the player.
+     * Then the enemies stop.
+     */
+    @Test
+    public void testStop() {
+        initialise();
+        Wall wall1 = new Wall(0, 1);
+        Wall wall2 = new Wall(1, 0);
+        dungeon.addEntity(wall1);
+        dungeon.addEntity(wall2);
+        sleep(1050);
+        assertCoordinates(1, 2);
+        sleep(500);
+        assertCoordinates(1, 1);
+        sleep(500);
+        assertCoordinates(2, 1);
+        sleep(500);
+        assertCoordinates(2, 0);
+        sleep(500);
+        assertCoordinates(2, 0);
+    }
+    
+    /**
+     * Given a player does not hold a sword nor a potion.
+     * When an enemy collides with the player.
+     * Then the player dies.
+     */
+    @Test
+    public void testDie() {
+        testMoveToward();
+        sleep(500);
+        assertCoordinates(0, 0);
+        assertFalse(dungeon.isComplete());
     }
 }
