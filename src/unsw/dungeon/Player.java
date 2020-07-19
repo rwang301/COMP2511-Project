@@ -199,7 +199,6 @@ public class Player extends Entity implements Subject {
             backpack.setItem((Pickupable)current, this);
             disappear(current);
         }
-        if (current.getClass() == Treasure.class) complete();
     }
 
     /**
@@ -225,27 +224,31 @@ public class Player extends Entity implements Subject {
 
 
     public void moveUp() {
-        if (getY() > 0)
+        if (getY() > 0) {
             y().set(getY() - 1);
-        action(y(), getY() + 1);
+            action(y(), getY() + 1);
+        }
     }
 
     public void moveDown() {
-        if (getY() < dungeon.getHeight() - 1)
+        if (getY() < dungeon.getHeight() - 1) {
             y().set(getY() + 1);
-        action(y(), getY() - 1);
+            action(y(), getY() - 1);
+        }
     }
 
     public void moveLeft() {
-        if (getX() > 0)
+        if (getX() > 0) {
             x().set(getX() - 1);
-        action(x(), getX() + 1);
+            action(x(), getX() + 1);
+        }
     }
 
     public void moveRight() {
-        if (getX() < dungeon.getWidth() - 1)
+        if (getX() < dungeon.getWidth() - 1) {
             x().set(getX() + 1);
-        action(x(), getX() - 1);
+            action(x(), getX() - 1);
+        }
     }
 
     /**
