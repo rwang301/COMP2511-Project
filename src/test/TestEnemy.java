@@ -40,7 +40,8 @@ public class TestEnemy {
     }
 
     /**
-     * Given the player does not hold a potion. Then the enemies move toward them.
+     * Given the player does not hold a potion.
+     * Then the enemies move toward them.
      */
     @Test
     public void testMoveToward() {
@@ -59,14 +60,35 @@ public class TestEnemy {
         Potion potion = new Potion(0, 1);
         dungeon.addEntity(potion);
         player.moveDown();
+        // TODO werid doesn't even work
         assertTrue(player.getPotion() != null);
         assertCoordinates(0, 2);
         assertFalse(dungeon.isComplete());
     }
 
     /**
-     * Given the player does not hold a potion. When the enemies cannot move any closer to the player. Then the enemies stop. 
+     * Given the player does not hold a potion.
+     * When the enemies cannot move any closer to the player.
+     * Then the enemies stop.
      */
+    @Test
+    public void testStop() {
+        initialise();
+        Wall wall1 = new Wall(0, 1);
+        Wall wall2 = new Wall(1, 0);
+        dungeon.addEntity(wall1);
+        dungeon.addEntity(wall2);
+        sleep(1050);
+        assertCoordinates(1, 2);
+        sleep(500);
+        assertCoordinates(1, 1);
+        sleep(500);
+        assertCoordinates(2, 1);
+        sleep(500);
+        assertCoordinates(2, 0);
+        sleep(500);
+        assertCoordinates(2, 0);
+    }
 
     /**
      * Given a wall is on a square. When an enemy tries to move onto that square.
@@ -74,9 +96,9 @@ public class TestEnemy {
      */
     @Test
     public void testBlock() {
+        initialise();
         Wall wall = new Wall(0, 1);
         dungeon.addEntity(wall);
-        initialise();
         sleep(1050);
         assertCoordinates(1, 2);
     }
@@ -90,6 +112,7 @@ public class TestEnemy {
     public void testDie() {
         testMoveToward();
         sleep(500);
+        assertCoordinates(0, 0);
         assertFalse(dungeon.isComplete());
     }
 
@@ -112,14 +135,13 @@ public class TestEnemy {
      */
     @Test
     public void testPortal() {
+        initialise();
         Portal portal1 = new Portal(0, 1);
         Portal portal2 = new Portal(1, 0);
         portal1.setPortal(portal2);
         portal2.setPortal(portal1);
         dungeon.addEntity(portal1);
         dungeon.addEntity(portal2);
-
-        initialise();
         sleep(1050);
         assertCoordinates(1, 0);
         assertTrue(enemy.isOn(portal2));

@@ -280,11 +280,22 @@ public class TestBoulder {
     @Test
     public void testInvalidPush() {
         initialise();
-        player.moveBoulder("down");
-        assertCoordinates(0, 1, 1, 1);
         player.moveBoulder("left");
         assertCoordinates(0, 1, 1, 1);
+
+        player.moveUp();
+        player.moveRight();
         player.moveBoulder("up");
-        assertCoordinates(0, 1, 1, 1);
+        assertCoordinates(1, 0, 1, 1);
+
+        player.moveRight();
+        player.moveDown();
+        player.moveBoulder("right");
+        assertCoordinates(2, 1, 1, 1);
+
+        player.moveDown();
+        player.moveLeft();
+        player.moveBoulder("down");
+        assertCoordinates(1, 2, 1, 1);
     }
 }
