@@ -8,6 +8,8 @@ import unsw.dungeon.Dungeon;
 import unsw.dungeon.Player;
 
 public class TestPlayer {
+    private Dungeon dungeon = new Dungeon(2, 2);
+    private Player player = new Player(dungeon, 0, 0);
 
     /**
      * Given that a user hits the Up-arrow key on the keyboard. Then the player moves up to the adjacent square. 
@@ -17,31 +19,29 @@ public class TestPlayer {
      */
     @Test
     public void testMove() {
-        Dungeon dungeon = new Dungeon(4, 4);
-        Player player = new Player(dungeon, 1, 2);
-        assertEquals(player.getX(), 1);
-        assertEquals(player.getY(), 2);
+        assertEquals(player.getX(), 0);
+        assertEquals(player.getY(), 0);
+
         player.moveRight();
-        assertEquals(player.getX(), 2);
-        assertEquals(player.getY(), 2);
+        assertEquals(player.getX(), 1);
+        assertEquals(player.getY(), 0);
         player.moveDown();
-        assertEquals(player.getX(), 2);
-        assertEquals(player.getY(), 3);
+        assertEquals(player.getX(), 1);
+        assertEquals(player.getY(), 1);
         player.moveLeft();
-        assertEquals(player.getX(), 1);
-        assertEquals(player.getY(), 3);
+        assertEquals(player.getX(), 0);
+        assertEquals(player.getY(), 1);
         player.moveUp();
-        assertEquals(player.getX(), 1);
-        assertEquals(player.getY(), 2);
+        assertEquals(player.getX(), 0);
+        assertEquals(player.getY(), 0);
     }
 
     /**
-     *  If a player tries to move outside the dimensions of the dungeon, then nothing happens.
+     * Given a player tries to move outside the dimensions of the dungeon.
+     * Then nothing happens.
      */
     @Test
     public void testOutsideDungeon() {
-        Dungeon dungeon = new Dungeon(2, 2);
-        Player player = new Player(dungeon, 0, 0);
         player.moveLeft();
         assertEquals(player.getX(), 0);
         assertEquals(player.getY(), 0);
@@ -51,14 +51,12 @@ public class TestPlayer {
 
         player.moveDown();
         player.moveDown();
-        player.moveDown();
         assertEquals(player.getX(), 0);
         assertEquals(player.getY(), 1);
         player.moveLeft();
         assertEquals(player.getX(), 0);
         assertEquals(player.getY(), 1);
 
-        player.moveRight();
         player.moveRight();
         player.moveRight();
         assertEquals(player.getX(), 1);
