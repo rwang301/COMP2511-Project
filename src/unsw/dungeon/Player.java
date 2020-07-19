@@ -1,7 +1,7 @@
 package unsw.dungeon;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 import javafx.beans.property.IntegerProperty;
@@ -21,7 +21,7 @@ public class Player extends Entity implements Subject {
     private Entity current = this;
     private Dungeon dungeon;
     private Backpack backpack = new Backpack();
-    private List<Observer> enemies = new CopyOnWriteArrayList<>();
+    private List<Observer> enemies = new ArrayList<Observer>();
 
     /**
      * Create a player positioned in square (x,y)
@@ -101,6 +101,7 @@ public class Player extends Entity implements Subject {
      * @param enemy
      */
     void kill(Enemy enemy) {
+        enemy.cancelTimer();
         disappear(enemy);
         if (getPotion() != null) getPotion().detach(enemy);
         detach(enemy);

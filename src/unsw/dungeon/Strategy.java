@@ -31,13 +31,12 @@ public abstract class Strategy {
 	}
 
     List<Entity> getEntities(Class<?> entityType) {
-        // TODO null pointer exception when enemies move toward the player who holds a sword
-        return dungeon.getEntities().stream().filter(entity -> entity != null && entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
+        return dungeon.getEntities().stream().filter(entity -> entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
     }
 
     boolean isOn(Class<?> entityType) {
         for (Entity entity: getEntities(entityType)) {
-            if (enemy.isOn(entity)) {
+            if (!enemy.equals(entity) && enemy.isOn(entity)) {
                 current = entity;
                 return true;
             }
@@ -47,7 +46,7 @@ public abstract class Strategy {
 
     boolean canMove() {
         if (visited.contains(enemy)) return false;
-        if (isOn(Blockable.class)) {
+        if (isOn(Blockable.class) || isOn(Enemy.class)) {
             if (current.getClass() == Door.class) return ((Door)current).isOpen();
             else return false;
         } else if (isOn(Player.class)) {

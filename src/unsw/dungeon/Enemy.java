@@ -7,6 +7,7 @@ public class Enemy extends Entity implements Observer {
     private Strategy strategy;
     private Strategy moveToward;
     private Strategy moveAway;
+    private Timer timer;
 
     public Enemy(Dungeon dungeon, int x, int y) {
         super(x, y);
@@ -21,13 +22,18 @@ public class Enemy extends Entity implements Observer {
         moveAway.setPlayer(player);
         moveAway.setCurrentPosition();
 
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 strategy.move();
             }
-        }, 3000, 500);
+        }, 5000, 500);
+    }
+
+    public void cancelTimer() {
+        timer.cancel();
+        timer.purge();
     }
 
 	public void collide(Player player) {

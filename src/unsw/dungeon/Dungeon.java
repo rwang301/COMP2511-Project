@@ -3,8 +3,8 @@
  */
 package unsw.dungeon;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A dungeon in the interactive dungeon player.
@@ -18,8 +18,8 @@ import java.util.List;
 public class Dungeon implements Subject {
     
     private int width, height;
-    private List<Entity> entities;
-    private Player player;
+    private List<Entity> entities = new CopyOnWriteArrayList<>();
+    private Player player = null;
     private Observer dungeonLoader;
     /**
      * A temporary copy of an entity to be updated in the UI
@@ -32,8 +32,6 @@ public class Dungeon implements Subject {
     public Dungeon(int width, int height) {
         this.width = width;
         this.height = height;
-        this.entities = new ArrayList<>();
-        this.player = null;
     }
 
     public int getWidth() {

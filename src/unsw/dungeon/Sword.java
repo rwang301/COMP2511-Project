@@ -15,6 +15,10 @@ public class Sword extends Entity implements Pickupable {
 		hits++;
 	}
 
+    /**
+     * Check if the sword is still capable of hitting enemies
+     * @return true if the sword has not hit 5 enemies yet otherwise false
+     */
 	public boolean capable() {
 		return hits < 5;
 	}
