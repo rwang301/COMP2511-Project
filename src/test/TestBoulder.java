@@ -124,7 +124,13 @@ public class TestBoulder {
         Door door = new Door(1, 0);
         dungeon.addEntity(door);
         key.setDoor(door);
+        player.moveDown();
+        player.moveRight();
+        player.moveBoulder("up");
+        assertCoordinates(1, 2, 1, 1);
 
+        player.moveLeft();
+        player.moveUp();
         player.moveUp(); // Pick up a key
         player.moveRight(); // Open a door
         player.moveLeft();
