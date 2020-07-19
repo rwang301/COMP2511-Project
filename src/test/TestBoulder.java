@@ -5,8 +5,10 @@ import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import unsw.dungeon.Dungeon;
+import unsw.dungeon.Key;
 import unsw.dungeon.Player;
 import unsw.dungeon.Boulder;
+import unsw.dungeon.Door;
 import unsw.dungeon.Wall;
 
 public class TestBoulder {
@@ -109,8 +111,46 @@ public class TestBoulder {
     }
 
     /**
+     * Given a player tries to push a boulder.
+     * When there is a door on the adjacent sqaure in the direction of pushing.
+     * Given the door is open.
+     * Then the boulder moves to that square sharing with the door and the player stays where they were.
+     */
+    @Test
+    public void testOpenDoor() {
+        initialise();
+        Key key = new Key(0, 0);
+        dungeon.addEntity(key);
+        Door door = new Door(1, 0);
+        dungeon.addEntity(door);
+        key.setDoor(door);
+
+        player.moveUp(); // Pick up a key
+        player.moveRight(); // Open a door
+        player.moveLeft();
+        player.moveDown();
+        player.moveDown();
+        player.moveRight();
+        player.moveBoulder("up");
+        assertCoordinates(1, 2, 1, 0);
+
+        player.moveUp();
+        player.moveLeft();
+        player.moveUp();
+        player.moveBoulder("right");
+        assertCoordinates(0, 0, 2, 0);
+
+        player.moveRight();
+        player.moveDown();
+        player.moveRight();
+        player.moveRight();
+        player.moveUp();
+        player.moveBoulder("left");
+        assertCoordinates(3, 0, 1, 0);
+    }
+
+    /**
      * Given a player tries to move to a square where a boulder is on.
-     * When there is another entity on the adjacent square in the direction of pushing.
      * Then the player and the boulder stay where they were.
      */
     @Test

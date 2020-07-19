@@ -27,7 +27,7 @@ public class Boulder extends Entity implements Blockable {
             if (player.hasEntity((getX() - 1), getY())) return;
             untrigger(player);
             x().set(getX() - 1);
-        } else {
+        } else {// push up
             if (player.hasEntity(getX(), (getY() - 1))) return;
             untrigger(player);
             y().set(getY() - 1);
