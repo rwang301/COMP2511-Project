@@ -41,10 +41,14 @@ public class Boulder extends Entity implements Blockable {
      * If the boulder is on a floor switch before being pushed then untrigger the floor switch
      * @param player
      */
-    private void untrigger(Player player) {
-        player.getEntities(Switch.class).forEach(floorSwitch -> {
-            if (this.isOn(floorSwitch)) ((Switch)floorSwitch).setTriggered();
-        });
+    private boolean untrigger(Player player) {
+        for (Entity floorSwitch: player.getEntities(Switch.class)) {
+            if (this.isOn(floorSwitch)) {
+                ((Switch)floorSwitch).setTriggered();
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -53,8 +57,9 @@ public class Boulder extends Entity implements Blockable {
      * @param player
      */
     private void trigger(Player player) {
-        untrigger(player);
-        player.complete();
+        if (untrigger(player)) {
+            player.complete();
+        }
     }
 
     @Override
