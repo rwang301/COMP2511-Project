@@ -16,7 +16,7 @@ public class Enemy extends Entity implements Observer {
         strategy = moveToward;
     }
 
-    public void initilise(Player player) {
+    public void initialise(Player player) {
         moveToward.setPlayer(player);
         moveToward.setCurrentPosition();
         moveAway.setPlayer(player);
