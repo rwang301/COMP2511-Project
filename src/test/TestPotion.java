@@ -1,6 +1,5 @@
 package test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -90,8 +89,12 @@ public class TestPotion {
      */
     @Test
     public void testEffect() {
-        testKill();
+        testPickup();
+        sleep(5000);
+        assertTrue(enemy1.getStrategy() == enemy1.getMoveToward());
+        assertTrue(enemy2.getStrategy() == enemy2.getMoveToward());
 
+        /* TODO
         sleep(1050);
         assertEquals(enemy2.getX(), 2);
         assertEquals(enemy2.getY(), 2);
@@ -107,7 +110,6 @@ public class TestPotion {
 
         assertTrue(enemy1.getStrategy() == enemy1.getMoveAway());
         assertTrue(enemy2.getStrategy() == enemy2.getMoveAway());
-        /* TODO
         sleep(1050);
         assertTrue(enemy1.getStrategy() == enemy1.getMoveToward());
         assertTrue(enemy2.getStrategy() == enemy2.getMoveToward());
