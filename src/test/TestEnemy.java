@@ -116,7 +116,9 @@ public class TestEnemy {
         sleep(500);
         assertCoordinates(2, 1);
         sleep(500);
-        assertCoordinates(2, 0);
+        assertCoordinates(1, 1);
+        sleep(500);
+        assertCoordinates(1, 0);
         sleep(500);
         assertCoordinates(2, 0);
     }
