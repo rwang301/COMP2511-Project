@@ -161,5 +161,30 @@ public class TestEnemy {
     @Test
     public void testMovement() {
         initialise();
+        Wall wall1 = new Wall(0, 1);
+        Wall wall2 = new Wall(1, 1);
+        dungeon.addEntity(wall1);
+        dungeon.addEntity(wall2);
+
+        sleep(1050);
+        assertCoordinates(1, 2);
+
+        sleep(500);
+        assertCoordinates(2, 2);
+
+        sleep(500);
+        assertCoordinates(2, 1);
+
+        sleep(500);
+        assertCoordinates(2, 0);
+
+        sleep(500);
+        assertCoordinates(1, 0);
+
+        sleep(500);
+        assertCoordinates(0, 0);
+
+        assertFalse(dungeon.isComplete());
+        assertTrue(enemy.isOn(player));
     }
 }
