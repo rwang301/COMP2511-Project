@@ -250,7 +250,7 @@ public class TestBoulder {
     /**
      * Given a player tries to push a boulder.
      * When there is a floor switch on the adjacent square in the direction of pushing.
-     * Then the and the player stay where they were. 
+     * Then the boulder and the player stay where they were.
      */
     @Test
     public void testSwitch() {
@@ -266,7 +266,7 @@ public class TestBoulder {
     /**
      * Given a player tries to push a boulder.
      * When there is an entity on a floor switch on the adjacent square in the direction of pushing.
-     * Then the and the player stay where they were.
+     * Then the boulder and the player stay where they were.
      */
     @Test
     public void testSwitchBlock() {

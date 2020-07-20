@@ -7,7 +7,7 @@ public class Sword extends Entity implements Pickupable {
         super(x, y);
     }
 
-	public void setHit() {
+	void setHit() {
 		hits++;
 	}
 
@@ -15,7 +15,7 @@ public class Sword extends Entity implements Pickupable {
      * Check if the sword is still capable of hitting enemies
      * @return true if the sword has not hit 5 enemies yet otherwise false
      */
-	public boolean capable() {
+	boolean capable() {
 		return hits < 5;
 	}
 }

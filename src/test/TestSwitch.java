@@ -11,19 +11,22 @@ import unsw.dungeon.GoalBoulders;
 import unsw.dungeon.Player;
 import unsw.dungeon.Boulder;
 import unsw.dungeon.Switch;
+import unsw.dungeon.Treasure;
 import unsw.dungeon.Component;
 
 public class TestSwitch {
     private Dungeon dungeon = new Dungeon(4, 4);
     private Player player = new Player(dungeon, 0, 1);
-    private Component goal = new GoalBoulders();
-    Switch s = new Switch(2, 1);
+    private Boulder boulder = new Boulder(1, 1);
+    private Switch floorSwitch = new Switch(2, 1);
+    private Component goalBoulders = new GoalBoulders();
 
     public void initialise() {
-        dungeon.setGoal(goal);
+        dungeon.setGoal(goalBoulders);
         dungeon.setPlayer(player);
         dungeon.addEntity(player);
-        dungeon.addEntity(s);
+        dungeon.addEntity(boulder);
+        dungeon.addEntity(floorSwitch);
     }
 
     /**
@@ -33,11 +36,11 @@ public class TestSwitch {
     @Test
     public void testSwitchTriggered() {
         initialise();
-        Boulder b = new Boulder(1, 1);
-        dungeon.addEntity(b);
-        assertFalse(s.isTriggered());
+        assertFalse(floorSwitch.isTriggered());
+        assertFalse(dungeon.isComplete());
         player.moveBoulder("right");
-        assertTrue(s.isTriggered());
+        assertTrue(floorSwitch.isTriggered());
+        assertTrue(dungeon.isComplete());
     }
 
     /**
@@ -49,7 +52,7 @@ public class TestSwitch {
         testSwitchTriggered();
         player.moveRight();
         player.moveBoulder("right");
-        assertFalse(s.isTriggered());
+        assertFalse(floorSwitch.isTriggered());
     }
 
     /**
@@ -60,33 +63,29 @@ public class TestSwitch {
     @Test
     public void testPlayerOnSwitch() {
         initialise();
+        player.moveDown();
         player.moveRight();
         player.moveRight();
-        assertTrue(player.isOn(s));
+        player.moveUp();
+        assertTrue(player.isOn(floorSwitch));
+
         player.moveRight();
         assertEquals(player.getX(), 3);
         assertEquals(player.getY(), 1);
     }
 
     /**
-     * Given a floor switch has no entities on it.
-     * When an enemy tries to go over the floor switch.
-     * Then the enemy goes through.
-     */
-    //TODO: add tests
-
-    /**
-     * There are other entities appearing on top of a floor switch. 
+     * There are other entities appearing on top of a floor switch.
      */
     @Test
     public void testSwitchGoal() {
         initialise();
-        Boulder b = new Boulder(1, 1);
-        dungeon.addEntity(b);
-        assertFalse(dungeon.isComplete());
+        Treasure treasure = new Treasure(2, 1);
+        dungeon.addEntity(treasure);
         player.moveBoulder("right");
-        assertTrue(dungeon.isComplete());
-
-        //TODO: add entities test
+        assertEquals(player.getX(), 0);
+        assertEquals(player.getY(), 1);
+        assertEquals(boulder.getX(), 1);
+        assertEquals(boulder.getY(), 1);
     }
 }

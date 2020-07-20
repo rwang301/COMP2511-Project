@@ -2,9 +2,7 @@ package unsw.dungeon;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -28,7 +26,6 @@ public abstract class DungeonLoader implements Observer {
     private Map<Integer, Portal> portals = new HashMap<>();
     private Map<Integer, Door> doors = new HashMap<>();
     private Map<Integer, Key> keys = new HashMap<>();
-    private List<Enemy> enemies = new ArrayList<>();
 
     public DungeonLoader(String filename) throws FileNotFoundException {
         json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename)));
@@ -52,11 +49,18 @@ public abstract class DungeonLoader implements Observer {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
 
-        enemies.forEach(enemy -> player.attach(enemy));
-        enemies.forEach(enemy -> enemy.initialise(player));
+        player.getEntities(Enemy.class).forEach(enemy -> player.attach((Observer)enemy));
+        player.getEnemies().forEach(enemy -> ((Enemy)enemy).initialise(player));
 
         dungeon.attach(this);
         dungeon.setGoal(goal);
+        player.getEntities(Switch.class).forEach(floorSwitch -> {
+            for (Entity boulder: player.getEntities(Boulder.class)) {
+                if (boulder.isOn(floorSwitch)) {
+                    ((Switch)floorSwitch).setTriggered();
+                }
+            }
+        });
         return dungeon;
     }
 
@@ -185,7 +189,6 @@ public abstract class DungeonLoader implements Observer {
             break;
         case "enemy":
             Enemy enemy = new Enemy(dungeon, x, y);
-            enemies.add(enemy);
             onLoad(enemy);
             entity = enemy;
             break;

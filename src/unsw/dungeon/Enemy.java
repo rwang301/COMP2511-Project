@@ -47,7 +47,7 @@ public class Enemy extends Entity implements Observer {
         }, 1000, 500); // Be careful when change the delay and period it will fail the JUnit tests
     }
 
-    public void cancelTimer() {
+    void cancelTimer() {
         timer.cancel();
         timer.purge();
     }
@@ -59,7 +59,7 @@ public class Enemy extends Entity implements Observer {
      * otherwise the enemy dies
      * @param player
      */
-	public void collide(Player player) {
+	void collide(Player player) {
         if (player.getSword() != null || player.getPotion() != null) {
             if (player.getPotion() == null) player.hit(); // if the player doesn't have a potion they must've had a sword
             player.kill(this);
@@ -68,18 +68,16 @@ public class Enemy extends Entity implements Observer {
         }
     }
 
-
-    @Override
-    public void update(Subject subject) {
-        // TODO change to pull to lower the coupling with Player
-        if (subject.getClass() == Player.class) strategy = moveAway;
-        else strategy = moveToward;
-    }
-
     /**
      * Reset the visited array
      */
-    public void reset() {
+    void reset() {
         strategy.reset();
+    }
+
+    @Override
+    public void update(Subject subject) {
+        if (subject.getClass() == Player.class) strategy = moveAway;
+        else if (subject.getClass() == Potion.class) strategy = moveToward;
     }
 }
