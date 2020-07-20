@@ -47,6 +47,10 @@ public class TestMovement {
     @Test
     public void testmoveLeft() {
         initialise();
+        assertTrue(enemy.getStrategy() == enemy.getMoveToward());
+        player.moveRight();
+        assertTrue(enemy.getStrategy() == enemy.getMoveAway());
+
         sleep(1050);
         assertCoordinates(0, 0);
 
