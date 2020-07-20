@@ -159,6 +159,7 @@ public class TestMovement {
         enemy2.initialise(player);
         initialise();
 
-        sleep(1000);
+        sleep(1050);
+        assertFalse(dungeon.isComplete());
     }
 }
