@@ -17,7 +17,6 @@ public class TestPotion {
     private Dungeon dungeon = new Dungeon(3, 3);
     private Player player = new Player(dungeon, 0, 0);
     private Potion potion1 = new Potion(0, 1);
-    private Potion potion2 = new Potion(1, 0);
     private Component goalEnemies = new GoalEnemies();
     private Enemy enemy1 = new Enemy(dungeon, 0, 2);
     private Enemy enemy2 = new Enemy(dungeon, 1, 2);
@@ -27,9 +26,10 @@ public class TestPotion {
         dungeon.setPlayer(player);
         dungeon.addEntity(player);
         dungeon.addEntity(potion1);
-        dungeon.addEntity(potion2);
         dungeon.addEntity(enemy1);
         dungeon.addEntity(enemy2);
+        player.attach(enemy1);
+        player.attach(enemy2);
         enemy1.initialise(player);
         enemy2.initialise(player);
     }
@@ -53,6 +53,8 @@ public class TestPotion {
         player.moveDown();
         assertFalse(dungeon.getEntities().contains(potion1));
         assertTrue(player.getPotion() != null);
+        assertTrue(enemy1.getStrategy() == enemy1.getMoveAway());
+        assertTrue(enemy2.getStrategy() == enemy2.getMoveAway());
     }
 
     /**
@@ -64,6 +66,7 @@ public class TestPotion {
     public void testExtend() {
         testPickup(); // pick up a potion
         sleep(1000);
+        // TODO
         player.moveRight();
         player.moveUp(); // Pick up a second potion
     }
@@ -88,14 +91,26 @@ public class TestPotion {
     @Test
     public void testEffect() {
         testKill();
-        assertEquals(player.getX(), 0);
-        assertEquals(player.getY(), 2);
-        assertEquals(enemy2.getX(), 1);
-        assertEquals(enemy2.getY(), 2);
 
-        // TODO should've worked
         sleep(1050);
         assertEquals(enemy2.getX(), 2);
         assertEquals(enemy2.getY(), 2);
+        sleep(500);
+        assertEquals(enemy2.getX(), 2);
+        assertEquals(enemy2.getY(), 1);
+        sleep(500);
+        assertEquals(enemy2.getX(), 2);
+        assertEquals(enemy2.getY(), 0);
+        sleep(2000);
+        assertEquals(enemy2.getX(), 2);
+        assertEquals(enemy2.getY(), 0);
+
+        assertTrue(enemy1.getStrategy() == enemy1.getMoveAway());
+        assertTrue(enemy2.getStrategy() == enemy2.getMoveAway());
+        /* TODO
+        sleep(1050);
+        assertTrue(enemy1.getStrategy() == enemy1.getMoveToward());
+        assertTrue(enemy2.getStrategy() == enemy2.getMoveToward());
+        */
     }
 }

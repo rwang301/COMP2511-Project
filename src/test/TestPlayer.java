@@ -68,7 +68,6 @@ public class TestPlayer {
      */
     @Test
     public void testWall() {
-        Player player = new Player(dungeon, 1, 1);
         Wall w1 = new Wall(1, 0);
         Wall w2 = new Wall(0, 1);
         dungeon.addEntity(w1);

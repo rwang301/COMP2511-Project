@@ -102,7 +102,7 @@ public class TestEnemy {
      * Then the enemies move away from them.
      */
     @Test
-    public void testPotion() {
+    public void testMoveAway() {
         initialise();
         Potion potion = new Potion(0, 1);
         dungeon.addEntity(potion);
