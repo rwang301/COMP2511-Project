@@ -149,7 +149,7 @@ public class TestMovement {
     }
 
     @Test
-    public void testEnemy() {
+    public void testEnemies() {
         player = new Player(dungeon, 3, 2);
         enemy = new Enemy(dungeon, 2, 1);
         Enemy enemy2 = new Enemy(dungeon, 2, 0);
@@ -161,6 +161,15 @@ public class TestMovement {
         initialise();
 
         sleep(1050);
-        assertFalse(dungeon.isComplete());
+        assertEquals(enemy.getX(), 2);
+        assertEquals(enemy2.getX(), 2);
+        assertTrue(enemy.getY() == 1 || enemy.getY() == 0);
+        assertTrue(enemy2.getY() == 1 || enemy2.getY() == 0);
+
+        sleep(500);
+        assertEquals(enemy.getX(), 2);
+        assertEquals(enemy2.getX(), 2);
+        assertTrue(enemy.getY() == 1 || enemy.getY() == 0);
+        assertTrue(enemy2.getY() == 1 || enemy2.getY() == 0);
     }
 }

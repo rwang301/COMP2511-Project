@@ -102,26 +102,5 @@ public class TestPotion {
         sleep(5050);
         assertTrue(enemy1.getStrategy() == enemy1.getMoveToward());
         assertTrue(enemy2.getStrategy() == enemy2.getMoveToward());
-
-        /* TODO
-        sleep(1050);
-        assertEquals(enemy2.getX(), 2);
-        assertEquals(enemy2.getY(), 2);
-        sleep(500);
-        assertEquals(enemy2.getX(), 2);
-        assertEquals(enemy2.getY(), 1);
-        sleep(500);
-        assertEquals(enemy2.getX(), 2);
-        assertEquals(enemy2.getY(), 0);
-        sleep(2000);
-        assertEquals(enemy2.getX(), 2);
-        assertEquals(enemy2.getY(), 0);
-
-        assertTrue(enemy1.getStrategy() == enemy1.getMoveAway());
-        assertTrue(enemy2.getStrategy() == enemy2.getMoveAway());
-        sleep(1050);
-        assertTrue(enemy1.getStrategy() == enemy1.getMoveToward());
-        assertTrue(enemy2.getStrategy() == enemy2.getMoveToward());
-        */
     }
 }
