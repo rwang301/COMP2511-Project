@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class Strategy {
-    private Dungeon dungeon;
     Enemy enemy;
     Player player;
-    Entity current;
+    private Dungeon dungeon;
+    private Entity current;
     private List<Enemy> visited = new ArrayList<>();
 
     /**
