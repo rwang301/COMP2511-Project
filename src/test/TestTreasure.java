@@ -19,8 +19,9 @@ public class TestTreasure {
     private Component goalTreasure = new GoalTreasure();
 
     private void initialise() {
-        dungeon.setPlayer(player);
         dungeon.setGoal(goalTreasure);
+        dungeon.setPlayer(player);
+        dungeon.addEntity(player);
         dungeon.addEntity(treasure1);
         dungeon.addEntity(treasure2);
     }

@@ -16,6 +16,18 @@ public class Enemy extends Entity implements Observer {
         strategy = moveToward;
     }
 
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
+    public Strategy getMoveToward() {
+        return moveToward;
+    }
+
+    public Strategy getMoveAway() {
+        return moveAway;
+    }
+
     /**
      * Initialise a timer for the enemy
      * @param player

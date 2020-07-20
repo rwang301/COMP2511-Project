@@ -33,8 +33,9 @@ public class TestExit {
     private Component goalEnemies = new GoalEnemies();
 
     private void initialise() {
-        dungeon.setPlayer(player);
         dungeon.setGoal(goalExit);
+        dungeon.setPlayer(player);
+        dungeon.addEntity(player);
         dungeon.addEntity(exit);
         dungeon.addEntity(floorSwitch);
         dungeon.addEntity(boulder);

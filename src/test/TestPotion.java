@@ -23,8 +23,9 @@ public class TestPotion {
     private Enemy enemy2 = new Enemy(dungeon, 1, 2);
 
     public void initialise() {
-        dungeon.setPlayer(player);
         dungeon.setGoal(goalEnemies);
+        dungeon.setPlayer(player);
+        dungeon.addEntity(player);
         dungeon.addEntity(potion1);
         dungeon.addEntity(potion2);
         dungeon.addEntity(enemy1);

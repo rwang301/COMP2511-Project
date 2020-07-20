@@ -26,8 +26,9 @@ public class TestSword {
     private Enemy enemy6 = new Enemy(dungeon, 2, 3);
 
     public void initialise() {
-        dungeon.setPlayer(player);
         dungeon.setGoal(goalEnemies);
+        dungeon.setPlayer(player);
+        dungeon.addEntity(player);
         dungeon.addEntity(sword1);
         dungeon.addEntity(sword2);
         dungeon.addEntity(enemy1);

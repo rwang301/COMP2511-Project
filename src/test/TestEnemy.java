@@ -21,6 +21,7 @@ public class TestEnemy {
 
     public void initialise() {
         dungeon.setPlayer(player);
+        dungeon.addEntity(player);
         dungeon.addEntity(enemy);
         player.attach(enemy);
         enemy.initialise(player);
@@ -40,7 +41,8 @@ public class TestEnemy {
     }
 
     /**
-     * Given a wall is on a square. When an enemy tries to move onto that square.
+     * Given a wall is on a square.
+     * When an enemy tries to move onto that square.
      * The enemy stays where they were.
      */
     @Test
@@ -90,6 +92,7 @@ public class TestEnemy {
     @Test
     public void testMoveToward() {
         initialise();
+        assertTrue(enemy.getStrategy() == enemy.getMoveToward());
         sleep(1050);
         assertCoordinates(0, 1);
     }
@@ -101,18 +104,21 @@ public class TestEnemy {
     @Test
     public void testPotion() {
         initialise();
-        Potion potion = new Potion(0, 1); //0,2 timer starts
-        assertCoordinates(0, 2);
-        dungeon.addEntity(potion); //2,0
-        assertCoordinates(0, 2);
-        player.moveDown(); // 2,0
+        Potion potion = new Potion(0, 1);
+        dungeon.addEntity(potion);
+        assertTrue(enemy.getStrategy() == enemy.getMoveToward());
+        player.moveDown(); // Pick up a potion
+        assertTrue(enemy.getStrategy() == enemy.getMoveAway());
         sleep(1050);
-        assertEquals(player.getX(), 0);
-        assertEquals(player.getY(), 1);
-        assertCoordinates(0, 1);
-        assertTrue(player.getPotion() != null);
-        assertFalse(dungeon.isComplete());
-        assertTrue(dungeon.getEntities().contains(enemy));
+        assertCoordinates(1, 2);
+        sleep(500);
+        assertCoordinates(2, 2);
+        sleep(500);
+        assertCoordinates(2, 1);
+        sleep(500);
+        assertCoordinates(2, 0);
+        sleep(500);
+        assertCoordinates(2, 0);
     }
 
     /**
@@ -150,5 +156,10 @@ public class TestEnemy {
         sleep(500);
         assertCoordinates(0, 0);
         assertFalse(dungeon.isComplete());
+    }
+
+    @Test
+    public void testMovement() {
+        initialise();
     }
 }

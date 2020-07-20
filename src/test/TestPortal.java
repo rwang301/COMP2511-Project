@@ -16,10 +16,11 @@ public class TestPortal {
 
     public void initialise() {
         dungeon.setPlayer(player);
-        portal1.setPortal(portal2);
-        portal2.setPortal(portal1);
+        dungeon.addEntity(player);
         dungeon.addEntity(portal1);
         dungeon.addEntity(portal2);
+        portal1.setPortal(portal2);
+        portal2.setPortal(portal1);
     }
 
     /**

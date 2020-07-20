@@ -6,10 +6,16 @@ import org.junit.jupiter.api.Test;
 
 import unsw.dungeon.Dungeon;
 import unsw.dungeon.Player;
+import unsw.dungeon.Wall;
 
 public class TestPlayer {
     private Dungeon dungeon = new Dungeon(2, 2);
     private Player player = new Player(dungeon, 0, 0);
+
+    private void assertCoordinates(int x, int y) {
+        assertEquals(player.getX(), x);
+        assertEquals(player.getY(), y);
+    }
 
     /**
      * Given that a user hits the Up-arrow key on the keyboard. Then the player moves up to the adjacent square. 
@@ -19,21 +25,19 @@ public class TestPlayer {
      */
     @Test
     public void testMove() {
-        assertEquals(player.getX(), 0);
-        assertEquals(player.getY(), 0);
+        assertCoordinates(0, 0);
 
         player.moveRight();
-        assertEquals(player.getX(), 1);
-        assertEquals(player.getY(), 0);
+        assertCoordinates(1, 0);
+
         player.moveDown();
-        assertEquals(player.getX(), 1);
-        assertEquals(player.getY(), 1);
+        assertCoordinates(1, 1);
+
         player.moveLeft();
-        assertEquals(player.getX(), 0);
-        assertEquals(player.getY(), 1);
+        assertCoordinates(0, 1);
+
         player.moveUp();
-        assertEquals(player.getX(), 0);
-        assertEquals(player.getY(), 0);
+        assertCoordinates(0, 0);
     }
 
     /**
@@ -43,23 +47,37 @@ public class TestPlayer {
     @Test
     public void testOutsideDungeon() {
         player.moveLeft();
-        assertEquals(player.getX(), 0);
-        assertEquals(player.getY(), 0);
+        assertCoordinates(0, 0);
+
         player.moveUp();
-        assertEquals(player.getX(), 0);
-        assertEquals(player.getY(), 0);
+        assertCoordinates(0, 0);
 
         player.moveDown();
         player.moveDown();
-        assertEquals(player.getX(), 0);
-        assertEquals(player.getY(), 1);
-        player.moveLeft();
-        assertEquals(player.getX(), 0);
-        assertEquals(player.getY(), 1);
+        assertCoordinates(0, 1);
 
         player.moveRight();
         player.moveRight();
-        assertEquals(player.getX(), 1);
-        assertEquals(player.getY(), 1);
+        assertCoordinates(1, 1);
+    }
+
+    /**
+     * Given a wall is on a square.
+     * When a player tries to move onto that square.
+     * The player stays where they were.
+     */
+    @Test
+    public void testWall() {
+        Player player = new Player(dungeon, 1, 1);
+        Wall w1 = new Wall(1, 0);
+        Wall w2 = new Wall(0, 1);
+        dungeon.addEntity(w1);
+        dungeon.addEntity(w2);
+
+        player.moveDown();
+        assertCoordinates(0, 0);
+
+        player.moveRight();
+        assertCoordinates(0, 0);
     }
 }

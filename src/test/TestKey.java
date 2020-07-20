@@ -20,6 +20,7 @@ public class TestKey {
 
     public void initialise() {
         dungeon.setPlayer(player);
+        dungeon.addEntity(player);
         dungeon.addEntity(key1);
         dungeon.addEntity(key2);
         dungeon.addEntity(door1);

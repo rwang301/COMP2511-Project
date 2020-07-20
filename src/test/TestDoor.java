@@ -25,14 +25,15 @@ public class TestDoor {
 
     public void initialise() {
         dungeon.setPlayer(player);
+        dungeon.addEntity(player);
         dungeon.addEntity(key);
-        key.setDoor(door);
-        key2.setDoor(door2);
-        key3.setDoor(door3);
         dungeon.addEntity(door);
         dungeon.addEntity(door2);
         dungeon.addEntity(door3);
         dungeon.addEntity(enemy);
+        key.setDoor(door);
+        key2.setDoor(door2);
+        key3.setDoor(door3);
         player.attach(enemy);
         enemy.initialise(player);
     }
@@ -74,7 +75,6 @@ public class TestDoor {
             // TODO Auto-generated catch block
         }
     }
-
 
     /**
      * Given a door has not been opened yet.
