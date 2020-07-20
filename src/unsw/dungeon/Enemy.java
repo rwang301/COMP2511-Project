@@ -65,7 +65,7 @@ public class Enemy extends Entity implements Observer {
     }
 
     /**
-     * reset the visited array
+     * Reset the visited array
      */
     public void reset() {
         strategy.reset();
