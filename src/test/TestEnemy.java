@@ -195,6 +195,28 @@ public class TestEnemy {
     @Test
     public void testLocked() {
         initialise();
+        player.x().set(2);
+        player.y().set(0);
+        Wall wall1 = new Wall(1, 0);
+        Wall wall2 = new Wall(2, 1);
+        Wall wall3= new Wall(2, 2);
+        dungeon.addEntity(wall1);
+        dungeon.addEntity(wall2);
+        dungeon.addEntity(wall3);
+
+        sleep(1050);
+        assertCoordinates(1, 2);
+
+        sleep(500);
+        assertCoordinates(1, 1);
+
+        sleep(500);
+        assertCoordinates(0, 1);
+    }
+
+    @Test
+    public void testMove() {
+        initialise();
         enemy.x().set(2);
         enemy.y().set(1);
         assertCoordinates(2, 1);
