@@ -44,8 +44,8 @@ public class TestDoor {
     }
 
     /**
-     * Given a player has opened a door. Then the door stays open throughout the
-     * game.
+     * Given a player has opened a door.
+     * Then the door stays open throughout the game.
      */
     @Test
     public void testDoorStaysOpen() {

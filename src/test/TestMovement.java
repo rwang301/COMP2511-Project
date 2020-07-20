@@ -146,4 +146,19 @@ public class TestMovement {
         assertTrue(enemy.isOn(player));
         assertFalse(dungeon.isComplete());
     }
+
+    @Test
+    public void testEnemy() {
+        player = new Player(dungeon, 3, 2);
+        enemy = new Enemy(dungeon, 2, 1);
+        Enemy enemy2 = new Enemy(dungeon, 2, 0);
+        Wall wall = new Wall(1, 0);
+        dungeon.addEntity(wall);
+        dungeon.addEntity(enemy2);
+        player.attach(enemy2);
+        enemy2.initialise(player);
+        initialise();
+
+        sleep(1000);
+    }
 }
