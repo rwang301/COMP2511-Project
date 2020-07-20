@@ -39,19 +39,16 @@ public abstract class Strategy {
     }
 
     boolean isOn(Class<?> entityType) {
-        boolean hasDoor = false;
         for (Entity entity: getEntities(entityType)) {
             if (!enemy.equals(entity) && enemy.isOn(entity)) {
                 if (entity.getClass() == Door.class && ((Door)entity).isOpen()) {
-                    hasDoor = true;
                     continue;
                 }
                 current = entity;
                 return true;
             }
         }
-        if (hasDoor) return true;
-        else return false;
+        return false;
     }
 
     /**
