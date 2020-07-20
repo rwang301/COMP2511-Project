@@ -28,13 +28,13 @@ public class MoveAway extends Strategy {
             if (!moveRight()) {
                 if (enemy.getY() < player.getY()) {// the enemy is above the player
                     if (!moveUp()) {
-                        if (!moveRight()) {
+                        if (!moveLeft()) {
                             moveDown();
                         }
                     }
                 } else {
                     if (!moveDown()) {
-                        if (!moveRight()) {
+                        if (!moveLeft()) {
                             moveUp();
                         }
                     }
