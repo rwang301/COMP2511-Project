@@ -9,9 +9,11 @@ import unsw.dungeon.Dungeon;
 import unsw.dungeon.Player;
 import unsw.dungeon.Exit;
 import unsw.dungeon.GoalExit;
+import unsw.dungeon.GoalTreasure;
 import unsw.dungeon.Or;
 import unsw.dungeon.GoalBoulders;
 import unsw.dungeon.Switch;
+import unsw.dungeon.Treasure;
 import unsw.dungeon.Boulder;
 import unsw.dungeon.Component;
 import unsw.dungeon.Composite;
@@ -25,6 +27,7 @@ public class TestExit {
     private Boulder boulder = new Boulder(1, 1);
     private Component goalExit = new GoalExit();
     private Component goalBoulders = new GoalBoulders();
+    private Component goalTreasure = new GoalTreasure();
 
     private void initialise() {
         dungeon.setPlayer(player);
@@ -78,15 +81,36 @@ public class TestExit {
 
     @Test
     public void testOrGoalComplete() {
+        initialise();
         Composite or = new Or();
         or.add(goalBoulders);
         or.add(goalExit);
         dungeon.addEntity(boulder);
         dungeon.addEntity(floorSwitch);
         dungeon.setGoal(or);
-        initialise();
         assertFalse(dungeon.isComplete());
         player.moveDown();
+        assertTrue(dungeon.isComplete());
+    }
+
+    @Test
+    public void testComplexGoal() {
+        initialise();
+        Treasure treasure = new Treasure(0, 2);
+        Composite and = new And();
+        Composite or = new Or();
+        and.add(goalTreasure);
+        and.add(or);
+        or.add(goalExit);
+        or.add(goalBoulders);
+        dungeon.setGoal(and);
+        dungeon.addEntity(treasure);
+        assertFalse(dungeon.isComplete());
+        player.moveDown();
+        assertFalse(dungeon.isComplete());
+        player.moveBoulder("right");
+        assertFalse(dungeon.isComplete());
+        player.moveDown(); // Pick up treasure
         assertTrue(dungeon.isComplete());
     }
 }
