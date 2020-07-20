@@ -62,6 +62,7 @@ public class TestKey {
     public void testCannotOpen() {
         testCanPickup();
         assertFalse(door2.isOpen());
+        player.moveDown();
         player.moveRight();
         assertFalse(door2.isOpen());
     }
