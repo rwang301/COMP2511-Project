@@ -231,4 +231,34 @@ public class TestEnemy {
         sleep(500);
         assertCoordinates(1, 2);
     }
+
+    @Test
+    public void testCantMoveDown() {
+        initialise();
+        player.x().set(2);
+        player.y().set(2);
+        enemy.x().set(1);
+        enemy.y().set(1);
+        Wall wall1 = new Wall(2, 1);
+        Wall wall2 = new Wall(1, 2);
+        dungeon.addEntity(wall1);
+        dungeon.addEntity(wall2);
+
+        sleep(1050);
+        assertCoordinates(0, 1);
+    }
+
+    @Test
+    public void testCantMoveLeft() {
+        initialise();
+        player.x().set(2);
+        player.y().set(0);
+        enemy.x().set(2);
+        enemy.y().set(2);
+        Wall wall1 = new Wall(2, 1);
+        dungeon.addEntity(wall1);
+
+        sleep(1050);
+        assertCoordinates(1, 2);
+    }
 }
