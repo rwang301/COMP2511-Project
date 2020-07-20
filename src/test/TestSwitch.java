@@ -22,6 +22,7 @@ public class TestSwitch {
     public void initialise() {
         dungeon.setGoal(goal);
         dungeon.setPlayer(player);
+        dungeon.addEntity(player);
         dungeon.addEntity(s);
     }
 

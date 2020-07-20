@@ -16,6 +16,18 @@ public class Enemy extends Entity implements Observer {
         strategy = moveToward;
     }
 
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
+    public Strategy getMoveToward() {
+        return moveToward;
+    }
+
+    public Strategy getMoveAway() {
+        return moveAway;
+    }
+
     /**
      * Initialise a timer for the enemy
      * @param player
@@ -32,7 +44,7 @@ public class Enemy extends Entity implements Observer {
             public void run() {
                 strategy.move();
             }
-        }, 1000, 500);
+        }, 1000, 500); // Be careful when change the delay and period it will fail the JUnit tests
     }
 
     public void cancelTimer() {
@@ -61,11 +73,11 @@ public class Enemy extends Entity implements Observer {
     public void update(Subject subject) {
         // TODO change to pull to lower the coupling with Player
         if (subject.getClass() == Player.class) strategy = moveAway;
-        else if (subject.getClass() == Potion.class) strategy = moveToward;
+        else strategy = moveToward;
     }
 
     /**
-     * reset the visited array
+     * Reset the visited array
      */
     public void reset() {
         strategy.reset();
