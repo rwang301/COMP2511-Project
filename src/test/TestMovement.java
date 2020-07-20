@@ -1,7 +1,6 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Test;
@@ -14,9 +13,11 @@ import unsw.dungeon.Player;
 
 public class TestMovement {
     private Dungeon dungeon = new Dungeon(6, 6);
-    private Player player = new Player(dungeon, 3, 2);
-    private Enemy enemy = new Enemy(dungeon, 2, 1);
-    private Potion potion = new Potion(4, 2);
+    private Player player;
+    private Enemy enemy;
+    private Potion potion1 = new Potion(4, 2);
+    private Potion potion2 = new Potion(4, 0);
+    private Potion potion3 = new Potion(0, 4);
     private Wall wall1 = new Wall(2, 2);
     private Wall wall2 = new Wall(3, 1);
     private Wall wall3 = new Wall(3, 0);
@@ -27,7 +28,9 @@ public class TestMovement {
         dungeon.setPlayer(player);
         dungeon.addEntity(player);
         dungeon.addEntity(enemy);
-        dungeon.addEntity(potion);
+        dungeon.addEntity(potion1);
+        dungeon.addEntity(potion2);
+        dungeon.addEntity(potion3);
         dungeon.addEntity(wall1);
         dungeon.addEntity(wall2);
         dungeon.addEntity(wall3);
@@ -51,11 +54,11 @@ public class TestMovement {
     }
 
     @Test
-    public void testmoveLeft() {
+    public void testMoveToward() {
+        player = new Player(dungeon, 3, 2);
+        enemy = new Enemy(dungeon, 2, 1);
         initialise();
-        assertTrue(enemy.getStrategy() == enemy.getMoveToward());
-        player.moveRight(); // Pick up a potion
-        assertTrue(enemy.getStrategy() == enemy.getMoveAway());
+        player.moveRight();
 
         sleep(1050);
         assertCoordinates(2, 0);
@@ -100,5 +103,21 @@ public class TestMovement {
 
         sleep(500);
         assertCoordinates(4, 5);
+        player.moveUp();
+
+        sleep(500);
+        assertCoordinates(4, 4);
+    }
+
+    @Test
+    public void testMoveAway() {
+        player = new Player(dungeon, 0, 5);
+        enemy = new Enemy(dungeon, 0, 1);
+        initialise();
+        assertTrue(enemy.getStrategy() == enemy.getMoveToward());
+        player.moveUp(); // Pick up a potion
+        assertTrue(enemy.getStrategy() == enemy.getMoveAway());
+        sleep(1050);
+        assertCoordinates(0, 0);
     }
 }
