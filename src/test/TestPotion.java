@@ -16,6 +16,7 @@ public class TestPotion {
     private Dungeon dungeon = new Dungeon(3, 3);
     private Player player = new Player(dungeon, 0, 0);
     private Potion potion1 = new Potion(0, 1);
+    private Potion potion2 = new Potion(1, 1);
     private Component goalEnemies = new GoalEnemies();
     private Enemy enemy1 = new Enemy(dungeon, 0, 2);
     private Enemy enemy2 = new Enemy(dungeon, 1, 2);
@@ -25,6 +26,7 @@ public class TestPotion {
         dungeon.setPlayer(player);
         dungeon.addEntity(player);
         dungeon.addEntity(potion1);
+        dungeon.addEntity(potion2);
         dungeon.addEntity(enemy1);
         dungeon.addEntity(enemy2);
         player.attach(enemy1);
@@ -64,10 +66,17 @@ public class TestPotion {
     @Test
     public void testExtend() {
         testPickup(); // pick up a potion
-        sleep(1000);
-        // TODO
-        player.moveRight();
-        player.moveUp(); // Pick up a second potion
+        player.moveRight(); // Pick up a second potion
+        assertTrue(enemy1.getStrategy() == enemy1.getMoveAway());
+        assertTrue(enemy2.getStrategy() == enemy2.getMoveAway());
+
+        sleep(9000);
+        assertTrue(enemy1.getStrategy() == enemy1.getMoveAway());
+        assertTrue(enemy2.getStrategy() == enemy2.getMoveAway());
+
+        sleep(1050);
+        assertTrue(enemy1.getStrategy() == enemy1.getMoveToward());
+        assertTrue(enemy2.getStrategy() == enemy2.getMoveToward());
     }
 
     /**
@@ -90,7 +99,7 @@ public class TestPotion {
     @Test
     public void testEffect() {
         testPickup();
-        sleep(5000);
+        sleep(5050);
         assertTrue(enemy1.getStrategy() == enemy1.getMoveToward());
         assertTrue(enemy2.getStrategy() == enemy2.getMoveToward());
 
