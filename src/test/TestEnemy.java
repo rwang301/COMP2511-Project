@@ -191,4 +191,22 @@ public class TestEnemy {
         assertFalse(dungeon.isComplete());
         assertTrue(player.isOn(player));
     }
+
+    @Test
+    public void testLocked() {
+        initialise();
+        enemy.x().set(2);
+        enemy.y().set(1);
+        assertCoordinates(2, 1);
+        Wall wall1 = new Wall(1, 1);
+        Wall wall2 = new Wall(2, 0);
+        dungeon.addEntity(wall1);
+        dungeon.addEntity(wall2);
+
+        sleep(1050);
+        assertCoordinates(2, 2);
+
+        sleep(500);
+        assertCoordinates(1, 2);
+    }
 }
