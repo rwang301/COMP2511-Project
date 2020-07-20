@@ -8,7 +8,7 @@ import org.junit.Test;
 import unsw.dungeon.Component;
 import unsw.dungeon.Dungeon;
 import unsw.dungeon.Enemy;
-import unsw.dungeon.GoalTreasure;
+import unsw.dungeon.GoalEnemies;
 import unsw.dungeon.Player;
 import unsw.dungeon.Sword;
 
@@ -17,8 +17,7 @@ public class TestSword {
     private Player player = new Player(dungeon, 0, 0);
     private Sword sword1 = new Sword(1, 0);
     private Sword sword2 = new Sword(2, 0);
-    //TODO should be goalEnemies potential bug?
-    private Component goalTreasure = new GoalTreasure();
+    private Component goalEnemies = new GoalEnemies();
     private Enemy enemy1 = new Enemy(dungeon, 1, 1);
     private Enemy enemy2 = new Enemy(dungeon, 1, 2);
     private Enemy enemy3 = new Enemy(dungeon, 1, 3);
@@ -28,7 +27,7 @@ public class TestSword {
 
     public void initialise() {
         dungeon.setPlayer(player);
-        dungeon.setGoal(goalTreasure);
+        dungeon.setGoal(goalEnemies);
         dungeon.addEntity(sword1);
         dungeon.addEntity(sword2);
         dungeon.addEntity(enemy1);
@@ -43,6 +42,12 @@ public class TestSword {
         enemy4.initialise(player);
         enemy5.initialise(player);
         enemy6.initialise(player);
+        player.attach(enemy1);
+        player.attach(enemy2);
+        player.attach(enemy3);
+        player.attach(enemy4);
+        player.attach(enemy5);
+        player.attach(enemy6);
     }
 
     /**
@@ -95,6 +100,7 @@ public class TestSword {
         player.moveDown();
         player.moveRight();
         player.moveUp();
+
         player.moveRight();
         player.moveUp();
         player.moveUp();
