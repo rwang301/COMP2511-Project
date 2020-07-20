@@ -60,11 +60,10 @@ public class TestKey {
      */
     @Test
     public void testCannotOpen() {
-        initialise();
+        testCanPickup();
+        assertFalse(door2.isOpen());
         player.moveRight();
-        assertFalse(door1.isOpen());
-        player.moveRight();
-        assertFalse(door1.isOpen());
+        assertFalse(door2.isOpen());
     }
 
     /**

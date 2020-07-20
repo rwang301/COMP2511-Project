@@ -53,7 +53,8 @@ public class TestDoor {
 
 
     /**
-     * Given a door has not been opened yet. Then it is closed
+     * Given a door has not been opened yet.
+     * Then it is closed.
      */
     @Test
     public void testDoorClosed() {
@@ -79,6 +80,4 @@ public class TestDoor {
         int count = player.getEntities(Door.class).size();
         assertEquals(count, 3);
     }
-
-
 }
