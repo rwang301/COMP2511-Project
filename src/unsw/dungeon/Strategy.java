@@ -31,6 +31,7 @@ public abstract class Strategy {
 
 	void reset() {
         visited = new ArrayList<>();
+	    setCurrentPosition();
 	}
 
     List<Entity> getEntities(Class<?> entityType) {
