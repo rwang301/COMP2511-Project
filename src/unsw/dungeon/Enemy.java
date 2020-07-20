@@ -71,9 +71,8 @@ public class Enemy extends Entity implements Observer {
 
     @Override
     public void update(Subject subject) {
-        // TODO change to pull to lower the coupling with Player
         if (subject.getClass() == Player.class) strategy = moveAway;
-        else strategy = moveToward;
+        else if (subject.getClass() == Potion.class) strategy = moveToward;
     }
 
     /**
