@@ -101,13 +101,18 @@ public class TestEnemy {
     @Test
     public void testPotion() {
         initialise();
-        Potion potion = new Potion(0, 1);
-        dungeon.addEntity(potion);
-        player.moveDown(); // Pick up a potion
-        // TODO werid doesn't even work
-        assertTrue(player.getPotion() != null);
+        Potion potion = new Potion(0, 1); //0,2 timer starts
         assertCoordinates(0, 2);
+        dungeon.addEntity(potion); //2,0
+        assertCoordinates(0, 2);
+        player.moveDown(); // 2,0
+        sleep(1050);
+        assertEquals(player.getX(), 0);
+        assertEquals(player.getY(), 1);
+        assertCoordinates(0, 1);
+        assertTrue(player.getPotion() != null);
         assertFalse(dungeon.isComplete());
+        assertTrue(dungeon.getEntities().contains(enemy));
     }
 
     /**
