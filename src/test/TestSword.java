@@ -36,18 +36,18 @@ public class TestSword {
         dungeon.addEntity(enemy4);
         dungeon.addEntity(enemy5);
         dungeon.addEntity(enemy6);
-        enemy1.initialise(player);
-        enemy2.initialise(player);
-        enemy3.initialise(player);
-        enemy4.initialise(player);
-        enemy5.initialise(player);
-        enemy6.initialise(player);
         player.attach(enemy1);
         player.attach(enemy2);
         player.attach(enemy3);
         player.attach(enemy4);
         player.attach(enemy5);
         player.attach(enemy6);
+        enemy1.initialise(player);
+        enemy2.initialise(player);
+        enemy3.initialise(player);
+        enemy4.initialise(player);
+        enemy5.initialise(player);
+        enemy6.initialise(player);
     }
 
     /**
