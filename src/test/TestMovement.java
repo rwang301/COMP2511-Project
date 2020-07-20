@@ -16,6 +16,7 @@ public class TestMovement {
     private Dungeon dungeon = new Dungeon(5, 5);
     private Player player = new Player(dungeon, 2, 1);
     private Enemy enemy = new Enemy(dungeon, 1, 0);
+    private Potion potion = new Potion(3, 1);
     private Wall wall1 = new Wall(2, 0);
     private Wall wall2 = new Wall(1, 1);
 
@@ -23,6 +24,7 @@ public class TestMovement {
         dungeon.setPlayer(player);
         dungeon.addEntity(player);
         dungeon.addEntity(enemy);
+        dungeon.addEntity(potion);
         dungeon.addEntity(wall1);
         dungeon.addEntity(wall2);
         player.attach(enemy);
