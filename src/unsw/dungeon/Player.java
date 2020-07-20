@@ -66,6 +66,10 @@ public class Player extends Entity implements Subject {
     }
 
 
+    /**
+     * Check all switches are triggered
+     * @return true if all switches are triggered otherwise false
+     */
     boolean checkSwitches() {
         for (Entity floorSwitch: getEntities(Switch.class)) {
             if (!((Switch)floorSwitch).isTriggered()) return false;
@@ -110,7 +114,7 @@ public class Player extends Entity implements Subject {
      * Notify the Dungeon Loader to change the image of the closed door to an open door
      * @param door
      */
-    public void open(Door door) {
+    void open(Door door) {
         backpack.setKey(null);
         dungeon.open(door);
     }
@@ -119,7 +123,7 @@ public class Player extends Entity implements Subject {
      * Notify the Dungeon Loader to make an entity disappear
      * @param entity
      */
-    public void disappear(Entity entity) {
+    void disappear(Entity entity) {
         dungeon.disappear(entity);
     }
 
@@ -237,7 +241,8 @@ public class Player extends Entity implements Subject {
     }
 
     /**
-     * The adjacent position of player to the boulder determines what direction it moves
+     * Move the boulder according to the direction
+     * @param direction
      */
     public void moveBoulder(String direction) {
         for (Entity entity: getEntities(Boulder.class)) {

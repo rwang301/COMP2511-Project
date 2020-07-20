@@ -14,7 +14,7 @@ public class Boulder extends Entity implements Blockable {
      * @param player
      * @param direction direction the boulder is to be pushed
      */
-    public void push(Player player, String direction) {
+    void push(Player player, String direction) {
         if (direction.equals("right")) {
             if (player.hasEntity((getX() + 1), getY())) return;
             untrigger(player);
@@ -27,7 +27,7 @@ public class Boulder extends Entity implements Blockable {
             if (player.hasEntity((getX() - 1), getY())) return;
             untrigger(player);
             x().set(getX() - 1);
-        } else {// push up
+        } else if (direction.equals("up")) {
             if (player.hasEntity(getX(), (getY() - 1))) return;
             untrigger(player);
             y().set(getY() - 1);

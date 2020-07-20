@@ -20,7 +20,7 @@ public class Potion extends Entity implements Pickupable, Subject {
      * If the player already had a potion extend the effect time
      * @return the new potion which just got picked up
      */
-    public Potion pickup(Potion potion, Player player) {
+    Potion pickup(Potion potion, Player player) {
         enemies = player.getEnemies();
         pickupTime = System.currentTimeMillis();
         if (potion != null) {

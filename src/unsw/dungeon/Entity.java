@@ -49,7 +49,7 @@ public class Entity {
      * @param coordinate a x or a y value of an entity
      * @param position a new x or y value to set the corresponding coordinate to
      */
-    public void setPosition(IntegerProperty coordinate, int position) {
+    void setPosition(IntegerProperty coordinate, int position) {
         coordinate.set(position);
     }
 
