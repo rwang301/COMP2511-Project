@@ -120,6 +120,7 @@ public class TestMovement {
         player = new Player(dungeon, 0, 5);
         enemy = new Enemy(dungeon, 0, 1);
         initialise();
+
         assertTrue(enemy.getStrategy() == enemy.getMoveToward());
         player.moveUp(); // Pick up a potion
         assertTrue(enemy.getStrategy() == enemy.getMoveAway());
