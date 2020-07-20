@@ -8,7 +8,7 @@ import org.junit.Test;
 import unsw.dungeon.Component;
 import unsw.dungeon.Dungeon;
 import unsw.dungeon.Enemy;
-import unsw.dungeon.GoalTreasure;
+import unsw.dungeon.GoalEnemies;
 import unsw.dungeon.Player;
 import unsw.dungeon.Sword;
 
@@ -17,7 +17,7 @@ public class TestSword {
     private Player player = new Player(dungeon, 0, 0);
     private Sword sword1 = new Sword(1, 0);
     private Sword sword2 = new Sword(2, 0);
-    private Component goalTreasure = new GoalTreasure();
+    private Component goalEnemies = new GoalEnemies();
     private Enemy enemy1 = new Enemy(dungeon, 1, 1);
     private Enemy enemy2 = new Enemy(dungeon, 1, 2);
     private Enemy enemy3 = new Enemy(dungeon, 1, 3);
@@ -26,8 +26,9 @@ public class TestSword {
     private Enemy enemy6 = new Enemy(dungeon, 2, 3);
 
     public void initialise() {
+        dungeon.setGoal(goalEnemies);
         dungeon.setPlayer(player);
-        dungeon.setGoal(goalTreasure);
+        dungeon.addEntity(player);
         dungeon.addEntity(sword1);
         dungeon.addEntity(sword2);
         dungeon.addEntity(enemy1);
@@ -36,6 +37,12 @@ public class TestSword {
         dungeon.addEntity(enemy4);
         dungeon.addEntity(enemy5);
         dungeon.addEntity(enemy6);
+        player.attach(enemy1);
+        player.attach(enemy2);
+        player.attach(enemy3);
+        player.attach(enemy4);
+        player.attach(enemy5);
+        player.attach(enemy6);
         enemy1.initialise(player);
         enemy2.initialise(player);
         enemy3.initialise(player);
@@ -52,6 +59,7 @@ public class TestSword {
     @Test
     public void testCanPickup() {
         initialise();
+        assertTrue(dungeon.getEntities().contains(sword1));
         player.moveRight();
         assertFalse(dungeon.getEntities().contains(sword1));
         assertTrue(player.getSword() != null);
@@ -65,6 +73,7 @@ public class TestSword {
     @Test
     public void testCannotPickup() {
         testCanPickup();
+        assertTrue(dungeon.getEntities().contains(sword2));
         player.moveRight();
         assertTrue(dungeon.getEntities().contains(sword2));
     }
@@ -92,10 +101,12 @@ public class TestSword {
         player.moveDown();
         player.moveRight();
         player.moveUp();
+
         player.moveRight();
         player.moveUp();
         player.moveUp();
-        player.moveLeft();
+        player.moveLeft(); // Pick up a second sword
+        assertFalse(dungeon.isComplete());
         player.moveDown();
         assertTrue(dungeon.isComplete());
     }

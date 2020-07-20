@@ -30,10 +30,6 @@ public class Backpack {
         return sword;
     }
 
-    public void setSword(Sword sword) {
-        this.sword = sword;
-    }
-
 	public void hit() {
         sword.setHit();
         if (!sword.capable()) sword = null;

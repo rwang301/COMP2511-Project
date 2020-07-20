@@ -33,14 +33,6 @@ public class Player extends Entity implements Subject {
         this.dungeon = dungeon;
     }
 
-    public Dungeon getDungeon() {
-        return dungeon;
-    }
-
-    public void setDungeon(Dungeon dungeon) {
-        this.dungeon = dungeon;
-    }
-
     public List<Observer> getEnemies() {
         return enemies;
     }
@@ -53,10 +45,6 @@ public class Player extends Entity implements Subject {
         return backpack.getKey();
     }
 
-    public void setKey(Key key) {
-        backpack.setKey(key);
-    }
-
     public Potion getPotion(){
         return backpack.getPotion();
     }
@@ -67,10 +55,6 @@ public class Player extends Entity implements Subject {
 
     public Sword getSword() {
         return backpack.getSword();
-    }
-
-    public void setSword(Sword sword) {
-        backpack.setSword(sword);
     }
 
     public Door getKeyDoor() {

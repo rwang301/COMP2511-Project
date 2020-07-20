@@ -22,9 +22,10 @@ public class TestBoulder {
     Component goalBoulders = new GoalBoulders();
 
     private void initialise() {
-        dungeon.setPlayer(player);
-        dungeon.addEntity(boulder);
         dungeon.setGoal(goalBoulders);
+        dungeon.setPlayer(player);
+        dungeon.addEntity(player);
+        dungeon.addEntity(boulder);
     }
 
     private void assertCoordinates(int playerX, int playerY, int boulderX, int boulderY) {
@@ -280,7 +281,22 @@ public class TestBoulder {
     @Test
     public void testInvalidPush() {
         initialise();
-        player.moveBoulder("down");
+        player.moveBoulder("left");
         assertCoordinates(0, 1, 1, 1);
+
+        player.moveUp();
+        player.moveRight();
+        player.moveBoulder("up");
+        assertCoordinates(1, 0, 1, 1);
+
+        player.moveRight();
+        player.moveDown();
+        player.moveBoulder("right");
+        assertCoordinates(2, 1, 1, 1);
+
+        player.moveDown();
+        player.moveLeft();
+        player.moveBoulder("down");
+        assertCoordinates(1, 2, 1, 1);
     }
 }
