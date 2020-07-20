@@ -217,7 +217,7 @@ public class TestEnemy {
     }
 
     @Test
-    public void testMove() {
+    public void testCanMove() {
         initialise();
         enemy.x().set(2);
         enemy.y().set(1);
@@ -235,7 +235,7 @@ public class TestEnemy {
     }
 
     @Test
-    public void testCantMoveDown() {
+    public void testCannotMoveDown() {
         initialise();
         player.x().set(2);
         player.y().set(2);
@@ -251,7 +251,7 @@ public class TestEnemy {
     }
 
     @Test
-    public void testCantMoveLeft() {
+    public void testCannotMoveLeft() {
         initialise();
         player.x().set(2);
         player.y().set(0);
