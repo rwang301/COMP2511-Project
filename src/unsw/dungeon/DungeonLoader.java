@@ -203,9 +203,10 @@ public abstract class DungeonLoader implements Observer {
             entity = potion;
             break;
         default:
+            System.out.println("Invalid entity");
             break;
         }
-        dungeon.addEntity(entity);
+        if (entity != null) dungeon.addEntity(entity);
     }
 
     public abstract void onLoad(Entity player);
