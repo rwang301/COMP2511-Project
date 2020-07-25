@@ -58,6 +58,7 @@ public abstract class Strategy {
     boolean canMove() {
         if (visited.contains(enemy)) return false;
         if (isOn(Blockable.class) || isOn(Enemy.class)) {
+            // TODO isOn Enemy is buggy
             return false;
         } else if (isOn(Player.class)) {
             if (player.getPotion() != null) return false;
