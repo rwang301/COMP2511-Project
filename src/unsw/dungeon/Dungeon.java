@@ -118,12 +118,12 @@ public class Dungeon implements Subject {
     public void attach(Observer observer) {
         if (observer.getClass() == DungeonApplication.class) application = observer;
         else if (observer.getClass() == DungeonControllerLoader.class) dungeonLoader = observer;
-        System.out.println(observer.getClass());
     }
 
     @Override
     public void detach(Observer observer) {
-        dungeonLoader = null;
+        if (observer.getClass() == DungeonApplication.class) application = null;
+        else if (observer.getClass() == DungeonControllerLoader.class) dungeonLoader = null;
     }
 
     @Override
