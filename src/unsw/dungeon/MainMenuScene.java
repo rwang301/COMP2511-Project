@@ -1,13 +1,11 @@
 package unsw.dungeon;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -30,16 +28,18 @@ public class MainMenuScene implements Subject {
         GridPane gridPane = new GridPane();
         DungeonControllerLoader.loadBackground(50, 50, gridPane);
 
-        Button start = new Button("Start");
+        Button start = new GameButton("Start", 500, 200);
         start.setOnAction(event -> {
             root.getChildren().remove(start);
             root.getChildren().addAll(createLevels());
         });
-        start.setMinSize(100, 50);
-        start.setLayoutX(500);
-        start.setLayoutY(200);
 
-        root.getChildren().addAll(gridPane, start);
+        Button exit = new GameButton("Exit", 500, 400);
+        exit.setOnAction(event -> {
+            System.exit(0);
+        });
+
+        root.getChildren().addAll(gridPane, start, exit);
         scene = new Scene(root);
     }
 
@@ -53,14 +53,11 @@ public class MainMenuScene implements Subject {
     }
 
     private Button createLevel(String level, int x, int y) {
-        Button button = new Button(level.toUpperCase());
+        Button button = new GameButton(level, x, y);
         button.setOnAction(event -> {
             this.level = level + ".json";
             notifyObservers();
         });
-        button.setMinSize(100, 50);
-        button.setLayoutX(x);
-        button.setLayoutY(y);
         return button;
     }
 
