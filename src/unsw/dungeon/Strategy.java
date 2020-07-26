@@ -41,7 +41,7 @@ public abstract class Strategy {
     boolean isOn(Class<?> entityType) {
         for (Entity entity: getEntities(entityType)) {
             if (!character.equals(entity) && character.isOn(entity)) {
-                if (entity.getClass() == Door.class && ((Door)entity).isOpen()) {
+                if (entity.getClass() == Door.class && ((Door) entity).isOpen()) {
                     continue;
                 }
                 current = entity;
@@ -64,7 +64,7 @@ public abstract class Strategy {
             if (player.getPotion() != null) return false;
             ((Enemy) character).collide(player);
         } else if (isOn(Hound.class)) {
-            if (player.getHound() != null) {
+            if (player.getHound() == current) {
                 player.kill((Enemy) character);
                 player.sacrifice(current);
             }

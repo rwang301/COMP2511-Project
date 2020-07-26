@@ -108,7 +108,7 @@ public class Player extends Entity implements Subject {
      */
     boolean checkSwitches() {
         for (Entity floorSwitch: getEntities(Switch.class)) {
-            if (!((Switch)floorSwitch).isTriggered()) return false;
+            if (!((Switch) floorSwitch).isTriggered()) return false;
         }
         return true;
 	}
@@ -141,6 +141,7 @@ public class Player extends Entity implements Subject {
         else {
             setPosition(x(), startingX);
             setPosition(y(), startingY);
+            detach(hound);
         }
     }
 
@@ -190,7 +191,7 @@ public class Player extends Entity implements Subject {
     boolean isOn(Class<?> entityType) {
         for (Entity entity: getEntities(entityType)) {
             if (this.isOn(entity)) {
-                if (entity.getClass() == Door.class && ((Door)entity).isOpen()) continue;
+                if (entity.getClass() == Door.class && ((Door) entity).isOpen()) continue;
                 current = entity;
                 return true;
             }
@@ -208,7 +209,7 @@ public class Player extends Entity implements Subject {
         boolean hasBlockable = false;
         for (Entity entity: dungeon.getEntities()) {
             if (entity.getX() == x && entity.getY() == y) {
-                if (entity.getClass() == Door.class) hasBlockable = !((Door)entity).isOpen();
+                if (entity.getClass() == Door.class) hasBlockable = !((Door) entity).isOpen();
                 else if (entity.getClass() == Switch.class && !hasBlockable) hasBlockable = false;
                 else hasBlockable = true;
             }
@@ -324,6 +325,7 @@ public class Player extends Entity implements Subject {
 
 	@Override
 	public void detach(Observer observer) {
+        if (observer == null) return;
         if (observer.getClass() == Enemy.class) enemies.remove(observer);
         else if (observer.getClass() == Hound.class) hound = null;
 	}
