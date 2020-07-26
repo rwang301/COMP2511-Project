@@ -243,17 +243,17 @@ public class Player extends Entity implements Subject {
      */
     private void action(IntegerProperty coordinate, int position) {
         if (isOn(Portal.class)) {
-            teleport((Portal)current);
+            teleport((Portal) current);
         } else if (isOn(Blockable.class)) {
-            ((Blockable)current).block(this, coordinate, position);
+            ((Blockable) current).block(this, coordinate, position);
         } else if (isOn(Pickupable.class)) {
             pickup();
         } else if (isOn(Exit.class)) {
             complete();
         } else if (isOn(Enemy.class)) {
-            ((Enemy)current).collide(this);
+            ((Enemy) current).collide(this);
         } else if (isOn(Hound.class)) {
-            ((Hound) current).initialise(this);
+            if (hound == null) ((Hound) current).initialise(this);
         }
         // TODO potential bug gone
         notifyObservers(); // notify the enemies every time the player moves
@@ -304,13 +304,13 @@ public class Player extends Entity implements Subject {
     public void moveBoulder(String direction) {
         for (Entity entity: getEntities(Boulder.class)) {
             if (this.getY() == entity.getY() && (this.getX() - entity.getX() == 1)) {
-                if (direction.equals("left")) ((Boulder)entity).push(this, direction);
+                if (direction.equals("left")) ((Boulder) entity).push(this, direction);
             } else if (this.getY() == entity.getY() && (this.getX() - entity.getX() == -1)) {
-                if (direction.equals("right")) ((Boulder)entity).push(this, direction);
+                if (direction.equals("right")) ((Boulder) entity).push(this, direction);
             } else if ((this.getY() - entity.getY() == -1) && this.getX() == entity.getX()) {
-                if (direction.equals("down")) ((Boulder)entity).push(this, direction);
+                if (direction.equals("down")) ((Boulder) entity).push(this, direction);
             } else if ((this.getY() - entity.getY() == 1) && this.getX() == entity.getX()) {
-                if (direction.equals("up")) ((Boulder)entity).push(this, direction);
+                if (direction.equals("up")) ((Boulder) entity).push(this, direction);
             }
         }
     }
@@ -331,7 +331,7 @@ public class Player extends Entity implements Subject {
 	@Override
 	public void notifyObservers() {
         if (current.getClass() == Potion.class) enemies.forEach(enemy -> enemy.update(this));
-        else enemies.forEach(enemy -> ((Enemy)enemy).reset());
+        else enemies.forEach(enemy -> ((Enemy) enemy).reset());
         if (hound != null) hound.update(this);
 	}
 }

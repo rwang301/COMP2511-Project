@@ -40,7 +40,7 @@ public class Boulder extends Entity implements Blockable {
     private boolean untrigger(Player player) {
         for (Entity floorSwitch: player.getEntities(Switch.class)) {
             if (this.isOn(floorSwitch)) {
-                ((Switch)floorSwitch).setTriggered();
+                ((Switch) floorSwitch).setTriggered();
                 return true;
             }
         }

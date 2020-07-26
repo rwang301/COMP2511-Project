@@ -581,6 +581,11 @@
       "type": "invincibility"
     },
     {
+      "x": 2,
+      "y": 8,
+      "type": "hound"
+    },
+    {
       "x": 3,
       "y": 8,
       "type": "wall"

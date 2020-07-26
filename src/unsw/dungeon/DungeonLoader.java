@@ -60,7 +60,7 @@ public abstract class DungeonLoader implements Observer {
         player.getEntities(Switch.class).forEach(floorSwitch -> {
             for (Entity boulder: player.getEntities(Boulder.class)) {
                 if (boulder.isOn(floorSwitch)) {
-                    ((Switch)floorSwitch).setTriggered();
+                    ((Switch) floorSwitch).setTriggered();
                 }
             }
         });
