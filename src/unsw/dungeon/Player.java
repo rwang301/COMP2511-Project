@@ -127,8 +127,8 @@ public class Player extends Entity implements Subject {
     void kill(Enemy enemy) {
         enemy.cancelTimer();
         disappear(enemy);
-        if (getPotion() != null) getPotion().detach(enemy);
         detach(enemy);
+        if (getPotion() != null) getPotion().detach(enemy);
         complete();
     }
 
@@ -145,9 +145,9 @@ public class Player extends Entity implements Subject {
         }
     }
 
-    void sacrifice(Entity hound) {
-        this.hound = null;
-        disappear(hound);
+    void sacrifice() {
+        disappear((Entity) hound);
+        detach(hound);
     }
 
     /**

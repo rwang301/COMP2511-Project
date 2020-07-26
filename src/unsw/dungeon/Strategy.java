@@ -66,7 +66,7 @@ public abstract class Strategy {
         } else if (isOn(Hound.class)) {
             if (player.getHound() == current) {
                 player.kill((Enemy) character);
-                player.sacrifice(current);
+                player.sacrifice();
             }
         } else if (isOn(Portal.class)) {
             character.x().set(((Portal) current).getPortal().getX());
