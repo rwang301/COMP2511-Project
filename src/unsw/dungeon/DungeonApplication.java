@@ -33,12 +33,16 @@ public class DungeonApplication extends Application implements Observer {
 
     @Override
     public void update(Subject subject) {
-        this.level = ((MainMenuScene) subject).getLevel();
-        try {
-            new DungeonScene(this).start();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        if (subject.getClass() == MainMenuScene.class) {
+            this.level = ((MainMenuScene) subject).getLevel();
+            try {
+                new DungeonScene(this).start();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } else if (subject.getClass() == Dungeon.class) {
+            mainMenuScene.start();
         }
     }
 }
