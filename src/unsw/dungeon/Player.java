@@ -19,6 +19,9 @@ public class Player extends Entity implements Subject {
      * starting at the player itself
      */
     private Entity current = this;
+    private int x;
+    private int y;
+    private int lives = 3;
     private Dungeon dungeon;
     private Backpack backpack = new Backpack();
     private List<Observer> enemies = new ArrayList<Observer>();
@@ -31,6 +34,8 @@ public class Player extends Entity implements Subject {
     public Player(Dungeon dungeon, int x, int y) {
         super(x, y);
         this.dungeon = dungeon;
+        this.x = x;
+        this.y = y;
     }
 
     public List<Observer> getEnemies() {
@@ -67,6 +72,18 @@ public class Player extends Entity implements Subject {
 
 
     /**
+     * Add one life if not full
+     * @return true if one life is added otherwise false
+     */
+    boolean setLives() {
+        if (lives < 3) {
+            lives++;
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Check all switches are triggered
      * @return true if all switches are triggered otherwise false
      */
@@ -100,7 +117,10 @@ public class Player extends Entity implements Subject {
      * Inform the dungeon that the player is dead
      */
     void die() {
-        dungeon.complete(true);
+        lives--;
+        setPosition(x(), x);
+        setPosition(y(), y);
+        if (lives == 0) dungeon.complete(true);
     }    
 
     /**
@@ -184,7 +204,7 @@ public class Player extends Entity implements Subject {
      * @param pickupable
      */
     private void pickup() {
-        if (backpack.noItem((Pickupable)current)) {
+        if (backpack.noItem((Pickupable)current, this)) {
             backpack.setItem((Pickupable)current, this);
             disappear(current);
         }

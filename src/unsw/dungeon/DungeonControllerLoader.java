@@ -46,10 +46,10 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image enemyImage;
     private Image swordImage;
     private Image potionImage;
+    private Image medicineImage;
 
-    public DungeonControllerLoader(String filename)
-            throws FileNotFoundException {
-        super(filename);
+    public DungeonControllerLoader(DungeonApplication application) throws FileNotFoundException {
+        super(application);
         entities = new ArrayList<>();
         playerImage = new Image((new File("images/deep_elf_master_archer.png")).toURI().toString());
         wallImage = new Image((new File("images/brick_brown_0.png")).toURI().toString());
@@ -63,7 +63,8 @@ public class DungeonControllerLoader extends DungeonLoader {
         treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
         enemyImage = new Image((new File("images/gnome.png")).toURI().toString());
         swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
-        potionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
+        potionImage = new Image((new File("images/bubbly.png")).toURI().toString());
+        medicineImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
     }
 
     @Override
@@ -150,6 +151,14 @@ public class DungeonControllerLoader extends DungeonLoader {
         addEntity(potion, view);
     }
 
+    @Override
+    public void onLoad(Medicine medicine) {
+        ImageView view = new ImageView(medicineImage);
+        view.setId(medicine.toString());
+        items.put(medicine, view);
+        addEntity(medicine, view);
+    }
+
 
     private void addEntity(Entity entity, ImageView view) {
         trackPosition(entity, view);
@@ -168,7 +177,9 @@ public class DungeonControllerLoader extends DungeonLoader {
 
     @Override
     public void update(Subject subject) {
-        Entity entity = ((Dungeon)subject).getEntity();
+        Dungeon dungeon = (Dungeon) subject;
+        Entity entity = dungeon.getEntity();
+        dungeon.setEntity(null);
         if (entity.getClass() == Door.class) update = openDoorImage;
         else update = null;
         removeEntity(entity);

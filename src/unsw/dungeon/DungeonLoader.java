@@ -26,9 +26,11 @@ public abstract class DungeonLoader implements Observer {
     private Map<Integer, Portal> portals = new HashMap<>();
     private Map<Integer, Door> doors = new HashMap<>();
     private Map<Integer, Key> keys = new HashMap<>();
+    private DungeonApplication application;
 
-    public DungeonLoader(String filename) throws FileNotFoundException {
-        json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename)));
+    public DungeonLoader(DungeonApplication application) throws FileNotFoundException {
+        this.application = application;
+        json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + application.getLevel())));
     }
 
     /**
@@ -40,6 +42,7 @@ public abstract class DungeonLoader implements Observer {
         int height = json.getInt("height");
 
         Dungeon dungeon = new Dungeon(width, height);
+        dungeon.attach(application);
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 
@@ -202,6 +205,11 @@ public abstract class DungeonLoader implements Observer {
             onLoad(potion);
             entity = potion;
             break;
+        case "medicine":
+            Medicine medicine = new Medicine(x, y);
+            onLoad(medicine);
+            entity = medicine;
+            break;
         default:
             System.out.println("Invalid entity");
             break;
@@ -232,4 +240,6 @@ public abstract class DungeonLoader implements Observer {
     public abstract void onLoad(Sword sword);
 
     public abstract void onLoad(Potion potion);
+
+    public abstract void onLoad(Medicine medicine);
 }

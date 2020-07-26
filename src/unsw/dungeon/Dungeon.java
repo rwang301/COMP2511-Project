@@ -21,6 +21,7 @@ public class Dungeon implements Subject {
     private List<Entity> entities = new CopyOnWriteArrayList<>();
     private Player player = null;
     private Observer dungeonLoader;
+    private Observer application;
     /**
      * A temporary copy of an entity to be updated in the UI
      */
@@ -52,6 +53,10 @@ public class Dungeon implements Subject {
 
     public Entity getEntity() {
         return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 
     public int getTreasure() {
@@ -99,17 +104,21 @@ public class Dungeon implements Subject {
         // TODO implement game engine to deal with game over
         if (dead) {
             complete = false;
-            System.out.println("You won: " + complete);
         } else if (goal.complete(player)) {
             complete = true;
-            System.out.println("You won: " + complete);
+        } else {
+            return;
         }
+        System.out.println("You won: " + complete);
+        notifyObservers();
 	}
 
 
     @Override
     public void attach(Observer observer) {
-        dungeonLoader = observer;
+        if (observer.getClass() == DungeonApplication.class) application = observer;
+        else if (observer.getClass() == DungeonControllerLoader.class) dungeonLoader = observer;
+        System.out.println(observer.getClass());
     }
 
     @Override
@@ -119,6 +128,7 @@ public class Dungeon implements Subject {
 
     @Override
     public void notifyObservers() {
-        if (dungeonLoader != null) dungeonLoader.update(this);
+        if (entity == null) application.update(this);
+        else if (dungeonLoader != null) dungeonLoader.update(this);
     }
 }

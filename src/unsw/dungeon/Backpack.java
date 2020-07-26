@@ -44,9 +44,10 @@ public class Backpack {
      * @param pickupable
      * @return true if the pickupable item is a potion or a treasure because they can be picked up again
      */
-    boolean noItem(Pickupable pickupable) {
+    boolean noItem(Pickupable pickupable, Player player) {
         if (pickupable.getClass() == Key.class) return key == null;
         else if (pickupable.getClass() == Sword.class) return sword == null;
+        else if (pickupable.getClass() == Medicine.class) return player.setLives();
         else return true;
     }
 
@@ -54,7 +55,7 @@ public class Backpack {
         if (pickupable.getClass() == Key.class) key = (Key)pickupable;
         else if (pickupable.getClass() == Sword.class) sword = (Sword)pickupable;
         else if (pickupable.getClass() == Potion.class) potion = ((Potion)pickupable).pickup(potion, player);
-        else {
+        else if (pickupable.getClass() == Treasure.class) {
             treasure++;
             player.complete();
         }

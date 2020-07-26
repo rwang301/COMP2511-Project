@@ -14,7 +14,7 @@ public class DungeonScene {
     public DungeonScene(DungeonApplication application) throws IOException {
         this.stage = application.getStage();
 
-        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(application.getLevel());
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(application);
         DungeonController controller = dungeonLoader.loadController();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
