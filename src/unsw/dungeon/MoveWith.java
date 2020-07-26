@@ -9,8 +9,8 @@ public class MoveWith extends Strategy {
     @Override
     void move() {
         //set to players original position
-        System.out.println(player.getCurrPosition());
-        System.out.println(player.getPrevPosition());
+        character.setPosition(character.x(), player.getCurrPosition().getX());
+        character.setPosition(character.y(), player.getCurrPosition().getY());
     }
     
 }

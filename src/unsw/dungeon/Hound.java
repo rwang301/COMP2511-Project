@@ -8,7 +8,8 @@ public class Hound extends Entity implements Observer {
         strategy = new MoveWith(dungeon, this);
     }
 
-    public void initialise(Player player) {
+    void initialise(Player player) {
+        strategy.setPlayer(player);
         player.attach(this);
     }
 
@@ -16,5 +17,4 @@ public class Hound extends Entity implements Observer {
     public void update(Subject subject) {
         strategy.move();
     }
-    
 }

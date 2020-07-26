@@ -60,12 +60,17 @@ public abstract class Strategy {
         if (isOn(Blockable.class) || isOn(Enemy.class)) {
             // TODO isOn Enemy is buggy
             return false;
-        } else if (isOn(Player.class)) { //assume hound will never run into player
+        } else if (isOn(Player.class)) {// Assume hound will never run into player
             if (player.getPotion() != null) return false;
             ((Enemy) character).collide(player);
+        } else if (isOn(Hound.class)) {
+            if (player.getHound() != null) {
+                player.kill((Enemy) character);
+                player.sacrifice(current);
+            }
         } else if (isOn(Portal.class)) {
-            character.x().set(((Portal)current).getPortal().getX());
-            character.y().set(((Portal)current).getPortal().getY());
+            character.x().set(((Portal) current).getPortal().getX());
+            character.y().set(((Portal) current).getPortal().getY());
         }
         return true;
     }

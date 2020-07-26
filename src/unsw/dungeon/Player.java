@@ -19,13 +19,13 @@ public class Player extends Entity implements Subject {
      * starting at the player itself
      */
     private Entity current = this;
-    private int x;
-    private int y;
-    private int lives = 3;
     private Dungeon dungeon;
     private Backpack backpack = new Backpack();
     private List<Observer> enemies = new ArrayList<Observer>();
     private Observer hound;
+    private int lives = 1;
+    private int startingX;
+    private int startingY;
     private Entity currPosition;
     private Entity prevPosition;
 
@@ -37,12 +37,16 @@ public class Player extends Entity implements Subject {
     public Player(Dungeon dungeon, int x, int y) {
         super(x, y);
         this.dungeon = dungeon;
-        this.x = x;
-        this.y = y;
+        this.startingX = x;
+        this.startingY = y;
     }
 
     public List<Observer> getEnemies() {
         return enemies;
+    }
+
+    public Hound getHound() {
+        return (Hound) hound;
     }
 
     public int getTreasure() {
@@ -133,10 +137,17 @@ public class Player extends Entity implements Subject {
      */
     void die() {
         lives--;
-        setPosition(x(), x);
-        setPosition(y(), y);
         if (lives == 0) dungeon.complete(true);
-    }    
+        else {
+            setPosition(x(), startingX);
+            setPosition(y(), startingY);
+        }
+    }
+
+    void sacrifice(Entity hound) {
+        this.hound = null;
+        disappear(hound);
+    }
 
     /**
      * Check if the goal of this dungeon is met
@@ -231,7 +242,6 @@ public class Player extends Entity implements Subject {
      * @param position the previous x or y value before the player took the move
      */
     private void action(IntegerProperty coordinate, int position) {
-        notifyObservers(); // notify the enemies every time the player moves
         if (isOn(Portal.class)) {
             teleport((Portal)current);
         } else if (isOn(Blockable.class)) {
@@ -243,9 +253,10 @@ public class Player extends Entity implements Subject {
         } else if (isOn(Enemy.class)) {
             ((Enemy)current).collide(this);
         } else if (isOn(Hound.class)) {
-            ((Hound)current).initialise(this);
-            System.out.println("here");
+            ((Hound) current).initialise(this);
         }
+        // TODO potential bug gone
+        notifyObservers(); // notify the enemies every time the player moves
         // TODO walk on top of switches
     }
 
@@ -253,7 +264,7 @@ public class Player extends Entity implements Subject {
     public void moveUp() {
         if (getY() > 0) {
             prevPosition = currPosition;
-            currPosition = this;
+            currPosition = new Entity(getX(), getY());
             y().set(getY() - 1);
             action(y(), getY() + 1);
         }
@@ -262,7 +273,7 @@ public class Player extends Entity implements Subject {
     public void moveDown() {
         if (getY() < dungeon.getHeight() - 1) {
             prevPosition = currPosition;
-            currPosition = this;
+            currPosition = new Entity(getX(), getY());
             y().set(getY() + 1);
             action(y(), getY() - 1);
         }
@@ -271,7 +282,7 @@ public class Player extends Entity implements Subject {
     public void moveLeft() {
         if (getX() > 0) {
             prevPosition = currPosition;
-            currPosition = this;
+            currPosition = new Entity(getX(), getY());
             x().set(getX() - 1);
             action(x(), getX() + 1);
         }
@@ -280,7 +291,7 @@ public class Player extends Entity implements Subject {
     public void moveRight() {
         if (getX() < dungeon.getWidth() - 1) {
             prevPosition = currPosition;
-            currPosition = this;
+            currPosition = new Entity(getX(), getY());
             x().set(getX() + 1);
             action(x(), getX() - 1);
         }
@@ -319,8 +330,8 @@ public class Player extends Entity implements Subject {
 
 	@Override
 	public void notifyObservers() {
-        if (isOn(Potion.class)) enemies.forEach(enemy -> enemy.update(this));
-        else if (isOn(Hound.class)) hound.update(this);
+        if (current.getClass() == Potion.class) enemies.forEach(enemy -> enemy.update(this));
         else enemies.forEach(enemy -> ((Enemy)enemy).reset());
+        if (hound != null) hound.update(this);
 	}
 }

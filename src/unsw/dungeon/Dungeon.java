@@ -128,7 +128,7 @@ public class Dungeon implements Subject {
 
     @Override
     public void notifyObservers() {
-        if (entity == null) application.update(this);
-        else if (dungeonLoader != null) dungeonLoader.update(this);
+        if (dungeonLoader != null && entity != null) dungeonLoader.update(this);
+        else if (application != null) application.update(this);
     }
 }

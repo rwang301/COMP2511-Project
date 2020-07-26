@@ -3,5 +3,8 @@ package unsw.dungeon;
 import javafx.beans.property.IntegerProperty;
 
 public interface Blockable {
-    public void block(Player player, IntegerProperty coordinate, int position);
+    public default void block(Player player, IntegerProperty coordinate, int position) {
+        player.setPosition(coordinate, position);
+        player.setCurrPosition(player.getPrevPosition());
+    }
 }
