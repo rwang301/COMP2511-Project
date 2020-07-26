@@ -210,6 +210,11 @@ public abstract class DungeonLoader implements Observer {
             onLoad(medicine);
             entity = medicine;
             break;
+        case "hound":
+            Hound hound = new Hound(x, y);
+            onLoad(hound);
+            entity = hound;
+            break;
         default:
             System.out.println("Invalid entity");
             break;
@@ -242,4 +247,6 @@ public abstract class DungeonLoader implements Observer {
     public abstract void onLoad(Potion potion);
 
     public abstract void onLoad(Medicine medicine);
+
+    public abstract void onLoad(Hound hound);
 }

@@ -23,7 +23,7 @@ import java.io.File;
  */
 public class DungeonControllerLoader extends DungeonLoader {
 
-    private List<ImageView> entities;
+    private List<ImageView> entities = new ArrayList<>();
     private Map<Entity, ImageView> items = new HashMap<>();
 
     //Images
@@ -33,38 +33,24 @@ public class DungeonControllerLoader extends DungeonLoader {
      */
     private static Image ground = new Image((new File("images/dirt_0_new.png")).toURI().toString());
     private Image update = null;
-    private Image playerImage;
-    private Image wallImage;
-    private Image exitImage;
-    private Image portalImage;
-    private Image keyImage;
-    private Image openDoorImage;
-    private Image closedDoorImage;
-    private Image switchImage;
-    private Image boulderImage;
-    private Image treasureImage;
-    private Image enemyImage;
-    private Image swordImage;
-    private Image potionImage;
-    private Image medicineImage;
+    private Image playerImage = new Image((new File("images/human_new.png")).toURI().toString());
+    private Image wallImage = new Image((new File("images/brick_brown_0.png")).toURI().toString());
+    private Image exitImage = new Image((new File("images/exit.png")).toURI().toString());
+    private Image portalImage = new Image((new File("images/portal.png")).toURI().toString());
+    private Image keyImage = new Image((new File("images/key.png")).toURI().toString());
+    private Image openDoorImage = new Image((new File("images/open_door.png")).toURI().toString());
+    private Image closedDoorImage = new Image((new File("images/closed_door.png")).toURI().toString());
+    private Image switchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
+    private Image boulderImage = new Image((new File("images/boulder.png")).toURI().toString());
+    private Image treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
+    private Image enemyImage = new Image((new File("images/gnome.png")).toURI().toString());
+    private Image swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
+    private Image potionImage = new Image((new File("images/bubbly.png")).toURI().toString());
+    private Image medicineImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
+    private Image houndImage = new Image((new File("images/hound.png")).toURI().toString());
 
     public DungeonControllerLoader(DungeonApplication application) throws FileNotFoundException {
         super(application);
-        entities = new ArrayList<>();
-        playerImage = new Image((new File("images/deep_elf_master_archer.png")).toURI().toString());
-        wallImage = new Image((new File("images/brick_brown_0.png")).toURI().toString());
-        exitImage = new Image((new File("images/exit.png")).toURI().toString());
-        portalImage = new Image((new File("images/portal.png")).toURI().toString());
-        keyImage = new Image((new File("images/key.png")).toURI().toString());
-        openDoorImage = new Image((new File("images/open_door.png")).toURI().toString());
-        closedDoorImage = new Image((new File("images/closed_door.png")).toURI().toString());
-        switchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
-        boulderImage = new Image((new File("images/boulder.png")).toURI().toString());
-        treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
-        enemyImage = new Image((new File("images/gnome.png")).toURI().toString());
-        swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
-        potionImage = new Image((new File("images/bubbly.png")).toURI().toString());
-        medicineImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
     }
 
     @Override
@@ -157,6 +143,14 @@ public class DungeonControllerLoader extends DungeonLoader {
         view.setId(medicine.toString());
         items.put(medicine, view);
         addEntity(medicine, view);
+    }
+
+    @Override
+    public void onLoad(Hound hound) {
+        ImageView view = new ImageView(houndImage);
+        view.setId(hound.toString());
+        items.put(hound, view);
+        addEntity(hound, view);
     }
 
 
