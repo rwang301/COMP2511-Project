@@ -31,6 +31,7 @@ public class DungeonControllerLoader extends DungeonLoader {
      * If the update image is Door then it will be openDoorImage
      * otherwise it will be null so that images can be removed
      */
+    private static Image ground = new Image((new File("images/dirt_0_new.png")).toURI().toString());
     private Image update = null;
     private Image playerImage;
     private Image wallImage;
@@ -200,6 +201,19 @@ public class DungeonControllerLoader extends DungeonLoader {
                 GridPane.setRowIndex(node, newValue.intValue());
             }
         });
+    }
+
+    /**
+     * Load the ground as the background of the game
+     * @param squares
+     * @param ground
+     */
+    static void loadBackground(int width, int height, GridPane squares) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                squares.add(new ImageView(ground), x, y);
+            }
+        }
     }
 
     /**

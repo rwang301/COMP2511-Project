@@ -11,11 +11,10 @@ public class DungeonScene {
     private Scene scene;
     private Stage stage;
 
-    public DungeonScene(Stage stage) throws IOException {
-        this.stage = stage;
-        stage.setTitle("Dungeon");
+    public DungeonScene(DungeonApplication application) throws IOException {
+        this.stage = application.getStage();
 
-        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("complete.json");
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(application.getLevel());
         DungeonController controller = dungeonLoader.loadController();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));

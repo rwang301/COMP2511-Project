@@ -5,14 +5,40 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class DungeonApplication extends Application {
+public class DungeonApplication extends Application implements Observer {
+    private Stage stage;
+    private MainMenuScene mainMenuScene;
+    private String level;
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public String getLevel() {
+        return level;
+    }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        new DungeonScene(primaryStage).start();
+        this.stage = primaryStage;
+        primaryStage.setTitle("Dungeon");
+
+        this.mainMenuScene = new MainMenuScene(this);
+        mainMenuScene.start();
     }
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void update(Subject subject) {
+        this.level = ((MainMenuScene) subject).getLevel();
+        try {
+            new DungeonScene(this).start();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

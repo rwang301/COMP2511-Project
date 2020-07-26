@@ -113,7 +113,7 @@ public class Dungeon implements Subject {
     }
 
     @Override
-    public void detach(Observer o) {
+    public void detach(Observer observer) {
         dungeonLoader = null;
     }
 
