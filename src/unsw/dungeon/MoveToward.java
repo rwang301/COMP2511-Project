@@ -8,9 +8,9 @@ public class MoveToward extends Strategy {
 
     @Override
     void move() {
-        if (enemy.getX() > player.getX()) {// the enemy is to the right of the player
+        if (character.getX() > player.getX()) {// the enemy is to the right of the player
             if (!moveLeft()) {
-                if (enemy.getY() > player.getY()) {// the enemy is below the player
+                if (character.getY() > player.getY()) {// the enemy is below the player
                     if (!moveUp()) {
                         if (!moveRight()) {
                             moveDown();
@@ -24,9 +24,9 @@ public class MoveToward extends Strategy {
                     }
                 }
             }
-        } else if (enemy.getX() < player.getX()) {// the enemy is to the left of the player
+        } else if (character.getX() < player.getX()) {// the enemy is to the left of the player
             if (!moveRight()) {
-                if (enemy.getY() > player.getY()) {// the enemy is below the player
+                if (character.getY() > player.getY()) {// the enemy is below the player
                     if (!moveUp()) {
                         if (!moveLeft()) {
                             moveDown();
@@ -41,7 +41,7 @@ public class MoveToward extends Strategy {
                 }
             }
         } else {// the enemy and the player is on the same column
-            if (enemy.getY() > player.getY()) {// the enemy is below the player
+            if (character.getY() > player.getY()) {// the enemy is below the player
                 if (!moveUp()) {
                     if (!moveDown()) {
                         if (!moveLeft()) moveRight();

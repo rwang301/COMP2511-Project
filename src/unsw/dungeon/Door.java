@@ -19,6 +19,7 @@ public class Door extends Entity implements Blockable {
             open = true;
             player.open(this);
         } else {
+            player.setCurrPosition(player.getPrevPosition());
             player.setPosition(coordinate, position);
         }
     }

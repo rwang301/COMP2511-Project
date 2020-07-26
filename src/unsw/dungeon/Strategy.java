@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class Strategy {
-    Enemy enemy;
+    Entity character;
     Player player;
     private Dungeon dungeon;
     private Entity current;
@@ -16,9 +16,9 @@ public abstract class Strategy {
      */
     abstract void move();
 
-    Strategy(Dungeon dungeon, Enemy enemy) {
+    Strategy(Dungeon dungeon, Entity character) {
         this.dungeon = dungeon;
-        this.enemy = enemy;
+        this.character = character;
     }
 
     void setPlayer(Player player) {
@@ -26,7 +26,7 @@ public abstract class Strategy {
     }
 
 	void setCurrentPosition() {
-        visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
+        visited.add(new Enemy(dungeon, character.getX(), character.getY()));
 	}
 
 	void reset() {
@@ -40,7 +40,7 @@ public abstract class Strategy {
 
     boolean isOn(Class<?> entityType) {
         for (Entity entity: getEntities(entityType)) {
-            if (!enemy.equals(entity) && enemy.isOn(entity)) {
+            if (!character.equals(entity) && character.isOn(entity)) {
                 if (entity.getClass() == Door.class && ((Door)entity).isOpen()) {
                     continue;
                 }
@@ -56,28 +56,28 @@ public abstract class Strategy {
      * @return true if the enemy can move to the current square otherwise false
      */
     boolean canMove() {
-        if (visited.contains(enemy)) return false;
+        if (visited.contains(character)) return false;
         if (isOn(Blockable.class) || isOn(Enemy.class)) {
             // TODO isOn Enemy is buggy
             return false;
-        } else if (isOn(Player.class)) {
+        } else if (isOn(Player.class)) { //assume hound will never run into player
             if (player.getPotion() != null) return false;
-            enemy.collide(player);
+            ((Enemy) character).collide(player);
         } else if (isOn(Portal.class)) {
-            enemy.x().set(((Portal)current).getPortal().getX());
-            enemy.y().set(((Portal)current).getPortal().getY());
+            character.x().set(((Portal)current).getPortal().getX());
+            character.y().set(((Portal)current).getPortal().getY());
         }
         return true;
     }
 
     boolean moveUp() {
-        if (enemy.getY() > 0) {
-            enemy.y().set(enemy.getY() - 1);
+        if (character.getY() > 0) {
+            character.y().set(character.getY() - 1);
             if (!canMove()) {
-                enemy.y().set(enemy.getY() + 1);
+                character.y().set(character.getY() + 1);
                 return false;
             } else {
-                visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
+                visited.add(new Enemy(dungeon, character.getX(), character.getY()));
                 return true;
             }
         }
@@ -85,13 +85,13 @@ public abstract class Strategy {
     }
 
     boolean moveDown() {
-        if (enemy.getY() < dungeon.getHeight() - 1) {
-            enemy.y().set(enemy.getY() + 1);
+        if (character.getY() < dungeon.getHeight() - 1) {
+            character.y().set(character.getY() + 1);
             if (!canMove()) {
-                enemy.y().set(enemy.getY() - 1);
+                character.y().set(character.getY() - 1);
                 return false;
             } else {
-                visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
+                visited.add(new Enemy(dungeon, character.getX(), character.getY()));
                 return true;
             }
         }
@@ -99,13 +99,13 @@ public abstract class Strategy {
     }
 
     boolean moveLeft() {
-        if (enemy.getX() > 0) {
-            enemy.x().set(enemy.getX() - 1);
+        if (character.getX() > 0) {
+            character.x().set(character.getX() - 1);
             if (!canMove()){
-                enemy.x().set(enemy.getX() + 1);
+                character.x().set(character.getX() + 1);
                 return false;
             } else {
-                visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
+                visited.add(new Enemy(dungeon, character.getX(), character.getY()));
                 return true;
             }
         }
@@ -113,13 +113,13 @@ public abstract class Strategy {
     }
 
     boolean moveRight() {
-        if (enemy.getX() < dungeon.getWidth() - 1) {
-            enemy.x().set(enemy.getX() + 1);
+        if (character.getX() < dungeon.getWidth() - 1) {
+            character.x().set(character.getX() + 1);
             if (!canMove()) {
-                enemy.x().set(enemy.getX() - 1);
+                character.x().set(character.getX() - 1);
                 return false;
             } else {
-                visited.add(new Enemy(dungeon, enemy.getX(), enemy.getY()));
+                visited.add(new Enemy(dungeon, character.getX(), character.getY()));
                 return true;
             }
         }

@@ -25,6 +25,9 @@ public class Player extends Entity implements Subject {
     private Dungeon dungeon;
     private Backpack backpack = new Backpack();
     private List<Observer> enemies = new ArrayList<Observer>();
+    private Observer hound;
+    private Entity currPosition;
+    private Entity prevPosition;
 
     /**
      * Create a player positioned in square (x,y)
@@ -68,6 +71,18 @@ public class Player extends Entity implements Subject {
 
     public int getTotalTreasure() {
         return dungeon.getTreasure();
+    }
+
+    public void setCurrPosition(Entity currPosition) {
+        this.currPosition = currPosition;
+    }
+
+    public Entity getCurrPosition() {
+        return currPosition;
+    }
+
+    public Entity getPrevPosition() {
+        return prevPosition;
     }
 
 
@@ -227,6 +242,9 @@ public class Player extends Entity implements Subject {
             complete();
         } else if (isOn(Enemy.class)) {
             ((Enemy)current).collide(this);
+        } else if (isOn(Hound.class)) {
+            ((Hound)current).initialise(this);
+            System.out.println("here");
         }
         // TODO walk on top of switches
     }
@@ -234,6 +252,8 @@ public class Player extends Entity implements Subject {
 
     public void moveUp() {
         if (getY() > 0) {
+            prevPosition = currPosition;
+            currPosition = this;
             y().set(getY() - 1);
             action(y(), getY() + 1);
         }
@@ -241,6 +261,8 @@ public class Player extends Entity implements Subject {
 
     public void moveDown() {
         if (getY() < dungeon.getHeight() - 1) {
+            prevPosition = currPosition;
+            currPosition = this;
             y().set(getY() + 1);
             action(y(), getY() - 1);
         }
@@ -248,6 +270,8 @@ public class Player extends Entity implements Subject {
 
     public void moveLeft() {
         if (getX() > 0) {
+            prevPosition = currPosition;
+            currPosition = this;
             x().set(getX() - 1);
             action(x(), getX() + 1);
         }
@@ -255,6 +279,8 @@ public class Player extends Entity implements Subject {
 
     public void moveRight() {
         if (getX() < dungeon.getWidth() - 1) {
+            prevPosition = currPosition;
+            currPosition = this;
             x().set(getX() + 1);
             action(x(), getX() - 1);
         }
@@ -280,18 +306,21 @@ public class Player extends Entity implements Subject {
 
 
     @Override
-	public void attach(Observer enemy) {
-        enemies.add(enemy);
+	public void attach(Observer observer) {
+        if (observer.getClass() == Enemy.class) enemies.add(observer);
+        if (observer.getClass() == Hound.class) hound = observer;
 	};
 
 	@Override
-	public void detach(Observer enemy) {
-		enemies.remove(enemy);
+	public void detach(Observer observer) {
+        if (observer.getClass() == Enemy.class) enemies.remove(observer);
+        else if (observer.getClass() == Hound.class) hound = null;
 	}
 
 	@Override
 	public void notifyObservers() {
         if (isOn(Potion.class)) enemies.forEach(enemy -> enemy.update(this));
+        else if (isOn(Hound.class)) hound.update(this);
         else enemies.forEach(enemy -> ((Enemy)enemy).reset());
 	}
 }

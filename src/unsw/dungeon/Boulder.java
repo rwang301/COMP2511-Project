@@ -63,6 +63,7 @@ public class Boulder extends Entity implements Blockable {
     @Override
     public void block(Player player, IntegerProperty coordinate, int position) {
         player.setPosition(coordinate, position);
+        player.setCurrPosition(player.getPrevPosition());
     }
     
 }

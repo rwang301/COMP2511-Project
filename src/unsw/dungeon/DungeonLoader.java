@@ -211,7 +211,7 @@ public abstract class DungeonLoader implements Observer {
             entity = medicine;
             break;
         case "hound":
-            Hound hound = new Hound(x, y);
+            Hound hound = new Hound(dungeon, x, y);
             onLoad(hound);
             entity = hound;
             break;
