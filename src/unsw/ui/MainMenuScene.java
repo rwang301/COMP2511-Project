@@ -28,8 +28,11 @@ public class MainMenuScene implements Subject {
         attach(application);
         Pane root = new Pane();
 
+        double width = application.getWidth();
+        double height = application.getHeight();
+
         GridPane gridPane = new GridPane();
-        DungeonControllerLoader.loadBackground(50, 50, gridPane);
+        DungeonControllerLoader.loadBackground((int) (width/DungeonControllerLoader.getWidth()), (int) (height/DungeonControllerLoader.getHeight()), gridPane);
 
         Button start = new GameButton("Start", 500, 200);
         start.setOnAction(event -> {
@@ -43,7 +46,7 @@ public class MainMenuScene implements Subject {
         });
 
         root.getChildren().addAll(gridPane, start, exit);
-        scene = new Scene(root);
+        scene = new Scene(root, width, height);
     }
 
     private List<Button> createLevels() {

@@ -70,6 +70,14 @@ public class DungeonControllerLoader extends DungeonLoader {
         super(application);
     }
 
+    static double getWidth() {
+        return ground.getWidth();
+    }
+
+    static double getHeight() {
+        return ground.getHeight();
+    }
+
     @Override
     public void onLoad(Entity player) {
         ImageView view = new ImageView(playerImage);

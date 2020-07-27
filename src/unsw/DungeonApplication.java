@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import unsw.dungeon.Dungeon;
 import unsw.dungeon.Observer;
@@ -15,6 +16,8 @@ public class DungeonApplication extends Application implements Observer {
     private Stage stage;
     private MainMenuScene mainMenuScene;
     private String level;
+    private double width = Screen.getScreens().get(0).getVisualBounds().getWidth();
+    private double height = Screen.getScreens().get(0).getVisualBounds().getHeight();
 
     public Stage getStage() {
         return stage;
@@ -22,6 +25,14 @@ public class DungeonApplication extends Application implements Observer {
 
     public String getLevel() {
         return level;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
     }
 
     @Override
