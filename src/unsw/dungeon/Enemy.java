@@ -3,8 +3,7 @@ package unsw.dungeon;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Enemy extends Entity implements Observer {
-    private Strategy strategy;
+public class Enemy extends Character {
     private Strategy moveToward;
     private Strategy moveAway;
     private Timer timer;
@@ -28,10 +27,23 @@ public class Enemy extends Entity implements Observer {
         return moveAway;
     }
 
+    void cancelTimer() {
+        timer.cancel();
+        timer.purge();
+    }
+
+    /**
+     * Reset the visited array
+     */
+    void reset() {
+        strategy.reset();
+    }
+
     /**
      * Initialise a timer for the enemy
      * @param player
      */
+    @Override
     public void initialise(Player player) {
         moveToward.setPlayer(player);
         moveToward.setCurrentPosition();
@@ -47,11 +59,6 @@ public class Enemy extends Entity implements Observer {
         }, 1000, 500); // Be careful when change the delay and period it will fail the JUnit tests
     }
 
-    void cancelTimer() {
-        timer.cancel();
-        timer.purge();
-    }
-
     /**
      * When the enemy collides with a player
      * if the player does not hold a sword or potion
@@ -59,6 +66,7 @@ public class Enemy extends Entity implements Observer {
      * otherwise the enemy dies
      * @param player
      */
+    @Override
 	void collide(Player player) {
         if (player.getSword() != null || player.getPotion() != null) {
             if (player.getPotion() == null) player.hit(); // if the player doesn't have a potion they must've had a sword
@@ -68,17 +76,9 @@ public class Enemy extends Entity implements Observer {
         }
     }
 
-    /**
-     * Reset the visited array
-     */
-    void reset() {
-        strategy.reset();
-    }
-
     @Override
     public void update(Subject subject) {
         if (subject.getClass() == Player.class) strategy = moveAway;
         else if (subject.getClass() == Potion.class) strategy = moveToward;
-        reset();
     }
 }

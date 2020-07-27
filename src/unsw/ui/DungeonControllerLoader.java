@@ -19,6 +19,7 @@ import unsw.dungeon.Dungeon;
 import unsw.dungeon.Enemy;
 import unsw.dungeon.Entity;
 import unsw.dungeon.Exit;
+import unsw.dungeon.Gnome;
 import unsw.dungeon.Hound;
 import unsw.dungeon.Key;
 import unsw.dungeon.Medicine;
@@ -60,11 +61,12 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image switchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
     private Image boulderImage = new Image((new File("images/boulder.png")).toURI().toString());
     private Image treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
-    private Image enemyImage = new Image((new File("images/gnome.png")).toURI().toString());
+    private Image enemyImage = new Image((new File("images/deep_elf_master_archer.png")).toURI().toString());
     private Image swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
     private Image potionImage = new Image((new File("images/bubbly.png")).toURI().toString());
     private Image medicineImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
     private Image houndImage = new Image((new File("images/hound.png")).toURI().toString());
+    private Image gnomeImage = new Image((new File("images/gnome.png")).toURI().toString());
 
     public DungeonControllerLoader(DungeonApplication application) throws FileNotFoundException {
         super(application);
@@ -176,6 +178,14 @@ public class DungeonControllerLoader extends DungeonLoader {
         view.setId(hound.toString());
         items.put(hound, view);
         addEntity(hound, view);
+    }
+
+    @Override
+    public void onLoad(Gnome gnome) {
+        ImageView view = new ImageView(gnomeImage);
+        view.setId(gnome.toString());
+        items.put(gnome, view);
+        addEntity(gnome, view);
     }
 
 

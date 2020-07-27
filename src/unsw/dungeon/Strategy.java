@@ -5,18 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class Strategy {
-    Entity character;
+    Character character;
     Player player;
+    Entity current;
     private Dungeon dungeon;
-    private Entity current;
     private List<Enemy> visited = new ArrayList<>();
 
-    /**
-     * Implementation of the strategy for how the enemy should move
-     */
-    abstract void move();
-
-    Strategy(Dungeon dungeon, Entity character) {
+    Strategy(Dungeon dungeon, Character character) {
         this.dungeon = dungeon;
         this.character = character;
     }
@@ -24,6 +19,11 @@ public abstract class Strategy {
     void setPlayer(Player player) {
         this.player = player;
     }
+
+    /**
+     * Implementation of the strategy for how the enemy should move
+     */
+    abstract void move();
 
 	void setCurrentPosition() {
         visited.add(new Enemy(dungeon, character.getX(), character.getY()));
@@ -59,12 +59,12 @@ public abstract class Strategy {
         if (visited.contains(character)) return false;
         if (isOn(Blockable.class)) {
             return false;
-        } else if (isOn(Player.class)) {// Assume hound will never run into player
+        } else if (isOn(Player.class)) {
             if (player.getPotion() != null) return false;
-            ((Enemy) character).collide(player);
+            character.collide(player);
         } else if (isOn(Hound.class)) {
             if (player.getHound() == current) {
-                player.kill((Enemy) character);
+                player.kill(character);
                 player.sacrifice();
             }
         } else if (isOn(Portal.class)) {

@@ -6,9 +6,11 @@ public class MoveWith extends Strategy {
         super(dungeon, hound);
     }
 
+    /**
+     * Move to player's last position
+     */
     @Override
     void move() {
-        //set to players original position
         character.setPosition(character.x(), player.getCurrPosition().getX());
         character.setPosition(character.y(), player.getCurrPosition().getY());
     }

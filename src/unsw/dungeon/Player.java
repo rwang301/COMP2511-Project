@@ -1,7 +1,7 @@
 package unsw.dungeon;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 import javafx.beans.property.IntegerProperty;
@@ -15,13 +15,13 @@ import javafx.beans.property.IntegerProperty;
 public class Player extends Entity implements Subject {
 
     /**
-     * Stores the entity that the player is currently on
-     * starting at the player itself
+     * Stores the entity that the player is currently on starting at the player itself
      */
     private Entity current = this;
     private Dungeon dungeon;
     private Backpack backpack = new Backpack();
-    private List<Observer> enemies = new ArrayList<Observer>();
+    private List<Observer> enemies = new CopyOnWriteArrayList<>();
+    private List<Observer> gnomes = new CopyOnWriteArrayList<>();
     private Observer hound;
     private int lives = 1;
     private int startingX;
@@ -43,6 +43,10 @@ public class Player extends Entity implements Subject {
 
     public List<Observer> getEnemies() {
         return enemies;
+    }
+
+    public List<Observer> getGnomes() {
+        return gnomes;
     }
 
     public Hound getHound() {
@@ -124,12 +128,15 @@ public class Player extends Entity implements Subject {
      * Remove the enemy entity when killed
      * @param enemy
      */
-    void kill(Enemy enemy) {
-        enemy.cancelTimer();
-        disappear(enemy);
-        detach(enemy);
-        if (getPotion() != null) getPotion().detach(enemy);
-        complete();
+    void kill(Character character) {
+        if (character.getClass() == Enemy.class) {
+            Enemy enemy = (Enemy) character;
+            enemy.cancelTimer();
+            if (getPotion() != null) getPotion().detach(enemy);
+            complete();
+        }
+        disappear(character);
+        detach(character);
     }
 
     /**
@@ -141,7 +148,7 @@ public class Player extends Entity implements Subject {
         else {
             setPosition(x(), startingX);
             setPosition(y(), startingY);
-            detach(hound);
+            if (hound != null) detach(hound);
         }
     }
 
@@ -256,8 +263,7 @@ public class Player extends Entity implements Subject {
         } else if (isOn(Hound.class)) {
             if (hound == null) ((Hound) current).initialise(this);
         }
-        // TODO potential bug gone
-        notifyObservers(); // notify the enemies every time the player moves
+        notifyObservers(); // notify all the characters every time the player moves
         // TODO walk on top of switches
     }
 
@@ -320,20 +326,23 @@ public class Player extends Entity implements Subject {
     @Override
 	public void attach(Observer observer) {
         if (observer.getClass() == Enemy.class) enemies.add(observer);
-        if (observer.getClass() == Hound.class) hound = observer;
+        else if (observer.getClass() == Gnome.class) gnomes.add(observer);
+        else if (observer.getClass() == Hound.class) hound = observer;
 	};
 
 	@Override
 	public void detach(Observer observer) {
-        if (observer == null) return;
         if (observer.getClass() == Enemy.class) enemies.remove(observer);
+        if (observer.getClass() == Gnome.class) gnomes.remove(observer);
         else if (observer.getClass() == Hound.class) hound = null;
 	}
 
 	@Override
 	public void notifyObservers() {
+        // TODO potential bug using current gone
         if (current.getClass() == Potion.class) enemies.forEach(enemy -> enemy.update(this));
-        else enemies.forEach(enemy -> ((Enemy) enemy).reset());
+        enemies.forEach(enemy -> ((Enemy) enemy).reset());
+        gnomes.forEach(gnome -> gnome.update(this));
         if (hound != null) hound.update(this);
 	}
 }

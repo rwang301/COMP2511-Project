@@ -1257,6 +1257,16 @@
       "type": "switch"
     },
     {
+      "x": 22,
+      "y": 18,
+      "type": "gnome"
+    },
+    {
+      "x": 20,
+      "y": 22,
+      "type": "gnome"
+    },
+    {
       "x": 25,
       "y": 1,
       "type": "enemy"

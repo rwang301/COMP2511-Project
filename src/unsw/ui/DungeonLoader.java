@@ -19,6 +19,7 @@ import unsw.dungeon.Dungeon;
 import unsw.dungeon.Enemy;
 import unsw.dungeon.Entity;
 import unsw.dungeon.Exit;
+import unsw.dungeon.Gnome;
 import unsw.dungeon.GoalBoulders;
 import unsw.dungeon.GoalEnemies;
 import unsw.dungeon.GoalExit;
@@ -76,8 +77,11 @@ public abstract class DungeonLoader implements Observer {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
 
-        player.getEntities(Enemy.class).forEach(enemy -> player.attach((Observer)enemy));
-        player.getEnemies().forEach(enemy -> ((Enemy)enemy).initialise(player));
+        player.getEntities(Enemy.class).forEach(enemy -> player.attach((Observer) enemy));
+        player.getEnemies().forEach(enemy -> ((Enemy) enemy).initialise(player));
+
+        player.getEntities(Gnome.class).forEach(gnome -> player.attach((Observer) gnome));
+        player.getGnomes().forEach(gnome -> ((Gnome) gnome).initialise(player));
 
         dungeon.attach(this);
         dungeon.setGoal(goal);
@@ -240,6 +244,11 @@ public abstract class DungeonLoader implements Observer {
             onLoad(hound);
             entity = hound;
             break;
+        case "gnome":
+            Gnome gnome = new Gnome(dungeon, x, y);
+            onLoad(gnome);
+            entity = gnome;
+            break;
         default:
             System.out.println("Invalid entity");
             break;
@@ -274,4 +283,6 @@ public abstract class DungeonLoader implements Observer {
     public abstract void onLoad(Medicine medicine);
 
     public abstract void onLoad(Hound hound);
+
+    public abstract void onLoad(Gnome gnome);
 }

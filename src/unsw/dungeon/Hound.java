@@ -1,16 +1,21 @@
 package unsw.dungeon;
 
-public class Hound extends Entity implements Observer {
-    private Strategy strategy;
+public class Hound extends Character {
 
     public Hound(Dungeon dungeon, int x, int y) {
         super(x, y);
         strategy = new MoveWith(dungeon, this);
     }
 
+    @Override
     void initialise(Player player) {
-        strategy.setPlayer(player);
         player.attach(this);
+        strategy.setPlayer(player);
+    }
+
+    @Override
+    void collide(Player player) {
+        // Assume hound will never run into player
     }
 
     @Override
