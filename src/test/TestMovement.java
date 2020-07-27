@@ -161,15 +161,13 @@ public class TestMovement {
         initialise();
 
         sleep(1050);
-        assertEquals(enemy.getX(), 2);
+        assertCoordinates(2, 0);
         assertEquals(enemy2.getX(), 2);
-        assertTrue(enemy.getY() == 1 || enemy.getY() == 0);
-        assertTrue(enemy2.getY() == 1 || enemy2.getY() == 0);
+        assertEquals(enemy2.getY(), 1);
 
         sleep(500);
-        assertEquals(enemy.getX(), 2);
+        assertCoordinates(2, 0);
         assertEquals(enemy2.getX(), 2);
-        assertTrue(enemy.getY() == 1 || enemy.getY() == 0);
-        assertTrue(enemy2.getY() == 1 || enemy2.getY() == 0);
+        assertEquals(enemy2.getY(), 1);
     }
 }
