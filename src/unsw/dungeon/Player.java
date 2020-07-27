@@ -144,12 +144,10 @@ public class Player extends Entity implements Subject {
      */
     void die() {
         lives--;
+        setPosition(x(), startingX);
+        setPosition(y(), startingY);
         if (lives == 0) dungeon.complete(true);
-        else {
-            setPosition(x(), startingX);
-            setPosition(y(), startingY);
-            if (hound != null) detach(hound);
-        }
+        else if (hound != null) detach(hound);
     }
 
     void sacrifice() {
