@@ -1,0 +1,5 @@
+.button {
+    -fx-text-fill: darkorange;
+    -fx-background-color: silver;
+    -fx-font-size: 2em;
+}
