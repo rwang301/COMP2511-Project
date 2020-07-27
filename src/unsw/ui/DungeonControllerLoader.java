@@ -70,11 +70,11 @@ public class DungeonControllerLoader extends DungeonLoader {
         super(application);
     }
 
-    static double getWidth() {
+    public static double getWidth() {
         return ground.getWidth();
     }
 
-    static double getHeight() {
+    public static double getHeight() {
         return ground.getHeight();
     }
 

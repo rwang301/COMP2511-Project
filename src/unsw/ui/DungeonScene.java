@@ -18,11 +18,11 @@ public class DungeonScene {
         DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(application);
         DungeonController controller = dungeonLoader.loadController();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../DungeonView.fxml"));
         loader.setController(controller);
 
         Parent root = loader.load();
-        scene = new Scene(root);
+        scene = new Scene(root, application.getWidth(), application.getHeight());
         root.requestFocus();
     }
 

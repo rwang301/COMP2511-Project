@@ -65,10 +65,7 @@ public abstract class DungeonLoader implements Observer {
      * @return
      */
     public Dungeon load() {
-        int width = json.getInt("width");
-        int height = json.getInt("height");
-
-        Dungeon dungeon = new Dungeon(width, height);
+        Dungeon dungeon = new Dungeon((int) (application.getWidth()/DungeonControllerLoader.getWidth()), (int) (application.getHeight()/DungeonControllerLoader.getHeight()));
         dungeon.attach(application);
 
         JSONArray jsonEntities = json.getJSONArray("entities");
