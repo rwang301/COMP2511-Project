@@ -3,6 +3,7 @@ package unsw.dungeon;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 public class DungeonApplication extends Application implements Observer {
@@ -42,7 +43,9 @@ public class DungeonApplication extends Application implements Observer {
                 e.printStackTrace();
             }
         } else if (subject.getClass() == Dungeon.class) {
-            mainMenuScene.start();
+            Platform.runLater(() -> {
+                mainMenuScene.start();
+            });
         }
     }
 }
