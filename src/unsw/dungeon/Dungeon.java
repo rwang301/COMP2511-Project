@@ -6,6 +6,9 @@ package unsw.dungeon;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import unsw.DungeonApplication;
+import unsw.ui.DungeonControllerLoader;
+
 /**
  * A dungeon in the interactive dungeon player.
  *

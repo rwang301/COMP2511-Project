@@ -1,4 +1,4 @@
-package unsw.dungeon;
+package unsw.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import unsw.DungeonApplication;
+import unsw.dungeon.Observer;
+import unsw.dungeon.Subject;
 
 public class MainMenuScene implements Subject {
     private Scene scene;

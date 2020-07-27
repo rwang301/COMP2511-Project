@@ -1,4 +1,4 @@
-package unsw.dungeon;
+package unsw.ui;
 
 import java.io.IOException;
 
@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import unsw.DungeonApplication;
 
 public class DungeonScene {
     private Scene scene;

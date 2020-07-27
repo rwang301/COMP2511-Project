@@ -11,7 +11,7 @@ public class Switch extends Entity {
         return triggered;
     }
 
-    void setTriggered() {
+    public void setTriggered() {
         triggered = !triggered;
     }
 }

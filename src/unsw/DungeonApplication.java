@@ -1,9 +1,15 @@
-package unsw.dungeon;
+package unsw;
 
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
+import unsw.dungeon.Dungeon;
+import unsw.dungeon.Observer;
+import unsw.dungeon.Subject;
+import unsw.ui.DungeonScene;
+import unsw.ui.MainMenuScene;
 
 public class DungeonApplication extends Application implements Observer {
     private Stage stage;
@@ -42,7 +48,9 @@ public class DungeonApplication extends Application implements Observer {
                 e.printStackTrace();
             }
         } else if (subject.getClass() == Dungeon.class) {
-            mainMenuScene.start();
+            Platform.runLater(() -> {
+                mainMenuScene.start();
+            });
         }
     }
 }

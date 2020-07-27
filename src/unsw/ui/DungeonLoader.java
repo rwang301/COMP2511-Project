@@ -1,4 +1,4 @@
-package unsw.dungeon;
+package unsw.ui;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,6 +8,33 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import unsw.DungeonApplication;
+import unsw.dungeon.And;
+import unsw.dungeon.Boulder;
+import unsw.dungeon.Component;
+import unsw.dungeon.Composite;
+import unsw.dungeon.Door;
+import unsw.dungeon.Dungeon;
+import unsw.dungeon.Enemy;
+import unsw.dungeon.Entity;
+import unsw.dungeon.Exit;
+import unsw.dungeon.GoalBoulders;
+import unsw.dungeon.GoalEnemies;
+import unsw.dungeon.GoalExit;
+import unsw.dungeon.GoalTreasure;
+import unsw.dungeon.Hound;
+import unsw.dungeon.Key;
+import unsw.dungeon.Medicine;
+import unsw.dungeon.Observer;
+import unsw.dungeon.Or;
+import unsw.dungeon.Player;
+import unsw.dungeon.Portal;
+import unsw.dungeon.Potion;
+import unsw.dungeon.Switch;
+import unsw.dungeon.Sword;
+import unsw.dungeon.Treasure;
+import unsw.dungeon.Wall;
 
 /**
  * Loads a dungeon from a .json file.
@@ -57,6 +84,7 @@ public abstract class DungeonLoader implements Observer {
 
         dungeon.attach(this);
         dungeon.setGoal(goal);
+
         player.getEntities(Switch.class).forEach(floorSwitch -> {
             for (Entity boulder: player.getEntities(Boulder.class)) {
                 if (boulder.isOn(floorSwitch)) {

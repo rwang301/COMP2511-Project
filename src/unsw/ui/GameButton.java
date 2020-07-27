@@ -1,4 +1,4 @@
-package unsw.dungeon;
+package unsw.ui;
 
 import javafx.scene.control.Button;
 

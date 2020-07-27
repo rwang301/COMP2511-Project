@@ -1,4 +1,4 @@
-package unsw.dungeon;
+package unsw.ui;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -12,6 +12,23 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import unsw.DungeonApplication;
+import unsw.dungeon.Boulder;
+import unsw.dungeon.Door;
+import unsw.dungeon.Dungeon;
+import unsw.dungeon.Enemy;
+import unsw.dungeon.Entity;
+import unsw.dungeon.Exit;
+import unsw.dungeon.Hound;
+import unsw.dungeon.Key;
+import unsw.dungeon.Medicine;
+import unsw.dungeon.Portal;
+import unsw.dungeon.Potion;
+import unsw.dungeon.Subject;
+import unsw.dungeon.Switch;
+import unsw.dungeon.Sword;
+import unsw.dungeon.Treasure;
+import unsw.dungeon.Wall;
 
 import java.io.File;
 
