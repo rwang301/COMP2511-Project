@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -41,25 +42,22 @@ public class MainMenuScene implements Subject {
         Button start = new GameButton("Start", center, (int) (height/4));
         Button instruction = new GameButton("Intruction", center, (int) (height/4*2));
         Button exit = new GameButton("Exit", center, (int) (height/4*3));
+        Group group = new Group(start, instruction, exit);
 
         start.setOnAction(event -> {
-            root.getChildren().remove(start);
-            root.getChildren().remove(instruction);
-            root.getChildren().remove(exit);
+            root.getChildren().remove(group);
             root.getChildren().addAll(createLevels());
         });
 
         instruction.setOnAction(event -> {
-            root.getChildren().remove(start);
-            root.getChildren().remove(instruction);
-            root.getChildren().remove(exit);
+            root.getChildren().remove(group);
         });
 
         exit.setOnAction(event -> {
             System.exit(0);
         });
 
-        root.getChildren().addAll(gridPane, start, instruction, exit);
+        root.getChildren().addAll(gridPane, group);
         scene = new Scene(root, width, height);
     }
 
