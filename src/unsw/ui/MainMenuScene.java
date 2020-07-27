@@ -18,6 +18,9 @@ public class MainMenuScene implements Subject {
     private Stage stage;
     private Observer application;
     private String level;
+    private double width;
+    private double height;
+    private int center;
 
     public String getLevel() {
         return level;
@@ -28,33 +31,44 @@ public class MainMenuScene implements Subject {
         attach(application);
         Pane root = new Pane();
 
-        double width = application.getWidth();
-        double height = application.getHeight();
+        width = application.getWidth();
+        height = application.getHeight();
+        center = (int) (width/2) - 100;
 
         GridPane gridPane = new GridPane();
         DungeonControllerLoader.loadBackground((int) (width/DungeonControllerLoader.getWidth()), (int) (height/DungeonControllerLoader.getHeight()), gridPane);
 
-        Button start = new GameButton("Start", 500, 200);
+        Button start = new GameButton("Start", center, (int) (height/4));
+        Button instruction = new GameButton("Intruction", center, (int) (height/4*2));
+        Button exit = new GameButton("Exit", center, (int) (height/4*3));
+
         start.setOnAction(event -> {
             root.getChildren().remove(start);
+            root.getChildren().remove(instruction);
+            root.getChildren().remove(exit);
             root.getChildren().addAll(createLevels());
         });
 
-        Button exit = new GameButton("Exit", 500, 400);
+        instruction.setOnAction(event -> {
+            root.getChildren().remove(start);
+            root.getChildren().remove(instruction);
+            root.getChildren().remove(exit);
+        });
+
         exit.setOnAction(event -> {
             System.exit(0);
         });
 
-        root.getChildren().addAll(gridPane, start, exit);
+        root.getChildren().addAll(gridPane, start, instruction, exit);
         scene = new Scene(root, width, height);
     }
 
     private List<Button> createLevels() {
         List<Button> levels = new ArrayList<>();
-        levels.add(createLevel("maze", 500, 200));
-        levels.add(createLevel("boulders", 500, 300));
-        levels.add(createLevel("advanced", 500, 400));
-        levels.add(createLevel("master", 500, 500));
+        levels.add(createLevel("maze", center, (int) (height/5)));
+        levels.add(createLevel("boulders", center, (int) (height/5*2)));
+        levels.add(createLevel("advanced", center, (int) (height/5*3)));
+        levels.add(createLevel("master", center, (int) (height/5*4)));
         return levels;
     }
 
