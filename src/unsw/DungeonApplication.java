@@ -9,12 +9,14 @@ import javafx.stage.Stage;
 import unsw.dungeon.Dungeon;
 import unsw.dungeon.Observer;
 import unsw.dungeon.Subject;
+import unsw.ui.DungeonController;
 import unsw.ui.DungeonScene;
 import unsw.ui.MainMenuScene;
 
 public class DungeonApplication extends Application implements Observer {
     private Stage stage;
     private MainMenuScene mainMenuScene;
+    private DungeonScene dungeonScene;
     private String level;
     private double width = Screen.getScreens().get(0).getVisualBounds().getWidth();
     private double height = Screen.getScreens().get(0).getVisualBounds().getHeight();
@@ -48,20 +50,24 @@ public class DungeonApplication extends Application implements Observer {
         launch(args);
     }
 
+
     @Override
     public void update(Subject subject) {
         if (subject.getClass() == MainMenuScene.class) {
             this.level = ((MainMenuScene) subject).getLevel();
             try {
-                new DungeonScene(this).start();
+                dungeonScene = new DungeonScene(this);
+                dungeonScene.start();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         } else if (subject.getClass() == Dungeon.class) {
             Platform.runLater(() -> {
-                mainMenuScene.start();
+                dungeonScene.gameOver();
             });
+        } else if (subject.getClass() == DungeonController.class) {
+            mainMenuScene.start();
         }
     }
 }
