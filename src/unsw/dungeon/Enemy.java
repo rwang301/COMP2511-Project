@@ -46,8 +46,8 @@ public class Enemy extends Character {
     @Override
     public void initialise(Player player) {
         moveToward.setPlayer(player);
-        moveToward.setCurrentPosition();
         moveAway.setPlayer(player);
+        moveToward.setCurrentPosition();
         moveAway.setCurrentPosition();
 
         timer = new Timer();

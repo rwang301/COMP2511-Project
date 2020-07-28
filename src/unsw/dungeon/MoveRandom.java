@@ -50,5 +50,4 @@ public class MoveRandom extends Strategy {
         }
         return true;
     }
-    
 }
