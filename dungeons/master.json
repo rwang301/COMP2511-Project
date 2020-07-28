@@ -153,10 +153,10 @@
     {
       "x": 6,
       "y": 1,
-      "type": "enemy"
+      "type": "gnome"
     },
     {
-      "x": 14,
+      "x": 13,
       "y": 1,
       "type": "treasure"
     },
@@ -194,11 +194,6 @@
       "x": 0,
       "y": 2,
       "type": "wall"
-    },
-    {
-      "x": 1,
-      "y": 2,
-      "type": "hound"
     },
     {
       "x": 2,
@@ -378,6 +373,11 @@
       "type": "key"
     },
     {
+      "x": 18,
+      "y": 4,
+      "type": "invincibility"
+    },
+    {
       "x": 19,
       "y": 4,
       "type": "wall"
@@ -587,7 +587,7 @@
     {
       "x": 1,
       "y": 8,
-      "type": "invincibility"
+      "type": "medicine"
     },
     {
       "x": 2,
@@ -602,7 +602,7 @@
     {
       "x": 6,
       "y": 8,
-      "type": "invincibility"
+      "type": "medicine"
     },
     {
       "x": 7,
@@ -674,6 +674,11 @@
       "x": 9,
       "y": 9,
       "type": "wall"
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "type": "invincibility"
     },
     {
       "x": 13,
@@ -919,11 +924,6 @@
       "type": "key"
     },
     {
-      "x": 16,
-      "y": 13,
-      "type": "medicine"
-    },
-    {
       "x": 17,
       "y": 13,
       "type": "wall"
@@ -987,11 +987,6 @@
       "x": 16,
       "y": 14,
       "type": "hound"
-    },
-    {
-      "x": 16,
-      "y": 14,
-      "type": "medicine"
     },
     {
       "x": 17,
@@ -1063,6 +1058,11 @@
       "x": 1,
       "y": 16,
       "type": "wall"
+    },
+    {
+      "x": 3,
+      "y": 16,
+      "type": "invincibility"
     },
     {
       "x": 6,

@@ -1,7 +1,9 @@
 .button {
+    -fx-text-fill: firebrick;
+    -fx-background-color: ivory;
     -fx-font-size: 2em;
 }
 
 .label {
-    -fx-font-size: 2em;
+    -fx-font-size: 15em;
 }

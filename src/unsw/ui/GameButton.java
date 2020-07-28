@@ -4,34 +4,20 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
 public class GameButton extends Button {
-    private double height;
-    private double width;
-    private int levels;
 
-    public GameButton(int levels, double height, double width, String name, int x, int y, ImageView view) {
+    public GameButton(double buttonWidth, double buttonHeight, String name, ImageView view, String style) {
         super(name.substring(0, 1).toUpperCase() + name.substring(1), view);
-        this.height = height;
-        this.width = width;
-
-        view.setFitHeight(width/(levels*2));
-        view.setFitWidth(width/(levels*2));
-        view.setPreserveRatio(true);
-        initialise(x, y);
+        setMaxSize(buttonWidth, buttonHeight);
+        initialise(buttonWidth, buttonHeight, style);
     }
 
-    public GameButton(int levels, double height, double width, String name, int x, int y) {
+    public GameButton(double buttonWidth, double buttonHeight, String name, String style) {
         super(name.substring(0, 1).toUpperCase() + name.substring(1));
-        this.height = height;
-        this.width = width;
-        this.levels = levels;
-
-        initialise(x, y);
+        initialise(buttonWidth, buttonHeight, style);
     }
 
-    private void initialise(int x, int y) {
-        setMinSize(200, 50);
-        setMaxSize(width/(levels*2), width/(levels*2));
-        setLayoutX(x);
-        setLayoutY(y);
+    private void initialise(double minWidth, double minHeight, String style) {
+        setMinSize(minWidth, minHeight);
+        setStyle(style + "-fx-content-display: top;");
     }
 }

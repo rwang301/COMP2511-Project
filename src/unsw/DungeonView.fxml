@@ -2,14 +2,14 @@
 
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<Pane>
-   <GridPane fx:id="squares" onKeyPressed="#handleKeyPress" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../styles/dungeon.css">
+<Pane stylesheets="@../styles/dungeon.css">
+   <GridPane fx:id="squares" onKeyPressed="#handleKeyPress" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
       <columnConstraints>
          <ColumnConstraints />
       </columnConstraints>
@@ -21,12 +21,8 @@
       </children>
    </GridPane>
 
-   <AnchorPane visible="false">
-      <Label>
-         You Lost!
-      </Label>
-      <Button onAction="#handleOnAction">
-         Return
-      </Button>
-   </AnchorPane>
+   <StackPane visible="false">
+      <Label />
+      <Button onAction="#handleOnAction" text="Return" />
+   </StackPane>
 </Pane>

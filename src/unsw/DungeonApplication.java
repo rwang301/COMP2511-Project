@@ -64,7 +64,7 @@ public class DungeonApplication extends Application implements Observer {
             }
         } else if (subject.getClass() == Dungeon.class) {
             Platform.runLater(() -> {
-                dungeonScene.gameOver();
+                dungeonScene.gameOver((Dungeon) subject);
             });
         } else if (subject.getClass() == DungeonController.class) {
             mainMenuScene.start();

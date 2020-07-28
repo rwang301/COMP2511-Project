@@ -112,7 +112,6 @@ public class Dungeon implements Subject {
         } else {
             return;
         }
-        System.out.println("You won: " + complete);
         notifyObservers();
 	}
 
