@@ -10,24 +10,26 @@ public class MoveRandom extends Strategy {
 
     @Override
     void move() {
-        Random move = new Random();
-        boolean canMove = false;
-        while (!canMove) {
-            switch (move.nextInt(4)) {
-                case 0:
-                    canMove = moveUp();
-                    break;
-                case 1:
-                    canMove = moveDown();
-                    break;
-                case 2:
-                    canMove = moveLeft();
-                    break;
-                case 3:
-                    canMove = moveRight();
-                    break;
-                default:
-                    break;
+        if (player.getPrevPosition() == player.getCurrPosition()) { // the gnome only moves when the player moves successfully and not get blocked
+            Random move = new Random();
+            boolean canMove = false;
+            while (!canMove) {
+                switch (move.nextInt(4)) {
+                    case 0:
+                        canMove = moveUp();
+                        break;
+                    case 1:
+                        canMove = moveDown();
+                        break;
+                    case 2:
+                        canMove = moveLeft();
+                        break;
+                    case 3:
+                        canMove = moveRight();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
