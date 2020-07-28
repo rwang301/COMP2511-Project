@@ -34,7 +34,7 @@ public class DungeonController implements Subject {
     private Dungeon dungeon;
 
     private boolean shift = false;
-    private boolean restart = false;
+    private boolean restart;
 
     public DungeonController(Dungeon dungeon, List<ImageView> initialEntities, DungeonApplication application) {
         this.dungeon = dungeon;
@@ -59,11 +59,12 @@ public class DungeonController implements Subject {
 
     @FXML
     public void handleReturn(ActionEvent event) {
+        restart = false;
         notifyObservers();
     }
 
     @FXML
-    public void handleRestart(ActionEvent event) {
+    public void handleResume(ActionEvent event) {
         restart = true;
         notifyObservers();
     }
