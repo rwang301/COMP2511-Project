@@ -2,10 +2,12 @@ package unsw.dungeon;
 
 public class Gnome extends Character {
     private final int range = 10;
+    private Strategy moveThrough;
 
     public Gnome(Dungeon dungeon, int x, int y) {
         super(x, y);
         strategy = new MoveRandom(dungeon, this);
+        moveThrough = new MoveThrough(dungeon, this, strategy);
     }
 
     public int getRange() {
@@ -15,6 +17,7 @@ public class Gnome extends Character {
     @Override
     public void initialise(Player player) {
         strategy.setPlayer(player);
+        moveThrough.setPlayer(player);
     }
 
     @Override
@@ -25,8 +28,7 @@ public class Gnome extends Character {
 
     @Override
     public void update(Subject subject) {
-        if (((Player) subject).withinRange(this)) {
-            strategy.move();
-        }
+        if (((Player) subject).withinRange(this)) moveThrough.move();
+        else strategy.move();
     }
 }

@@ -49,6 +49,18 @@ public class Player extends Entity implements Subject {
         return gnomes;
     }
 
+    void setCurrPosition(Entity currPosition) {
+        this.currPosition = currPosition;
+    }
+
+    Entity getCurrPosition() {
+        return currPosition;
+    }
+
+    Entity getPrevPosition() {
+        return prevPosition;
+    }
+
     public Hound getHound() {
         return (Hound) hound;
     }
@@ -65,44 +77,33 @@ public class Player extends Entity implements Subject {
         return backpack.getPotion();
     }
 
-    public void setPotion(Potion potion) {
-        backpack.setPotion(potion);
-    }
-
     public Sword getSword() {
         return backpack.getSword();
     }
 
-    public Door getKeyDoor() {
+    Door getKeyDoor() {
         return backpack.getKeyDoor();
     }
 
-    public int getTotalTreasure() {
+    int getTotalTreasure() {
         return dungeon.getTreasure();
     }
 
-    public void setCurrPosition(Entity currPosition) {
-        this.currPosition = currPosition;
+    void setPotion(Potion potion) {
+        backpack.setPotion(potion);
     }
 
-    public Entity getCurrPosition() {
-        return currPosition;
-    }
-
-    public Entity getPrevPosition() {
-        return prevPosition;
+    void setLives() {
+        lives++;
     }
 
 
     /**
-     * Add one life if not full
-     * @return true if one life is added otherwise false
+     * Check if the player's lives are full
+     * @return true if the player has less than 3 lives otherwise false
      */
-    boolean setLives() {
-        if (lives < 3) {
-            lives++;
-            return true;
-        }
+    boolean canAddLive() {
+        if (lives < 3) return true;
         return false;
     }
 

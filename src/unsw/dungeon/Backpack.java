@@ -47,7 +47,7 @@ public class Backpack {
     boolean noItem(Pickupable pickupable, Player player) {
         if (pickupable.getClass() == Key.class) return key == null;
         else if (pickupable.getClass() == Sword.class) return sword == null;
-        else if (pickupable.getClass() == Medicine.class) return player.setLives();
+        else if (pickupable.getClass() == Medicine.class) return player.canAddLive();
         else return true;
     }
 
@@ -55,6 +55,7 @@ public class Backpack {
         if (pickupable.getClass() == Key.class) key = (Key)pickupable;
         else if (pickupable.getClass() == Sword.class) sword = (Sword)pickupable;
         else if (pickupable.getClass() == Potion.class) potion = ((Potion)pickupable).pickup(potion, player);
+        else if (pickupable.getClass() == Medicine.class) player.setLives();
         else if (pickupable.getClass() == Treasure.class) {
             treasure++;
             player.complete();
