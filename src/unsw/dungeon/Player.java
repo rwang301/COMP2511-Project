@@ -223,6 +223,16 @@ public class Player extends Entity implements Subject {
     }
 
     /**
+     * Check if the player is within the gnome's range
+     * @param gnome
+     * @return true if the absolute path between the player and the gnome is within the range otherwise false
+     */
+    boolean withinRange(Gnome gnome) {
+        if (Math.abs(gnome.getX() - getX()) + Math.abs(gnome.getY() - getY()) <= gnome.getRange()) return true;
+        else return false;
+    }
+
+    /**
      * given a portal set the player's position to its corresponding portal
      * @param portal
      */
@@ -342,7 +352,9 @@ public class Player extends Entity implements Subject {
         // TODO potential bug using current gone
         if (current.getClass() == Potion.class) enemies.forEach(enemy -> enemy.update(this));
         enemies.forEach(enemy -> ((Enemy) enemy).reset());
-        gnomes.forEach(gnome -> gnome.update(this));
-        if (hound != null) hound.update(this);
+
+        if (hound != null) hound.update(this); // Move the hound first
+        gnomes.forEach(gnome -> gnome.update(this)); // Then move the gnome
+        // If gnome moves to the new position of hound then the hound dies
 	}
 }

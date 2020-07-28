@@ -1,10 +1,15 @@
 package unsw.dungeon;
 
 public class Gnome extends Character {
+    private final int range = 10;
 
     public Gnome(Dungeon dungeon, int x, int y) {
         super(x, y);
         strategy = new MoveRandom(dungeon, this);
+    }
+
+    public int getRange() {
+        return range;
     }
     
     @Override
@@ -20,6 +25,8 @@ public class Gnome extends Character {
 
     @Override
     public void update(Subject subject) {
-        strategy.move();
+        if (((Player) subject).withinRange(this)) {
+            strategy.move();
+        }
     }
 }
