@@ -20,6 +20,7 @@ import unsw.dungeon.Subject;
 public class MainMenuScene implements Subject {
     private Scene scene;
     private Stage stage;
+    private StackPane root;
     private Observer application;
     private String level;
     private final String style = "-fx-text-fill: firebrick; -fx-background-color: ivory; -fx-font-size: 2em;";
@@ -41,9 +42,17 @@ public class MainMenuScene implements Subject {
         height = application.getHeight();
         imageDimension = width/5;
 
-        StackPane root = new StackPane();
+        root = new StackPane();
         root.setAlignment(Pos.CENTER);
 
+        GridPane gridPane = new GridPane();
+        DungeonControllerLoader.loadBackground((int) (width/DungeonControllerLoader.getWidth()), (int) (height/DungeonControllerLoader.getHeight()), gridPane);
+
+        root.getChildren().addAll(gridPane, createLevels());
+        scene = new Scene(root, width, height);
+    }
+
+    private VBox createLevels() {
         Button start = new GameButton(buttonWidth, buttonHeight, "Start", style);
         Button help = new GameButton(buttonWidth, buttonHeight, "Help", style);
         Button exit = new GameButton(buttonWidth, buttonHeight, "Exit", style);
@@ -77,12 +86,7 @@ public class MainMenuScene implements Subject {
         exit.setOnAction(event -> {
             System.exit(0);
         });
-
-        GridPane gridPane = new GridPane();
-        DungeonControllerLoader.loadBackground((int) (width/DungeonControllerLoader.getWidth()), (int) (height/DungeonControllerLoader.getHeight()), gridPane);
-
-        root.getChildren().addAll(gridPane, group);
-        scene = new Scene(root, width, height);
+        return group;
     }
 
     private Button createLevel(String level) {
