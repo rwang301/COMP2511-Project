@@ -146,8 +146,8 @@ public class Player extends Entity implements Subject {
         lives--;
         setPosition(x(), startingX);
         setPosition(y(), startingY);
+        detach(hound);
         if (lives == 0) dungeon.complete(true);
-        else if (hound != null) detach(hound);
     }
 
     void sacrifice() {
@@ -330,9 +330,11 @@ public class Player extends Entity implements Subject {
 
 	@Override
 	public void detach(Observer observer) {
-        if (observer.getClass() == Enemy.class) enemies.remove(observer);
-        if (observer.getClass() == Gnome.class) gnomes.remove(observer);
-        else if (observer.getClass() == Hound.class) hound = null;
+        if (observer != null) {
+            if (observer.getClass() == Enemy.class) enemies.remove(observer);
+            if (observer.getClass() == Gnome.class) gnomes.remove(observer);
+            else if (observer.getClass() == Hound.class) hound = null;
+        }
 	}
 
 	@Override

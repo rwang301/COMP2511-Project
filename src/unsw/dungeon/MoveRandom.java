@@ -10,7 +10,7 @@ public class MoveRandom extends Strategy {
 
     @Override
     void move() {
-        if (player.getPrevPosition() == player.getCurrPosition()) { // the gnome only moves when the player moves successfully and not get blocked
+        if (player.getPrevPosition() != player.getCurrPosition()) { // the gnome only moves when the player moves successfully and not get blocked
             Random move = new Random();
             boolean canMove = false;
             while (!canMove) {
