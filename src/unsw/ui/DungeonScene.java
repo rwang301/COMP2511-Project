@@ -6,9 +6,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import unsw.DungeonApplication;
@@ -21,6 +23,7 @@ public class DungeonScene {
     private GridPane squares;
     private StackPane gameOver;
     private Label text;
+    private HBox buttons;
     private double width;
     private double height;
 
@@ -52,20 +55,30 @@ public class DungeonScene {
 
         text = (Label) gameOver.getChildren().get(0);
         StackPane.setAlignment(text, Pos.TOP_CENTER);
-        StackPane.setAlignment(gameOver.getChildren().get(1), Pos.BOTTOM_CENTER);
+
+        buttons = (HBox) gameOver.getChildren().get(1);
+        buttons.setAlignment(Pos.BOTTOM_CENTER);
     }
 
     public void gameOver(Dungeon dungeon) {
         if (dungeon.isComplete()) {
             text.setText("You won");
             text.setStyle("-fx-text-fill: goldenrod");
+            ((Button) buttons.getChildren().get(1)).setText("Continue");
         } else {
             text.setText("You lost");
             text.setStyle("-fx-text-fill: red");
+            ((Button) buttons.getChildren().get(1)).setText("Restart");
         }
 
         squares.setEffect(new GaussianBlur());
-        root.getChildrenUnmodifiable().get(1).setVisible(true);
+        gameOver.setVisible(true);
+    }
+
+    public void restart() {
+        squares.setEffect(null);
+        squares.requestFocus();
+        gameOver.setVisible(false);
     }
 
     public void start() {

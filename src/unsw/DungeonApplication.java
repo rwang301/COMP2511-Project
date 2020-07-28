@@ -50,7 +50,6 @@ public class DungeonApplication extends Application implements Observer {
         launch(args);
     }
 
-
     @Override
     public void update(Subject subject) {
         if (subject.getClass() == MainMenuScene.class) {
@@ -67,7 +66,8 @@ public class DungeonApplication extends Application implements Observer {
                 dungeonScene.gameOver((Dungeon) subject);
             });
         } else if (subject.getClass() == DungeonController.class) {
-            mainMenuScene.start();
+            if (((DungeonController) subject).isRestart()) dungeonScene.restart();
+            else mainMenuScene.start();
         }
     }
 }

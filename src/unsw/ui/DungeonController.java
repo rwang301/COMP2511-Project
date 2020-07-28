@@ -34,6 +34,7 @@ public class DungeonController implements Subject {
     private Dungeon dungeon;
 
     private boolean shift = false;
+    private boolean restart = false;
 
     public DungeonController(Dungeon dungeon, List<ImageView> initialEntities, DungeonApplication application) {
         this.dungeon = dungeon;
@@ -42,7 +43,11 @@ public class DungeonController implements Subject {
         attach(application);
     }
 
-    @FXML
+    public boolean isRestart() {
+        return restart;
+    }
+
+   @FXML
     public void initialize() {
         // Add the ground first so it is below all other entities
         DungeonControllerLoader.loadBackground(dungeon.getWidth(), dungeon.getHeight(), squares);
@@ -53,7 +58,13 @@ public class DungeonController implements Subject {
     }
 
     @FXML
-    public void handleOnAction(ActionEvent event) {
+    public void handleReturn(ActionEvent event) {
+        notifyObservers();
+    }
+
+    @FXML
+    public void handleRestart(ActionEvent event) {
+        restart = true;
         notifyObservers();
     }
 
