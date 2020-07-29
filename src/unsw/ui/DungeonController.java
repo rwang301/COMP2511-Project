@@ -1,14 +1,18 @@
 package unsw.ui;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
@@ -16,9 +20,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import unsw.DungeonApplication;
 import unsw.dungeon.Dungeon;
+import unsw.dungeon.Key;
 import unsw.dungeon.Observer;
+import unsw.dungeon.Pickupable;
 import unsw.dungeon.Player;
 import unsw.dungeon.Subject;
+import unsw.dungeon.Sword;
 
 /**
  * A JavaFX controller for the dungeon.
@@ -26,7 +33,7 @@ import unsw.dungeon.Subject;
  * @author Robert Clifton-Everest
  *
  */
-public class DungeonController implements Subject {
+public class DungeonController implements Subject, Observer {
 
     @FXML
     private GridPane squares;
@@ -57,21 +64,29 @@ public class DungeonController implements Subject {
     private double width;
     private double height;
 
-    private final int backpackDimension = 100;
+    private final int backpackDimension = 150;
     private final int backpackInventory = 4;
-    private final int gap = 3;
 
     private boolean shift = false;
+    private boolean restart;
+    private List<Node> inventory;
 
     public DungeonController(Dungeon dungeon, List<ImageView> initialEntities, DungeonApplication application) {
         this.dungeon = dungeon;
-        this.player = dungeon.getPlayer();
+        dungeon.attach(this);
+
+        player = dungeon.getPlayer();
+        player.attach(this);
 
         width = application.getWidth();
         height = application.getHeight();
 
         this.initialEntities = new ArrayList<>(initialEntities);
         attach(application);
+    }
+
+    public boolean isRestart() {
+        return restart;
     }
 
    @FXML
@@ -85,40 +100,52 @@ public class DungeonController implements Subject {
 
         int spaceDimension = backpackDimension*2/backpackInventory;
         for (int i = 0; i < backpackInventory; i++) {
-            Label space = new Label();
+            StackPane space = new StackPane(new ImageView(new Image((new File("images/crate.png")).toURI().toString(), spaceDimension, spaceDimension, true, true)));
             space.setMinSize(spaceDimension, spaceDimension);
             space.setMaxSize(spaceDimension, spaceDimension);
-            space.setStyle("-fx-background-color: black");
             backpack.getChildren().add(space);
         }
-        backpack.setVgap(gap);
-        backpack.setHgap(gap);
-        backpack.setPadding(new Insets(0, gap, gap, 0));
+        inventory = backpack.getChildren();
         backpack.setPrefWrapLength(backpackDimension);
-
-        backpack.setPrefSize(backpackDimension + gap*2, backpackDimension + gap*2);
+        backpack.setPrefSize(backpackDimension, backpackDimension);
         backpack.setLayoutX(width - backpack.getPrefWidth());
         backpack.setLayoutY(height - backpack.getPrefHeight());
     }
 
     @FXML
     public void handleReturn(ActionEvent event) {
+        restart = false;
         notifyObservers();
     }
 
     @FXML
     public void handleResume(ActionEvent event) {
-        gameOver.setVisible(false);
-        squares.setEffect(null);
-        squares.requestFocus();
+        restart = true;
+        notifyObservers();
     }
 
     @FXML
     public void handleSetting(ActionEvent event) {
         gameOver.setVisible(true);
-        squares.setEffect(new GaussianBlur());
+        blur(new GaussianBlur());
         text.setVisible(false);
-        resume.setText("Resume");
+        resume.setText("Restart");
+        dungeon.setPause();
+
+        setting.setOnAction(event1 -> {
+            squares.requestFocus();
+            dungeon.setPause();
+            blur(null);
+            gameOver.setVisible(false);
+            setting.setOnAction(event2 -> {
+                handleSetting(event2);
+            });
+        });
+    }
+
+    void blur(GaussianBlur blur) {
+        squares.setEffect(blur);
+        backpack.setEffect(blur);
     }
 
     @FXML
@@ -178,4 +205,82 @@ public class DungeonController implements Subject {
         application.update(this);
     }
 
+    @Override
+    public void update(Subject subject) {
+        if (subject.getClass() == Dungeon.class) {
+            switch (dungeon.getEntity().getClass().getSimpleName()) {
+                case "Sword":
+                    addImage(DungeonControllerLoader.swordImage);
+                    break;
+                case "Treasure":
+                    pickupTreasure(DungeonControllerLoader.treasureImage, dungeon.getPlayer().getTreasure());
+                    break;
+                case "Key":
+                    addImage(DungeonControllerLoader.keyImage);
+                    break;
+                default:
+                    break;
+            }
+        } else if (subject.getClass() == Player.class) {
+            Pickupable item = ((Player) subject).getUse();
+            if (item.getClass() == Key.class) {
+                removeImage(DungeonControllerLoader.keyImage);
+            } else if (item.getClass() == Sword.class) {
+                removeImage(DungeonControllerLoader.swordImage);
+            }
+        }
+    }
+
+    private void removeImage(Image image) {
+        Platform.runLater(() -> {
+            List<Node> space;
+            for (int i = 0; i < inventory.size(); i++) {
+                space = ((StackPane) inventory.get(i)).getChildren();
+                if (space.size() > 1){
+                    ImageView item = (ImageView) space.get(1);
+                    if (item.getImage() == image) {
+                        space.remove(item);
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
+    private void addImage(Image image) {
+        List<Node> space;
+        for (int i = 0; i < inventory.size(); i++) {
+            space = ((StackPane) inventory.get(i)).getChildren();
+            if (space.size() == 1) {
+                space.add(new ImageView(image));
+                break;
+            }
+        }
+    }
+
+    private void pickupTreasure(Image image, int amount) {
+        List<Node> space;
+        for (int i = 0; i < inventory.size(); i++) {
+            space = ((StackPane) inventory.get(i)).getChildren();
+            if (space.size() > 1) {
+                ImageView item = (ImageView) space.get(1);
+                if (item.getImage() == image) {
+                    Label num = (Label) space.get(2);
+                    num.setText(Integer.toString(Integer.parseInt((num).getText()) + 1));
+                    return;
+                }
+            }
+        }
+        for (int i = 0; i < inventory.size(); i++) {
+            space = ((StackPane) inventory.get(i)).getChildren();
+            if (space.size() == 1) {
+                space.add(new ImageView(image));
+                Label num = new Label(Integer.toString(amount));
+                num.setId("num");
+                StackPane.setAlignment(num, Pos.BOTTOM_RIGHT);
+                space.add(num);
+                break;
+            }
+        }
+    }
 }

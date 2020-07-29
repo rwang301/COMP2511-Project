@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import unsw.DungeonApplication;
+import unsw.ui.DungeonController;
 import unsw.ui.DungeonControllerLoader;
 
 /**
@@ -25,6 +26,7 @@ public class Dungeon implements Subject {
     private Player player = null;
     private Observer dungeonLoader;
     private Observer application;
+    private Observer dungeonController;
     /**
      * A temporary copy of an entity to be updated in the UI
      */
@@ -32,10 +34,19 @@ public class Dungeon implements Subject {
     private int treasure = 0;
     private Component goal;
     private boolean complete = false;
+    private boolean pause = false;
 
     public Dungeon(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    public boolean isPause() {
+        return pause;
+    }
+
+    public void setPause() {
+        pause = !pause;
     }
 
     public int getWidth() {
@@ -120,17 +131,25 @@ public class Dungeon implements Subject {
     public void attach(Observer observer) {
         if (observer.getClass() == DungeonApplication.class) application = observer;
         else if (observer.getClass() == DungeonControllerLoader.class) dungeonLoader = observer;
+        else if (observer.getClass() == DungeonController.class) dungeonController = observer;
     }
 
     @Override
     public void detach(Observer observer) {
         if (observer.getClass() == DungeonApplication.class) application = null;
         else if (observer.getClass() == DungeonControllerLoader.class) dungeonLoader = null;
+        else if (observer.getClass() == DungeonController.class) dungeonController = null;
     }
 
     @Override
     public void notifyObservers() {
-        if (dungeonLoader != null && entity != null) dungeonLoader.update(this);
-        else if (application != null) application.update(this);
+        if (entity != null) {
+            if (dungeonController != null) {
+                if (entity instanceof Pickupable && entity.getClass() != Potion.class && entity.getClass() != Medicine.class) {
+                    dungeonController.update(this);
+                }
+            }
+            if (dungeonLoader != null) dungeonLoader.update(this);
+        } else if (application != null) application.update(this);
     }
 }

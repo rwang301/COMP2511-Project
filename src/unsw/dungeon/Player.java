@@ -5,6 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 import javafx.beans.property.IntegerProperty;
+import unsw.ui.DungeonController;
 
 /**
  * The player entity
@@ -23,6 +24,8 @@ public class Player extends Entity implements Subject {
     private List<Observer> enemies = new CopyOnWriteArrayList<>();
     private List<Observer> gnomes = new CopyOnWriteArrayList<>();
     private Observer hound;
+    private Observer dungeonController;
+    private Pickupable use = null;
     private int lives = 1;
     private int startingX;
     private int startingY;
@@ -47,6 +50,10 @@ public class Player extends Entity implements Subject {
 
     public List<Observer> getGnomes() {
         return gnomes;
+    }
+
+    public Pickupable getUse() {
+        return use;
     }
 
     void setCurrPosition(Entity currPosition) {
@@ -116,13 +123,28 @@ public class Player extends Entity implements Subject {
             if (!((Switch) floorSwitch).isTriggered()) return false;
         }
         return true;
-	}
+    }
+
+    void use(Pickupable item) {
+        use = item;
+        notifyObservers();
+    }
+
+    /**
+     * Notify the Dungeon Loader to change the image of the closed door to an open door
+     * @param door
+     */
+    void open(Door door) {
+        use(getKey());
+        backpack.setKey(null);
+        dungeon.open(door);
+    }
 
     /**
      * Reduce the times the sword can be used when hitting an enemy
      */
     void hit() {
-        backpack.hit();
+        backpack.hit(this);
     }
 
     /**
@@ -130,25 +152,29 @@ public class Player extends Entity implements Subject {
      * @param enemy
      */
     void kill(Character character) {
+        // TODO weird bug where potion calls this method twice
+        disappear(character);
+        detach(character);
         if (character.getClass() == Enemy.class) {
             Enemy enemy = (Enemy) character;
             enemy.cancelTimer();
             if (getPotion() != null) getPotion().detach(enemy);
             complete();
         }
-        disappear(character);
-        detach(character);
     }
 
     /**
      * Inform the dungeon that the player is dead
      */
     void die() {
-        lives--;
-        setPosition(x(), startingX);
-        setPosition(y(), startingY);
-        detach(hound);
-        if (lives == 0) dungeon.complete(true);
+        if (lives == 1) {
+            dungeon.complete(true);
+        } else {
+            lives--;
+            setPosition(x(), startingX);
+            setPosition(y(), startingY);
+            detach(hound);
+        }
     }
 
     void sacrifice() {
@@ -161,15 +187,6 @@ public class Player extends Entity implements Subject {
      */
     void complete() {
         dungeon.complete(false);
-    }
-
-    /**
-     * Notify the Dungeon Loader to change the image of the closed door to an open door
-     * @param door
-     */
-    void open(Door door) {
-        backpack.setKey(null);
-        dungeon.open(door);
     }
 
     /**
@@ -267,10 +284,8 @@ public class Player extends Entity implements Subject {
             pickup();
         } else if (isOn(Exit.class)) {
             complete();
-        } else if (isOn(Enemy.class)) {
-            ((Enemy) current).collide(this);
-        } else if (isOn(Hound.class)) {
-            if (hound == null) ((Hound) current).initialise(this);
+        } else if (isOn(Character.class)) {
+            ((Character) current).collide(this);
         }
         notifyObservers(); // notify all the characters every time the player moves
         // TODO walk on top of switches
@@ -337,25 +352,32 @@ public class Player extends Entity implements Subject {
         if (observer.getClass() == Enemy.class) enemies.add(observer);
         else if (observer.getClass() == Gnome.class) gnomes.add(observer);
         else if (observer.getClass() == Hound.class) hound = observer;
+        else if (observer.getClass() == DungeonController.class) dungeonController = observer;
 	};
 
 	@Override
 	public void detach(Observer observer) {
         if (observer != null) {
             if (observer.getClass() == Enemy.class) enemies.remove(observer);
-            if (observer.getClass() == Gnome.class) gnomes.remove(observer);
+            else if (observer.getClass() == Gnome.class) gnomes.remove(observer);
             else if (observer.getClass() == Hound.class) hound = null;
+            else if (observer.getClass() == DungeonController.class) dungeonController = null;
         }
 	}
 
 	@Override
 	public void notifyObservers() {
-        // TODO potential bug using current gone
-        if (current.getClass() == Potion.class) enemies.forEach(enemy -> enemy.update(this));
-        enemies.forEach(enemy -> ((Enemy) enemy).reset());
+        if (use == null) {
+            // TODO potential bug using current gone
+            if (current.getClass() == Potion.class) enemies.forEach(enemy -> enemy.update(this));
+            enemies.forEach(enemy -> ((Enemy) enemy).reset());
 
-        if (hound != null) hound.update(this); // Move the hound first
-        gnomes.forEach(gnome -> gnome.update(this)); // Then move the gnome
-        // If gnome moves to the new position of hound then the hound dies
+            if (hound != null) hound.update(this); // Move the hound first
+            gnomes.forEach(gnome -> gnome.update(this)); // Then move the gnome
+            // If gnome moves to the new position of hound then the hound dies
+        } else { // Use an item
+            dungeonController.update(this);
+            use = null;
+        }
 	}
 }

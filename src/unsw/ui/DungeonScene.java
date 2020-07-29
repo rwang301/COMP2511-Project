@@ -24,6 +24,8 @@ public class DungeonScene {
     private StackPane gameOver;
     private Label text;
     private HBox buttons;
+    private Button setting;
+    private DungeonController controller;
     private double width;
     private double height;
 
@@ -33,7 +35,7 @@ public class DungeonScene {
         height = application.getHeight();
 
         DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(application);
-        DungeonController controller = dungeonLoader.loadController(application);
+        controller = dungeonLoader.loadController(application);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../DungeonView.fxml"));
         loader.setController(controller);
@@ -58,22 +60,25 @@ public class DungeonScene {
         buttons = (HBox) gameOver.getChildren().get(1);
         buttons.setAlignment(Pos.BOTTOM_CENTER);
 
-        Button setting = (Button) root.getChildrenUnmodifiable().get(2);
+        setting = (Button) root.getChildrenUnmodifiable().get(2);
         setting.setPrefWidth(100);
         setting.setLayoutX(width - setting.getPrefWidth());
     }
 
     public void gameOver(Dungeon dungeon) {
         if (dungeon.isComplete()) {
-            text.setText("You won");
+            text.setText("You Won");
             text.setStyle("-fx-text-fill: goldenrod");
             ((Button) buttons.getChildren().get(1)).setText("Continue");
         } else {
-            text.setText("You lost");
+            text.setText("You Lost");
             text.setStyle("-fx-text-fill: red");
             ((Button) buttons.getChildren().get(1)).setText("Restart");
         }
-        squares.setEffect(new GaussianBlur());
+        dungeon.setPause();
+        root.requestFocus();
+        controller.blur(new GaussianBlur());
+        setting.setDisable(true);
         gameOver.setVisible(true);
         text.setVisible(true);
     }

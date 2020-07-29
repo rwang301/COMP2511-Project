@@ -767,6 +767,11 @@
       "type": "wall"
     },
     {
+      "x": 1,
+      "y": 11,
+      "type": "enemy"
+    },
+    {
       "x": 2,
       "y": 11,
       "type": "wall"

@@ -15,7 +15,7 @@ public class Hound extends Character {
 
     @Override
     void collide(Player player) {
-        // Assume hound will never run into player
+        if (player.getHound() == null) initialise(player);
     }
 
     @Override

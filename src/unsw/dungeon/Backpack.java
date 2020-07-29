@@ -30,9 +30,12 @@ public class Backpack {
         return sword;
     }
 
-	void hit() {
+	void hit(Player player) {
         sword.setHit();
-        if (!sword.capable()) sword = null;
+        if (!sword.capable()) {
+            player.use(sword);
+            sword = null;
+        }
 	}
 
 	Door getKeyDoor() {
@@ -52,9 +55,9 @@ public class Backpack {
     }
 
     void setItem(Pickupable pickupable, Player player) {
-        if (pickupable.getClass() == Key.class) key = (Key)pickupable;
-        else if (pickupable.getClass() == Sword.class) sword = (Sword)pickupable;
-        else if (pickupable.getClass() == Potion.class) potion = ((Potion)pickupable).pickup(potion, player);
+        if (pickupable.getClass() == Key.class) key = (Key) pickupable;
+        else if (pickupable.getClass() == Sword.class) sword = (Sword) pickupable;
+        else if (pickupable.getClass() == Potion.class) potion = ((Potion) pickupable).pickup(potion, player);
         else if (pickupable.getClass() == Medicine.class) player.setLives();
         else if (pickupable.getClass() == Treasure.class) {
             treasure++;

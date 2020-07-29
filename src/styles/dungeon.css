@@ -6,6 +6,17 @@
     -fx-min-height: 50;
 }
 
-.label {
+#text {
     -fx-font-size: 15em;
+}
+
+#num {
+    -fx-text-fill: khaki;
+    -fx-font-weight: 900;
+    -fx-font-size: 2.5em;
+    -fx-padding: 5;
+}
+
+#backpack {
+    -fx-background-image: url("/images/wooden-box.png");
 }

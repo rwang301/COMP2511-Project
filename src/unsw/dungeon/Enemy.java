@@ -7,9 +7,11 @@ public class Enemy extends Character {
     private Strategy moveToward;
     private Strategy moveAway;
     private Timer timer;
+    private Dungeon dungeon;
 
     public Enemy(Dungeon dungeon, int x, int y) {
         super(x, y);
+        this.dungeon = dungeon;
         moveToward = new MoveToward(dungeon, this);
         moveAway = new MoveAway(dungeon, this);
         strategy = moveToward;
@@ -54,7 +56,7 @@ public class Enemy extends Character {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                strategy.move();
+                if (!dungeon.isPause()) strategy.move();
             }
         }, 1000, 500); // Be careful when change the delay and period it will fail the JUnit tests
     }
