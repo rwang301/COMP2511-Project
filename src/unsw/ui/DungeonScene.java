@@ -48,8 +48,7 @@ public class DungeonScene {
 
     private void layout() {
         gameOver = (StackPane) root.getChildrenUnmodifiable().get(1);
-        gameOver.setPrefHeight(height/3);
-        gameOver.setPrefWidth(width/4*3);
+        gameOver.setPrefSize(width/4*3, height/3);
         gameOver.setLayoutX(width/2 - gameOver.getPrefWidth()/2);
         gameOver.setLayoutY(height/2 - gameOver.getPrefHeight()/2);
 
@@ -74,15 +73,9 @@ public class DungeonScene {
             text.setStyle("-fx-text-fill: red");
             ((Button) buttons.getChildren().get(1)).setText("Restart");
         }
-
         squares.setEffect(new GaussianBlur());
         gameOver.setVisible(true);
-    }
-
-    public void restart() {
-        squares.setEffect(null);
-        squares.requestFocus();
-        gameOver.setVisible(false);
+        text.setVisible(true);
     }
 
     public void start() {
