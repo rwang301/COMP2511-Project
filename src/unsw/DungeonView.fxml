@@ -29,4 +29,5 @@
          <Button onAction="#handleResume" />
       </HBox>
    </StackPane>
+   <Button onAction="#handleSetting" text="Setting" />
 </Pane>

@@ -70,6 +70,10 @@ public class DungeonController implements Subject {
     }
 
     @FXML
+    public void handleSetting(ActionEvent event) {
+    }
+
+    @FXML
     public void handleKeyPress(KeyEvent event) {
         switch (event.getCode()) {
             case UP:

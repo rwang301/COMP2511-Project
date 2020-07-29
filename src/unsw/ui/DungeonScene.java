@@ -43,10 +43,10 @@ public class DungeonScene {
 
         squares = (GridPane) root.getChildrenUnmodifiable().get(0);
         squares.requestFocus();
-        center();
+        layout();
     }
 
-    private void center() {
+    private void layout() {
         gameOver = (StackPane) root.getChildrenUnmodifiable().get(1);
         gameOver.setPrefHeight(height/3);
         gameOver.setPrefWidth(width/4*3);
@@ -58,6 +58,10 @@ public class DungeonScene {
 
         buttons = (HBox) gameOver.getChildren().get(1);
         buttons.setAlignment(Pos.BOTTOM_CENTER);
+
+        Button setting = (Button) root.getChildrenUnmodifiable().get(2);
+        setting.setPrefWidth(100);
+        setting.setLayoutX(width - setting.getPrefWidth());
     }
 
     public void gameOver(Dungeon dungeon) {
