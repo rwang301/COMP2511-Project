@@ -105,6 +105,7 @@ public class DungeonController implements Subject, Observer {
             space.setMaxSize(spaceDimension, spaceDimension);
             backpack.getChildren().add(space);
         }
+        // TODO background image doesn't work
         inventory = backpack.getChildren();
         backpack.setPrefWrapLength(backpackDimension);
         backpack.setPrefSize(backpackDimension, backpackDimension);
@@ -131,6 +132,7 @@ public class DungeonController implements Subject, Observer {
         text.setVisible(false);
         resume.setText("Restart");
         dungeon.setPause();
+        // TODO requestFocus behaves a bit weird, pause potion
 
         setting.setOnAction(event1 -> {
             squares.requestFocus();

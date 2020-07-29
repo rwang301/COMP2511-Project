@@ -115,14 +115,9 @@ public class Dungeon implements Subject {
      * @param dead
      */
 	void complete(boolean dead) {
-        // TODO implement game engine to deal with game over
-        if (dead) {
-            complete = false;
-        } else if (goal.complete(player)) {
-            complete = true;
-        } else {
-            return;
-        }
+        if (dead) complete = false;
+        else if (goal.complete(player)) complete = true;
+        else return;
         notifyObservers();
 	}
 
