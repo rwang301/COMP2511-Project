@@ -30,7 +30,8 @@ public class MainMenuScene implements Subject {
     private final double width;
     private final double height;
     private final double buttonWidth = 200;
-    private final double buttonHeight = 50;
+    private final double buttonHeight;
+    private final double prefDimension;
     private final double imageDimension;
 
     public String getLevel() {
@@ -43,6 +44,8 @@ public class MainMenuScene implements Subject {
 
         width = application.getWidth();
         height = application.getHeight();
+        prefDimension = application.getPrefDimension();
+        buttonHeight = prefDimension;
         imageDimension = width / 5;
 
         root = new StackPane();
@@ -97,13 +100,13 @@ public class MainMenuScene implements Subject {
         BorderPane borderPane = new BorderPane();
         VBox vBox = new VBox(7);
         HBox hBox = new HBox();
-        Label label1 = setLabelStyle(new Label("Try to kill the enemy before it kills YOU!", new ImageView(new Image((new File("images/deep_elf_master_archer.png")).toURI().toString(), 50, 50, true, true))));
-        Label label2 = setLabelStyle(new Label("Flying Enemies can move through walls.", new ImageView(new Image((new File("images/gnome.png")).toURI().toString(), 50, 50, true, true))));
-        Label label3 = setLabelStyle(new Label("Sword can kill up to 5 enemies.", new ImageView(new Image((new File("images/greatsword_1_new.png")).toURI().toString(), 50, 50, true, true))));
-        Label label4 = setLabelStyle(new Label("Use the key to open doors.", new ImageView(new Image((new File("images/key.png")).toURI().toString(), 50, 50, true, true))));
-        Label label5 = setLabelStyle(new Label("Drink this to increase your health.", new ImageView(new Image((new File("images/brilliant_blue_new.png")).toURI().toString(), 50, 50, true, true))));
-        Label label6 = setLabelStyle(new Label("Drink this potion and enemy runs away for 5 seconds.", new ImageView(new Image((new File("images/bubbly.png")).toURI().toString(), 50, 50, true, true))));
-        Label label7 = setLabelStyle(new Label("SHIFT + KEY to move these out of your way!", new ImageView(new Image((new File("images/boulder.png")).toURI().toString(), 50, 50, true, true))));
+        Label label1 = setLabelStyle("Try to kill the enemy before it kills YOU!", new ImageView(DungeonControllerLoader.enemyImage));
+        Label label2 = setLabelStyle("Flying Enemies can move through walls.", new ImageView(DungeonControllerLoader.gnomeImage));
+        Label label3 = setLabelStyle("Sword can kill up to 5 enemies.", new ImageView(DungeonControllerLoader.swordImage));
+        Label label4 = setLabelStyle("Use the key to open doors.", new ImageView(DungeonControllerLoader.keyImage));
+        Label label5 = setLabelStyle("Drink this to increase your health.", new ImageView(DungeonControllerLoader.medicineImage));
+        Label label6 = setLabelStyle("Drink this potion and enemy runs away for 5 seconds.", new ImageView(DungeonControllerLoader.potionImage));
+        Label label7 = setLabelStyle("SHIFT + KEY to move these out of your way!", new ImageView(DungeonControllerLoader.boulderImage));
         Label help = new Label("HELP");
 
         vBox.getChildren().addAll(label1, label2, label3, label4, label5, label6, label7);
@@ -111,23 +114,25 @@ public class MainMenuScene implements Subject {
 
         vBox.setAlignment(Pos.CENTER_LEFT);
         hBox.setAlignment(Pos.TOP_CENTER);
-        vBox.setMaxWidth(800);
-        vBox.setMaxHeight(550);
+        vBox.setMaxSize(width/3*2, height/3*2);
         label6.setWrapText(true);
         help.setStyle("-fx-font-size: 10em; -fx-text-fill: #D2691E; -fx-font-family: Elephant");
 
         vBox.setStyle("-fx-border-color: #CD853F; -fx-border-insets: 5; -fx-border-width: 3; -fx-background-color: #FFEFD5; -fx-border-radius: 20 20 20 20; -fx-background-radius: 20 20 20 20;");
-        vBox.setPadding(new Insets(50));
+        vBox.setPadding(new Insets(prefDimension));
         borderPane.setCenter(vBox);
         borderPane.setTop(hBox);
         BorderPane.setAlignment(vBox, Pos.TOP_CENTER);
-        BorderPane.setMargin(hBox, new Insets(12,12,12,12));
         return borderPane;
     }
 
-    private Label setLabelStyle(Label label){
+    private Label setLabelStyle(String text, ImageView view){
+        Label label = new Label(text, view);
+        view.setFitWidth(prefDimension);
+        view.setFitHeight(prefDimension);
+        view.setPreserveRatio(true);
         label.setStyle("-fx-font-size: 2em;");
-        label.setGraphicTextGap(70);
+        label.setGraphicTextGap(prefDimension);
         return label;
     }
 

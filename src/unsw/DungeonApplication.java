@@ -18,8 +18,9 @@ public class DungeonApplication extends Application implements Observer {
     private MainMenuScene mainMenuScene;
     private DungeonScene dungeonScene;
     private String level;
-    private double width = Screen.getScreens().get(0).getVisualBounds().getWidth();
-    private double height = Screen.getScreens().get(0).getVisualBounds().getHeight();
+    private final double width = Screen.getScreens().get(0).getVisualBounds().getWidth();
+    private final double height = Screen.getScreens().get(0).getVisualBounds().getHeight();
+    private final int prefDimension = 50;
 
     public Stage getStage() {
         return stage;
@@ -35,6 +36,10 @@ public class DungeonApplication extends Application implements Observer {
 
     public double getHeight() {
         return height;
+    }
+
+    public int getPrefDimension() {
+        return prefDimension;
     }
 
     @Override
@@ -60,7 +65,7 @@ public class DungeonApplication extends Application implements Observer {
                 dungeonScene.gameOver((Dungeon) subject);
             });
         } else if (subject.getClass() == DungeonController.class) {
-            if (((DungeonController) subject).isRestart()) {
+            if (((DungeonController) subject).isNewGame()) {
                 start();
             } else {
                 mainMenuScene.start();

@@ -15,9 +15,12 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
 import unsw.DungeonApplication;
 import unsw.dungeon.Dungeon;
@@ -37,22 +40,31 @@ import unsw.dungeon.Sword;
 public class DungeonController implements Subject, Observer {
 
     @FXML
+    private Pane root;
+
+    @FXML
     private GridPane squares;
 
     @FXML
     private FlowPane backpack;
 
     @FXML
-    private HBox health;
+    private VBox health;
 
     @FXML
     private StackPane gameOver;
 
     @FXML
-    private Button resume;
+    private HBox buttons;
 
     @FXML
-    private Button setting;
+    private Button back;
+
+    @FXML
+    private Button restart;
+
+    @FXML
+    private ImageView setting;
 
     @FXML
     private Label text;
@@ -68,12 +80,12 @@ public class DungeonController implements Subject, Observer {
     private double width;
     private double height;
 
-    private final int healthDimension = 50;
     private final int backpackDimension = 150;
     private final int backpackInventory = 4;
+    private final int prefDimension;
 
     private boolean shift = false;
-    private boolean restart;
+    private boolean newGame;
     private List<Node> inventory;
 
     public DungeonController(Dungeon dungeon, List<ImageView> initialEntities, DungeonApplication application) {
@@ -85,13 +97,14 @@ public class DungeonController implements Subject, Observer {
 
         width = application.getWidth();
         height = application.getHeight();
+        prefDimension = application.getPrefDimension();
 
         this.initialEntities = new ArrayList<>(initialEntities);
         attach(application);
     }
 
-    public boolean isRestart() {
-        return restart;
+    public boolean isNewGame() {
+        return newGame;
     }
 
    @FXML
@@ -104,8 +117,26 @@ public class DungeonController implements Subject, Observer {
             squares.getChildren().add(entity);
         }
 
+        initialiseButtons();
+        initialiseSetting();
         initialiseInventory();
         initialiseHealth();
+    }
+
+    private void initialiseButtons() {
+        buttons.setSpacing(width / 10);
+        back.getStyleClass().add("action");
+        restart.getStyleClass().add("action");
+    }
+
+    private void initialiseSetting() {
+        setting.setImage(new Image((new File("images/gear.png")).toURI().toString(), prefDimension, prefDimension, true, true));
+        setting.setLayoutX(width - prefDimension);
+        setting.setOnMouseClicked(event -> {
+            handleSetting(event);
+        });
+        text.setStyle("-fx-font-size: 5em; -fx-text-fill: chartreuse;");
+        text.setText("What would you like to do?\nClick the gear icon again to resume.");
     }
 
     private void initialiseInventory() {
@@ -126,39 +157,36 @@ public class DungeonController implements Subject, Observer {
 
     private void initialiseHealth() {
         ImageView life = (ImageView) health.getChildren().get(0);
-        life.setImage(new Image((new File("images/heart.png")).toURI().toString(), healthDimension, healthDimension, true, true));
-        // TODO can't put it in the center
-        life.setLayoutX(width/2 - healthDimension/2);
-        life.setLayoutY(height - healthDimension);
+        life.setImage(new Image((new File("images/heart.png")).toURI().toString(), prefDimension, prefDimension, true, true));
+        health.setLayoutX(width - prefDimension);
+        health.setLayoutY(prefDimension * 2);
     }
 
     @FXML
     public void handleReturn(ActionEvent event) {
-        restart = false;
+        newGame = false;
         notifyObservers();
     }
 
     @FXML
-    public void handleResume(ActionEvent event) {
-        restart = true;
+    public void handleRestart(ActionEvent event) {
+        newGame = true;
         notifyObservers();
     }
 
-    @FXML
-    public void handleSetting(ActionEvent event) {
+    public void handleSetting(MouseEvent event) {
         gameOver.setVisible(true);
-        blur(new GaussianBlur());
-        text.setVisible(false);
-        resume.setText("Restart");
+        restart.setText("Restart");
         dungeon.setPause();
-        // TODO requestFocus behaves a bit weird, pause potion
+        root.requestFocus();
+        blur(new GaussianBlur());
 
-        setting.setOnAction(event1 -> {
-            squares.requestFocus();
-            dungeon.setPause();
-            blur(null);
+        setting.setOnMouseClicked(event1 -> {
             gameOver.setVisible(false);
-            setting.setOnAction(event2 -> {
+            dungeon.setPause();
+            squares.requestFocus();
+            blur(null);
+            setting.setOnMouseClicked(event2 -> {
                 handleSetting(event2);
             });
         });
@@ -252,7 +280,7 @@ public class DungeonController implements Subject, Observer {
                 });
             } else if (player.getCurrHealth() > player.getPrevHealth()) {
                 Platform.runLater(() -> {
-                    ImageView life = new ImageView(new Image((new File("images/heart.png")).toURI().toString(), healthDimension, healthDimension, true, true));
+                    ImageView life = new ImageView(new Image((new File("images/heart.png")).toURI().toString(), prefDimension, prefDimension, true, true));
                     lives.add(life);
                 });
             } else {

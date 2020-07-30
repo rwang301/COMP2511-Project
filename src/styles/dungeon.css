@@ -1,13 +1,9 @@
-.button {
+.action {
     -fx-text-fill: firebrick;
     -fx-background-color: ivory;
     -fx-font-size: 2em;
     -fx-min-width: 100;
     -fx-min-height: 50;
-}
-
-#text {
-    -fx-font-size: 15em;
 }
 
 #num {
