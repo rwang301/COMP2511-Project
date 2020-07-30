@@ -1,6 +1,7 @@
 package unsw.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.fxml.FXMLLoader;
@@ -16,23 +17,34 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import unsw.DungeonApplication;
 import unsw.dungeon.Dungeon;
+import unsw.dungeon.Observer;
+import unsw.dungeon.Subject;
 
-public class DungeonScene {
+public class DungeonScene implements Subject {
     private Scene scene;
     private Stage stage;
     private Parent root;
     private Label text;
     private HBox buttons;
     private DungeonController controller;
+    private Observer application;
     private List<Node> children;
-    private double width;
-    private double height;
     private StackPane gameOver;
     private Node squares;
     private Node setting;
+    private final double width;
+    private final double height;
+    private final int totalLevels = 4;
+    private String level;
+    private List<String> levels = new ArrayList<>();
 
     public DungeonScene(DungeonApplication application) throws IOException {
-        this.stage = application.getStage();
+        stage = application.getStage();
+        attach(application);
+
+        level = application.getLevel();
+        initialiseLevels();
+
         width = application.getWidth();
         height = application.getHeight();
 
@@ -54,10 +66,21 @@ public class DungeonScene {
         layout();
     }
 
+    private void initialiseLevels() {
+        levels.add("maze.json");
+        levels.add("boulders.json");
+        levels.add("advanced.json");
+        levels.add("master.json");
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
     private void layout() {
-        gameOver.setPrefSize(width/4*3, height/3);
-        gameOver.setLayoutX(width/2 - gameOver.getPrefWidth()/2);
-        gameOver.setLayoutY(height/2 - gameOver.getPrefHeight()/2);
+        gameOver.setPrefSize(width / 4 * 3, height / 3);
+        gameOver.setLayoutX(width / 2 - gameOver.getPrefWidth() / 2);
+        gameOver.setLayoutY(height / 2 - gameOver.getPrefHeight() / 2);
 
         text = (Label) gameOver.getChildren().get(0);
         StackPane.setAlignment(text, Pos.TOP_CENTER);
@@ -68,14 +91,26 @@ public class DungeonScene {
 
     public void gameOver(Dungeon dungeon) {
         String style = "-fx-font-size: 15em;";
+        Button button = (Button) buttons.getChildren().get(1);
         if (dungeon.isComplete()) {
-            text.setText("You Won!");
-            text.setStyle(style + "-fx-text-fill: goldenrod; -fx-font-family: Elephant");
-            ((Button) buttons.getChildren().get(1)).setText("Continue");
+            int nextLevel = levels.indexOf(level) + 1;
+            if (nextLevel < totalLevels) {
+                level = levels.get(nextLevel);
+                text.setStyle(style + "-fx-text-fill: goldenrod; -fx-font-family: Elephant");
+                text.setText("You Won!");
+                button.setText("Continue");
+                button.setOnAction(event -> {
+                    notifyObservers();
+                });
+            } else {
+                text.setStyle(controller.getStyle());
+                text.setText("You Completed All Levels!");
+                buttons.getChildren().remove(button);
+            }
         } else {
             text.setText("You Lost!");
             text.setStyle(style + "-fx-text-fill: red; -fx-font-family: Elephant");
-            ((Button) buttons.getChildren().get(1)).setText("Restart");
+            button.setText("Restart");
         }
         dungeon.setPause();
         root.requestFocus();
@@ -87,5 +122,20 @@ public class DungeonScene {
     public void start() {
         stage.setScene(scene);
         stage.show();
+    }
+
+    @Override
+    public void attach(Observer observer) {
+        application = observer;
+    }
+
+    @Override
+    public void detach(Observer observer) {
+        application = null;
+    }
+
+    @Override
+    public void notifyObservers() {
+        application.update(this);
     }
 }

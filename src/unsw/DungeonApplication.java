@@ -70,6 +70,9 @@ public class DungeonApplication extends Application implements Observer {
             } else {
                 mainMenuScene.start();
             }
+        } else if (subject.getClass() == DungeonScene.class) {
+            level = ((DungeonScene) subject).getLevel();
+            start();
         }
     }
 

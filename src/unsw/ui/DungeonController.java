@@ -77,12 +77,12 @@ public class DungeonController implements Subject, Observer {
 
     private Dungeon dungeon;
 
-    private double width;
-    private double height;
-
+    private final double width;
+    private final double height;
     private final int backpackDimension = 150;
     private final int backpackInventory = 4;
     private final int prefDimension;
+    private final String style = "-fx-font-size: 5em; -fx-text-fill: chartreuse;";
 
     private boolean shift = false;
     private boolean newGame;
@@ -101,6 +101,10 @@ public class DungeonController implements Subject, Observer {
 
         this.initialEntities = new ArrayList<>(initialEntities);
         attach(application);
+    }
+
+    public String getStyle() {
+        return style;
     }
 
     public boolean isNewGame() {
@@ -135,7 +139,7 @@ public class DungeonController implements Subject, Observer {
         setting.setOnMouseClicked(event -> {
             handleSetting(event);
         });
-        text.setStyle("-fx-font-size: 5em; -fx-text-fill: chartreuse;");
+        text.setStyle(style);
         text.setText("What would you like to do?\nClick the gear icon again to resume.");
     }
 

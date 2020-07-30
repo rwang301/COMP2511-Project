@@ -39,7 +39,7 @@ public class MainMenuScene implements Subject {
     }
 
     public MainMenuScene(DungeonApplication application) throws IOException {
-        this.stage = application.getStage();
+        stage = application.getStage();
         attach(application);
 
         width = application.getWidth();
