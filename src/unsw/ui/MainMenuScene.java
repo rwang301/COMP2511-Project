@@ -107,23 +107,25 @@ public class MainMenuScene implements Subject {
         Label label4 = setLabelStyle(new Label("Use the key to open doors.", new ImageView(new Image((new File("images/key.png")).toURI().toString(), 50, 50, true, true))));
         Label label5 = setLabelStyle(new Label("Drink this to increase your health.", new ImageView(new Image((new File("images/brilliant_blue_new.png")).toURI().toString(), 50, 50, true, true))));
         Label label6 = setLabelStyle(new Label("Drink this potion and enemy runs away for 5 seconds.", new ImageView(new Image((new File("images/bubbly.png")).toURI().toString(), 50, 50, true, true))));
-        Label label8 = setLabelStyle(new Label("SHIFT + KEY to move these out of your way!", new ImageView(new Image((new File("images/boulder.png")).toURI().toString(), 50, 50, true, true))));
-        Label label7 = new Label("HELP");
+        Label label7 = setLabelStyle(new Label("SHIFT + KEY to move these out of your way!", new ImageView(new Image((new File("images/boulder.png")).toURI().toString(), 50, 50, true, true))));
+        Label help = new Label("HELP");
 
-        vBox.getChildren().addAll(label1, label2, label3, label4, label5, label6, label8);
-        hBox.getChildren().add(label7);
+        vBox.getChildren().addAll(label1, label2, label3, label4, label5, label6, label7);
+        hBox.getChildren().add(help);
 
         vBox.setAlignment(Pos.CENTER_LEFT);
         hBox.setAlignment(Pos.TOP_CENTER);
         vBox.setMaxWidth(800);
         vBox.setMaxHeight(550);
         label6.setWrapText(true);
-        label7.setStyle("-fx-font-size: 10em;" + "-fx-text-fill: #CD853F;");
+        help.setStyle("-fx-font-size: 10em;" + "-fx-text-fill: #D2691E;" + "-fx-font-family: Elephant");
 
         String layout = "-fx-border-color: #CD853F;\n" +
                     "-fx-border-insets: 5;\n" +
                     "-fx-border-width: 3;\n" +
-                    "-fx-background-color: #FFEFD5;";
+                    "-fx-background-color: #FFEFD5;" +
+                    "-fx-border-radius: 20 20 20 20;" +
+                    "-fx-background-radius: 20 20 20 20;";
         vBox.setStyle(layout);
         vBox.setPadding(new Insets(50));
         borderPane.setCenter(vBox);

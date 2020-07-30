@@ -67,12 +67,12 @@ public class DungeonScene {
 
     public void gameOver(Dungeon dungeon) {
         if (dungeon.isComplete()) {
-            text.setText("You Won");
-            text.setStyle("-fx-text-fill: goldenrod");
+            text.setText("You Won!");
+            text.setStyle("-fx-text-fill: goldenrod; -fx-font-family: Elephant");
             ((Button) buttons.getChildren().get(1)).setText("Continue");
         } else {
-            text.setText("You Lost");
-            text.setStyle("-fx-text-fill: red");
+            text.setText("You Lost!");
+            text.setStyle("-fx-text-fill: red; -fx-font-family: Elephant");
             ((Button) buttons.getChildren().get(1)).setText("Restart");
         }
         dungeon.setPause();
