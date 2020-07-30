@@ -184,12 +184,12 @@ public class Player extends Entity implements Subject {
         if (currHealth == startingHealth) {
             dungeon.complete(true);
         } else {
-            currHealth--;
-            notifyObservers();
             setPosition(x(), startingX);
             setPosition(y(), startingY);
             detach(hound);
         }
+        currHealth--;
+        notifyObservers();
     }
 
     void sacrifice() {

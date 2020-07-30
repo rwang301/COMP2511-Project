@@ -246,10 +246,14 @@ public class DungeonController implements Subject, Observer {
             Player player = (Player) subject;
             List<Node> lives = health.getChildren();
             if (player.getCurrHealth() < player.getPrevHealth()) {
-                lives.remove(lives.get(lives.size() - 1));
+                Platform.runLater(() -> {
+                    lives.remove(lives.get(lives.size() - 1));
+                });
             } else if (player.getCurrHealth() > player.getPrevHealth()) {
-                ImageView life = new ImageView(new Image((new File("images/heart.png")).toURI().toString(), healthDimension, healthDimension, true, true));
-                lives.add(life);
+                Platform.runLater(() -> {
+                    ImageView life = new ImageView(new Image((new File("images/heart.png")).toURI().toString(), healthDimension, healthDimension, true, true));
+                    lives.add(life);
+                });
             } else {
                 Pickupable item = player.getUse();
                 if (item.getClass() == Key.class) {
