@@ -26,7 +26,10 @@ public class Player extends Entity implements Subject {
     private Observer hound;
     private Observer dungeonController;
     private Pickupable use = null;
-    private int lives = 1;
+    private int currHealth;
+    private int prevHealth;
+    private final int startingHealth = 1;
+    private final int healthCapacity = 3;
     private int startingX;
     private int startingY;
     private Entity currPosition;
@@ -42,6 +45,8 @@ public class Player extends Entity implements Subject {
         this.dungeon = dungeon;
         this.startingX = x;
         this.startingY = y;
+        currHealth = startingHealth;
+        prevHealth = currHealth;
     }
 
     public List<Observer> getEnemies() {
@@ -50,10 +55,6 @@ public class Player extends Entity implements Subject {
 
     public List<Observer> getGnomes() {
         return gnomes;
-    }
-
-    public Pickupable getUse() {
-        return use;
     }
 
     void setCurrPosition(Entity currPosition) {
@@ -66,6 +67,23 @@ public class Player extends Entity implements Subject {
 
     Entity getPrevPosition() {
         return prevPosition;
+    }
+
+    public Pickupable getUse() {
+        return use;
+    }
+
+    public int getCurrHealth() {
+        return currHealth;
+    }
+
+    public int getPrevHealth() {
+        return prevHealth;
+    }
+
+    void setHealth() {
+        currHealth++;
+        notifyObservers();
     }
 
     public Hound getHound() {
@@ -100,17 +118,13 @@ public class Player extends Entity implements Subject {
         backpack.setPotion(potion);
     }
 
-    void setLives() {
-        lives++;
-    }
-
 
     /**
      * Check if the player's lives are full
      * @return true if the player has less than 3 lives otherwise false
      */
     boolean canAddLive() {
-        if (lives < 3) return true;
+        if (currHealth < healthCapacity) return true;
         return false;
     }
 
@@ -167,10 +181,11 @@ public class Player extends Entity implements Subject {
      * Inform the dungeon that the player is dead
      */
     void die() {
-        if (lives == 1) {
+        if (currHealth == startingHealth) {
             dungeon.complete(true);
         } else {
-            lives--;
+            currHealth--;
+            notifyObservers();
             setPosition(x(), startingX);
             setPosition(y(), startingY);
             detach(hound);
@@ -375,8 +390,13 @@ public class Player extends Entity implements Subject {
             if (hound != null) hound.update(this); // Move the hound first
             gnomes.forEach(gnome -> gnome.update(this)); // Then move the gnome
             // If gnome moves to the new position of hound then the hound dies
+
+            if (prevHealth != currHealth) {
+                dungeonController.update(this);
+                prevHealth = currHealth;
+            }
         } else { // Use an item
-            dungeonController.update(this);
+            if (dungeonController != null) dungeonController.update(this);
             use = null;
         }
 	}

@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import unsw.DungeonApplication;
 import unsw.dungeon.Dungeon;
@@ -42,6 +43,9 @@ public class DungeonController implements Subject, Observer {
     private FlowPane backpack;
 
     @FXML
+    private HBox health;
+
+    @FXML
     private StackPane gameOver;
 
     @FXML
@@ -64,6 +68,7 @@ public class DungeonController implements Subject, Observer {
     private double width;
     private double height;
 
+    private final int healthDimension = 50;
     private final int backpackDimension = 150;
     private final int backpackInventory = 4;
 
@@ -91,6 +96,7 @@ public class DungeonController implements Subject, Observer {
 
    @FXML
     public void initialize() {
+        // TODO layering is already done like this? What about Enum z index
         // Add the ground first so it is below all other entities
         DungeonControllerLoader.loadBackground(dungeon.getWidth(), dungeon.getHeight(), squares);
 
@@ -98,6 +104,11 @@ public class DungeonController implements Subject, Observer {
             squares.getChildren().add(entity);
         }
 
+        initialiseInventory();
+        initialiseHealth();
+    }
+
+    private void initialiseInventory() {
         int spaceDimension = backpackDimension*2/backpackInventory;
         for (int i = 0; i < backpackInventory; i++) {
             StackPane space = new StackPane(new ImageView(new Image((new File("images/crate.png")).toURI().toString(), spaceDimension, spaceDimension, true, true)));
@@ -105,12 +116,20 @@ public class DungeonController implements Subject, Observer {
             space.setMaxSize(spaceDimension, spaceDimension);
             backpack.getChildren().add(space);
         }
-        // TODO background image doesn't work
+        // TODO background image doesn't work, inventory still out of bound
         inventory = backpack.getChildren();
         backpack.setPrefWrapLength(backpackDimension);
         backpack.setPrefSize(backpackDimension, backpackDimension);
         backpack.setLayoutX(width - backpack.getPrefWidth());
         backpack.setLayoutY(height - backpack.getPrefHeight());
+    }
+
+    private void initialiseHealth() {
+        ImageView life = (ImageView) health.getChildren().get(0);
+        life.setImage(new Image((new File("images/heart.png")).toURI().toString(), healthDimension, healthDimension, true, true));
+        // TODO can't put it in the center
+        life.setLayoutX(width/2 - healthDimension/2);
+        life.setLayoutY(height - healthDimension);
     }
 
     @FXML
@@ -224,11 +243,20 @@ public class DungeonController implements Subject, Observer {
                     break;
             }
         } else if (subject.getClass() == Player.class) {
-            Pickupable item = ((Player) subject).getUse();
-            if (item.getClass() == Key.class) {
-                removeImage(DungeonControllerLoader.keyImage);
-            } else if (item.getClass() == Sword.class) {
-                removeImage(DungeonControllerLoader.swordImage);
+            Player player = (Player) subject;
+            List<Node> lives = health.getChildren();
+            if (player.getCurrHealth() < player.getPrevHealth()) {
+                lives.remove(lives.get(lives.size() - 1));
+            } else if (player.getCurrHealth() > player.getPrevHealth()) {
+                ImageView life = new ImageView(new Image((new File("images/heart.png")).toURI().toString(), healthDimension, healthDimension, true, true));
+                lives.add(life);
+            } else {
+                Pickupable item = player.getUse();
+                if (item.getClass() == Key.class) {
+                    removeImage(DungeonControllerLoader.keyImage);
+                } else if (item.getClass() == Sword.class) {
+                    removeImage(DungeonControllerLoader.swordImage);
+                }
             }
         }
     }
