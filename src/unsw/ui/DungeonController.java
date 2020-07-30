@@ -167,6 +167,7 @@ public class DungeonController implements Subject, Observer {
     void blur(GaussianBlur blur) {
         squares.setEffect(blur);
         backpack.setEffect(blur);
+        health.setEffect(blur);
     }
 
     @FXML
