@@ -18,8 +18,8 @@ public class DungeonApplication extends Application implements Observer {
     private MainMenuScene mainMenuScene;
     private DungeonScene dungeonScene;
     private String level;
-    private final double width = Screen.getScreens().get(0).getVisualBounds().getWidth();
-    private final double height = Screen.getScreens().get(0).getVisualBounds().getHeight();
+    private double width;
+    private double height;
     private final int prefDimension = 50;
 
     public Stage getStage() {
@@ -46,7 +46,9 @@ public class DungeonApplication extends Application implements Observer {
     public void start(Stage primaryStage) throws IOException {
         this.stage = primaryStage;
         primaryStage.setTitle("Dungeon");
-
+        primaryStage.setFullScreen(true);
+        width = Screen.getScreens().get(0).getBounds().getWidth();
+        height = Screen.getScreens().get(0).getBounds().getHeight();
         this.mainMenuScene = new MainMenuScene(this);
         mainMenuScene.start();
     }
