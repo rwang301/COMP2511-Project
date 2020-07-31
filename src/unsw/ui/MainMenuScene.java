@@ -64,9 +64,12 @@ public class MainMenuScene implements Subject {
         Button exit = new GameButton(buttonWidth, buttonHeight, "Exit", style);
         BorderPane borderPane = createInstructions();
 
-        VBox group = new VBox(start, help, exit);
+        HBox hBox = new HBox(start, help, exit);
+        hBox.setAlignment(Pos.CENTER);
+        VBox group = new VBox(new ImageView((new Image((new File("images/historic.png")).toURI().toString()))), hBox);
         group.setAlignment(Pos.CENTER);
-        group.setSpacing((height / 2 - buttonHeight) / 2);
+        group.setSpacing(height/20);
+        hBox.setSpacing((width / 2 - buttonWidth*3) / 2);
 
         HBox levels = new HBox(createLevel("maze"), createLevel("boulders"), createLevel("advanced"), createLevel("master"));
         levels.setAlignment(Pos.CENTER);
