@@ -156,7 +156,7 @@ public class DungeonController implements Subject, Observer {
             space.setMaxSize(spaceDimension, spaceDimension);
             backpack.getChildren().add(space);
         }
-        // TODO background image doesn't work, inventory still out of bound
+        // TODO backpack is still out of bound, that's because window size != screen size, but how do we fix it
         inventory = backpack.getChildren();
         backpack.setStyle("-fx-background-size:" + backpackDimension + " " + backpackDimension);
         backpack.setPrefWrapLength(backpackDimension);
