@@ -47,8 +47,10 @@ public class DungeonApplication extends Application implements Observer {
         this.stage = primaryStage;
         primaryStage.setTitle("Dungeon");
         primaryStage.setFullScreen(true);
+
         width = Screen.getScreens().get(0).getBounds().getWidth();
         height = Screen.getScreens().get(0).getBounds().getHeight();
+
         this.mainMenuScene = new MainMenuScene(this);
         mainMenuScene.start();
     }
@@ -71,6 +73,7 @@ public class DungeonApplication extends Application implements Observer {
                 start();
             } else {
                 mainMenuScene.start();
+                stage.setFullScreen(true);
             }
         } else if (subject.getClass() == DungeonScene.class) {
             level = ((DungeonScene) subject).getLevel();
@@ -85,5 +88,6 @@ public class DungeonApplication extends Application implements Observer {
         } catch (IOException e) {
             // TODO Auto-generated catch block
         }
+        stage.setFullScreen(true);
     }
 }
