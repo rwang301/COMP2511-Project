@@ -139,7 +139,7 @@ public class DungeonController implements Subject, Observer {
     }
 
     private void initialiseSetting() {
-        setting.setImage(new Image((new File("images/gear.png")).toURI().toString(), prefDimension, prefDimension, true, true));
+        setting.setImage(new Image((new File("src/images/gear.png")).toURI().toString(), prefDimension, prefDimension, true, true));
         setting.setLayoutX(width - prefDimension);
         setting.setOnMouseClicked(event -> {
             handleSetting(event);
@@ -151,13 +151,14 @@ public class DungeonController implements Subject, Observer {
     private void initialiseInventory() {
         int spaceDimension = backpackDimension*2/backpackInventory;
         for (int i = 0; i < backpackInventory; i++) {
-            StackPane space = new StackPane(new ImageView(new Image((new File("images/crate.png")).toURI().toString(), spaceDimension, spaceDimension, true, true)));
+            StackPane space = new StackPane(new ImageView(new Image((new File("src/images/crate.png")).toURI().toString(), spaceDimension, spaceDimension, true, true)));
             space.setMinSize(spaceDimension, spaceDimension);
             space.setMaxSize(spaceDimension, spaceDimension);
             backpack.getChildren().add(space);
         }
         // TODO background image doesn't work, inventory still out of bound
         inventory = backpack.getChildren();
+        backpack.setStyle("-fx-background-size:" + backpackDimension + " " + backpackDimension);
         backpack.setPrefWrapLength(backpackDimension);
         backpack.setPrefSize(backpackDimension, backpackDimension);
         backpack.setLayoutX(width - backpack.getPrefWidth());
@@ -166,7 +167,7 @@ public class DungeonController implements Subject, Observer {
 
     private void initialiseHealth() {
         ImageView life = (ImageView) health.getChildren().get(0);
-        life.setImage(new Image((new File("images/heart.png")).toURI().toString(), prefDimension, prefDimension, true, true));
+        life.setImage(new Image((new File("src/images/heart.png")).toURI().toString(), prefDimension, prefDimension, true, true));
         health.setLayoutX(width - prefDimension);
         health.setLayoutY(prefDimension * 2);
     }
@@ -305,7 +306,7 @@ public class DungeonController implements Subject, Observer {
                 });
             } else if (player.getCurrHealth() > player.getPrevHealth()) {
                 Platform.runLater(() -> {
-                    ImageView life = new ImageView(new Image((new File("images/heart.png")).toURI().toString(), prefDimension, prefDimension, true, true));
+                    ImageView life = new ImageView(new Image((new File("src/images/heart.png")).toURI().toString(), prefDimension, prefDimension, true, true));
                     lives.add(life);
                 });
             } else {

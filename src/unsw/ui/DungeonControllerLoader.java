@@ -49,24 +49,24 @@ public class DungeonControllerLoader extends DungeonLoader {
      * If the update image is Door then it will be openDoorImage
      * otherwise it will be null so that images can be removed
      */
-    static Image ground = new Image((new File("images/dirt_0_new.png")).toURI().toString());
+    static Image ground = new Image((new File("src/images/dirt_0_new.png")).toURI().toString());
     static Image update = null;
-    static Image playerImage = new Image((new File("images/human_new.png")).toURI().toString());
-    static Image wallImage = new Image((new File("images/brick_brown_0.png")).toURI().toString());
-    static Image exitImage = new Image((new File("images/exit.png")).toURI().toString());
-    static Image portalImage = new Image((new File("images/portal.png")).toURI().toString());
-    static Image keyImage = new Image((new File("images/key.png")).toURI().toString());
-    static Image openDoorImage = new Image((new File("images/open_door.png")).toURI().toString());
-    static Image closedDoorImage = new Image((new File("images/closed_door.png")).toURI().toString());
-    static Image switchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
-    static Image boulderImage = new Image((new File("images/boulder.png")).toURI().toString());
-    static Image treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
-    static Image enemyImage = new Image((new File("images/deep_elf_master_archer.png")).toURI().toString());
-    static Image swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
-    static Image potionImage = new Image((new File("images/bubbly.png")).toURI().toString());
-    static Image medicineImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
-    static Image houndImage = new Image((new File("images/hound.png")).toURI().toString());
-    static Image gnomeImage = new Image((new File("images/gnome.png")).toURI().toString());
+    static Image playerImage = new Image((new File("src/images/human_new.png")).toURI().toString());
+    static Image wallImage = new Image((new File("src/images/brick_brown_0.png")).toURI().toString());
+    static Image exitImage = new Image((new File("src/images/exit.png")).toURI().toString());
+    static Image portalImage = new Image((new File("src/images/portal.png")).toURI().toString());
+    static Image keyImage = new Image((new File("src/images/key.png")).toURI().toString());
+    static Image openDoorImage = new Image((new File("src/images/open_door.png")).toURI().toString());
+    static Image closedDoorImage = new Image((new File("src/images/closed_door.png")).toURI().toString());
+    static Image switchImage = new Image((new File("src/images/pressure_plate.png")).toURI().toString());
+    static Image boulderImage = new Image((new File("src/images/boulder.png")).toURI().toString());
+    static Image treasureImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
+    static Image enemyImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
+    static Image swordImage = new Image((new File("src/images/greatsword_1_new.png")).toURI().toString());
+    static Image potionImage = new Image((new File("src/images/bubbly.png")).toURI().toString());
+    static Image medicineImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
+    static Image houndImage = new Image((new File("src/images/hound.png")).toURI().toString());
+    static Image gnomeImage = new Image((new File("src/images/gnome.png")).toURI().toString());
 
     public DungeonControllerLoader(DungeonApplication application) throws FileNotFoundException {
         super(application);

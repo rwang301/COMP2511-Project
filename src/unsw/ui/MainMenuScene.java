@@ -66,7 +66,7 @@ public class MainMenuScene implements Subject {
 
         HBox hBox = new HBox(start, help, exit);
         hBox.setAlignment(Pos.CENTER);
-        VBox group = new VBox(new ImageView((new Image((new File("images/historic.png")).toURI().toString()))), hBox);
+        VBox group = new VBox(new ImageView((new Image((new File("src/images/historic.png")).toURI().toString()))), hBox);
         group.setAlignment(Pos.CENTER);
         group.setSpacing(height/20);
         hBox.setSpacing((width / 2 - buttonWidth*3) / 2);
@@ -75,7 +75,7 @@ public class MainMenuScene implements Subject {
         levels.setAlignment(Pos.CENTER);
         levels.setSpacing((imageDimension - buttonWidth / 2) / 5);
 
-        Button back = new Button("Back", new ImageView(new Image((new File("images/back-button.png")).toURI().toString(), buttonHeight, buttonHeight, true, true)));
+        Button back = new Button("Back", new ImageView(new Image((new File("src/images/back-button.png")).toURI().toString(), buttonHeight, buttonHeight, true, true)));
         StackPane.setAlignment(back, Pos.TOP_LEFT);
         back.setStyle(style);
         back.setOnAction(event -> {

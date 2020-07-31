@@ -14,5 +14,5 @@
 }
 
 #backpack {
-    -fx-background-image: url("/images/wooden-box.png");
+    -fx-background-image: url("../images/wooden-box.png");
 }
