@@ -394,7 +394,7 @@ public class Player extends Entity implements Subject {
         } else {
             // TODO potential bug using current gone
             if (current.getClass() == Potion.class) enemies.forEach(enemy -> enemy.update(this));
-            enemies.forEach(enemy -> ((Enemy) enemy).reset());
+            else enemies.forEach(enemy -> ((Enemy) enemy).reset());
 
             if (hound != null) hound.update(this); // Move the hound first
             gnomes.forEach(gnome -> gnome.update(this)); // Then move the gnome

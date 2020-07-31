@@ -82,5 +82,6 @@ public class Enemy extends Character {
     public void update(Subject subject) {
         if (subject.getClass() == Player.class) strategy = moveAway;
         else if (subject.getClass() == Potion.class) strategy = moveToward;
+        reset();
     }
 }

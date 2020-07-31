@@ -2,7 +2,6 @@ package unsw.dungeon;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class Strategy {
     Character character;
@@ -34,12 +33,8 @@ public abstract class Strategy {
 	    setCurrentPosition();
 	}
 
-    List<Entity> getEntities(Class<?> entityType) {
-        return dungeon.getEntities().stream().filter(entity -> entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
-    }
-
     boolean isOn(Class<?> entityType) {
-        for (Entity entity: getEntities(entityType)) {
+        for (Entity entity: dungeon.getEntities(entityType)) {
             if (!character.equals(entity) && character.isOn(entity)) {
                 if (entity.getClass() == Door.class && ((Door) entity).isOpen()) {
                     continue;

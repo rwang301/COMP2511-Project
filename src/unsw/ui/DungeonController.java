@@ -24,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
 import unsw.DungeonApplication;
 import unsw.dungeon.Dungeon;
+import unsw.dungeon.Entity;
 import unsw.dungeon.Key;
 import unsw.dungeon.Observer;
 import unsw.dungeon.Pickupable;
@@ -31,6 +32,7 @@ import unsw.dungeon.Player;
 import unsw.dungeon.Potion;
 import unsw.dungeon.Subject;
 import unsw.dungeon.Sword;
+import unsw.dungeon.Treasure;
 
 /**
  * A JavaFX controller for the dungeon.
@@ -87,25 +89,23 @@ public class DungeonController implements Subject, Observer {
 
     private boolean shift = false;
     private boolean newGame;
-    private boolean pause;
+    private boolean pause = false;
     private List<Node> inventory;
 
     public DungeonController(Dungeon dungeon, List<ImageView> initialEntities, DungeonApplication application) {
         this.dungeon = dungeon;
-        dungeon.attach(this);
+        this.initialEntities = new ArrayList<>(initialEntities);
 
         player = dungeon.getPlayer();
         player.attach(this);
 
+        dungeon.attach(this);
         dungeon.getEntities(Potion.class).forEach(potion -> attach((Observer) potion));
-        pause = dungeon.isPause();
+        attach(application);
 
         width = application.getWidth();
         height = application.getHeight();
         prefDimension = application.getPrefDimension();
-
-        this.initialEntities = new ArrayList<>(initialEntities);
-        attach(application);
     }
 
     public String getStyle() {
@@ -159,9 +159,8 @@ public class DungeonController implements Subject, Observer {
         inventory = backpack.getChildren();
         backpack.setStyle("-fx-background-size:" + backpackDimension + " " + backpackDimension);
         backpack.setPrefWrapLength(backpackDimension);
-        backpack.setPrefSize(backpackDimension, backpackDimension);
-        backpack.setLayoutX(width - backpack.getPrefWidth());
-        backpack.setLayoutY(height - backpack.getPrefHeight());
+        backpack.setLayoutX(width - backpackDimension);
+        backpack.setLayoutY(height - backpackDimension);
     }
 
     private void initialiseHealth() {
@@ -185,19 +184,23 @@ public class DungeonController implements Subject, Observer {
 
     public void handleSetting(MouseEvent event) {
         gameOver.setVisible(true);
-        restart.setText("Restart");
         root.requestFocus();
         blur(new GaussianBlur());
+        restart.setText("Restart");
 
         dungeon.setPause();
+        pause = true;
         notifyObservers();
 
         setting.setOnMouseClicked(event1 -> {
             gameOver.setVisible(false);
-            dungeon.setPause();
-            notifyObservers();
             squares.requestFocus();
             blur(null);
+
+            dungeon.setPause();
+            pause = true;
+            notifyObservers();
+
             setting.setOnMouseClicked(event2 -> {
                 handleSetting(event2);
             });
@@ -274,36 +277,27 @@ public class DungeonController implements Subject, Observer {
 
     @Override
     public void notifyObservers() {
-        if (pause != dungeon.isPause()) {
+        if (pause) {
             potions.forEach(potion -> potion.update(this));
-            pause = dungeon.isPause();
+            pause = false;
         } else application.update(this);
     }
 
     @Override
     public void update(Subject subject) {
         if (subject.getClass() == Dungeon.class) {
-            switch (dungeon.getEntity().getClass().getSimpleName()) {
-                case "Sword":
-                    addImage(DungeonControllerLoader.swordImage);
-                    break;
-                case "Treasure":
-                    pickupTreasure(DungeonControllerLoader.treasureImage, dungeon.getPlayer().getTreasure());
-                    break;
-                case "Key":
-                    addImage(DungeonControllerLoader.keyImage);
-                    break;
-                default:
-                    break;
-            }
+            Entity entity = dungeon.getEntity();
+            if (entity.getClass() == Key.class) addImage(DungeonControllerLoader.keyImage);
+            else if (entity.getClass() == Sword.class) addImage(DungeonControllerLoader.swordImage);
+            else if (entity.getClass() == Treasure.class) pickupTreasure(DungeonControllerLoader.treasureImage, dungeon.getPlayer().getTreasure());
         } else if (subject.getClass() == Player.class) {
             Player player = (Player) subject;
             List<Node> lives = health.getChildren();
             Pickupable item = player.getUse();
             if (item != null) {
-                player.setUse(null);
                 if (item.getClass() == Key.class) removeImage(DungeonControllerLoader.keyImage);
                 else if (item.getClass() == Sword.class) removeImage(DungeonControllerLoader.swordImage);
+                player.setUse(null);
             } else {
                 int currHealth = player.getCurrHealth();
                 int prevHealth = player.getPrevHealth();
