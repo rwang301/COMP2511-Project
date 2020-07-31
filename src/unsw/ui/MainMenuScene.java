@@ -119,9 +119,9 @@ public class MainMenuScene implements Subject {
         hBox.setAlignment(Pos.TOP_CENTER);
         vBox.setMaxSize(width/3*2, height/3*2);
         label6.setWrapText(true);
-        help.setStyle("-fx-font-size: 10em; -fx-text-fill: #D2691E; -fx-font-family: Elephant");
+        help.setStyle("-fx-font-size: 10em; -fx-text-fill: chocolate; -fx-font-family: Elephant");
 
-        vBox.setStyle("-fx-border-color: #CD853F; -fx-border-insets: 5; -fx-border-width: 3; -fx-background-color: #FFEFD5; -fx-border-radius: 20 20 20 20; -fx-background-radius: 20 20 20 20;");
+        vBox.setStyle("-fx-border-color: #CD853F; -fx-border-insets: 5; -fx-border-width: 3; -fx-background-color: blanchedalmond; -fx-border-radius: 20 20 20 20; -fx-background-radius: 20 20 20 20;");
         vBox.setPadding(new Insets(prefDimension));
         borderPane.setCenter(vBox);
         borderPane.setTop(hBox);

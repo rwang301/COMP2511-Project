@@ -83,7 +83,7 @@ public class DungeonController implements Subject, Observer {
     private final int backpackDimension = 150;
     private final int backpackInventory = 4;
     private final int prefDimension;
-    private final String style = "-fx-font-size: 5em; -fx-text-fill: chartreuse;";
+    private final String style = "-fx-font-size: 5em; -fx-text-fill: chocolate;";
 
     private boolean shift = false;
     private boolean newGame;
