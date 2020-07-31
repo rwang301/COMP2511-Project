@@ -28,6 +28,7 @@ import unsw.dungeon.Key;
 import unsw.dungeon.Observer;
 import unsw.dungeon.Pickupable;
 import unsw.dungeon.Player;
+import unsw.dungeon.Potion;
 import unsw.dungeon.Subject;
 import unsw.dungeon.Sword;
 
@@ -72,9 +73,9 @@ public class DungeonController implements Subject, Observer {
     private List<ImageView> initialEntities;
 
     private Observer application;
+    private List<Observer> potions = new ArrayList<>();
 
     private Player player;
-
     private Dungeon dungeon;
 
     private final double width;
@@ -86,6 +87,7 @@ public class DungeonController implements Subject, Observer {
 
     private boolean shift = false;
     private boolean newGame;
+    private boolean pause;
     private List<Node> inventory;
 
     public DungeonController(Dungeon dungeon, List<ImageView> initialEntities, DungeonApplication application) {
@@ -94,6 +96,9 @@ public class DungeonController implements Subject, Observer {
 
         player = dungeon.getPlayer();
         player.attach(this);
+
+        dungeon.getEntities(Potion.class).forEach(potion -> attach((Observer) potion));
+        pause = dungeon.isPause();
 
         width = application.getWidth();
         height = application.getHeight();
@@ -181,13 +186,16 @@ public class DungeonController implements Subject, Observer {
     public void handleSetting(MouseEvent event) {
         gameOver.setVisible(true);
         restart.setText("Restart");
-        dungeon.setPause();
         root.requestFocus();
         blur(new GaussianBlur());
+
+        dungeon.setPause();
+        notifyObservers();
 
         setting.setOnMouseClicked(event1 -> {
             gameOver.setVisible(false);
             dungeon.setPause();
+            notifyObservers();
             squares.requestFocus();
             blur(null);
             setting.setOnMouseClicked(event2 -> {
@@ -200,6 +208,14 @@ public class DungeonController implements Subject, Observer {
         squares.setEffect(blur);
         backpack.setEffect(blur);
         health.setEffect(blur);
+    }
+
+    public boolean isPause() {
+        return dungeon.isPause();
+    }
+
+    public Player getPlayer() {
+        return dungeon.getPlayer();
     }
 
     @FXML
@@ -246,17 +262,22 @@ public class DungeonController implements Subject, Observer {
 
     @Override
     public void attach(Observer observer) {
-        application = observer;
+        if (observer.getClass() == DungeonApplication.class) application = observer;
+        else if (observer.getClass() == Potion.class) potions.add(observer);
     }
 
     @Override
     public void detach(Observer observer) {
-        application = null;
+        if (observer.getClass() == DungeonApplication.class) application = null;
+        else if (observer.getClass() == Potion.class) potions.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        application.update(this);
+        if (pause != dungeon.isPause()) {
+            potions.forEach(potion -> potion.update(this));
+            pause = dungeon.isPause();
+        } else application.update(this);
     }
 
     @Override

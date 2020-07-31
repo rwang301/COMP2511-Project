@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Potion extends Entity implements Pickupable, Subject {
+import unsw.ui.DungeonController;
+
+public class Potion extends Entity implements Pickupable, Subject, Observer {
     private long pickupTime;
     private long effectTime = 5000;
     private Timer timer;
@@ -22,19 +24,11 @@ public class Potion extends Entity implements Pickupable, Subject {
      */
     Potion pickup(Potion potion, Player player) {
         enemies = player.getEnemies();
-        pickupTime = System.currentTimeMillis();
         if (potion != null) {
             effectTime += potion.effectTime - (System.currentTimeMillis() - potion.pickupTime);
             potion.cancelTimer();
         }
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                player.setPotion(null);
-                notifyObservers();
-            }
-        }, effectTime);
+        timer = scheduleTimer(player);
         return this;
     }
 
@@ -43,6 +37,18 @@ public class Potion extends Entity implements Pickupable, Subject {
         timer.purge();
     }
 
+    private Timer scheduleTimer(Player player) {
+        pickupTime = System.currentTimeMillis();
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                player.setPotion(null);
+                notifyObservers();
+            }
+        }, effectTime);
+        return timer;
+    }
 
     @Override
 	public void attach(Observer enemy) {
@@ -58,4 +64,15 @@ public class Potion extends Entity implements Pickupable, Subject {
 	public void notifyObservers() {
         enemies.forEach(enemy -> enemy.update(this));
 	}
+
+    @Override
+    public void update(Subject subject) {
+        if (((DungeonController) subject).getPlayer().getPotion() == null) return; // potion hasn't been picked up yet
+        if (((DungeonController) subject).isPause()) {
+            cancelTimer();
+            effectTime = effectTime - (System.currentTimeMillis() - pickupTime);
+        } else {
+            timer = scheduleTimer(((DungeonController) subject).getPlayer());
+        }
+    }
 }

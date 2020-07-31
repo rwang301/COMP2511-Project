@@ -82,7 +82,6 @@ public class DungeonApplication extends Application implements Observer {
             dungeonScene.start();
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 }

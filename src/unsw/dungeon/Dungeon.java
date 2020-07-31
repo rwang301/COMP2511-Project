@@ -89,6 +89,10 @@ public class Dungeon implements Subject {
         return entities;
     }
 
+    public List<Entity> getEntities(Class<?> entityType) {
+        return player.getEntities(entityType);
+    }
+
     public void addEntity(Entity entity) {
         if (entity.getClass() == Treasure.class) treasure++;
         entities.add(entity);
@@ -97,7 +101,6 @@ public class Dungeon implements Subject {
     public void removeEntity(Entity entity) {
         entities.remove(entity);
     }
-
 
     void open(Door door) {
         entity = door;
