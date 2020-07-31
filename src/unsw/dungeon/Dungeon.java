@@ -5,6 +5,7 @@ package unsw.dungeon;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 import unsw.DungeonApplication;
 import unsw.ui.DungeonController;
@@ -90,7 +91,7 @@ public class Dungeon implements Subject {
     }
 
     public List<Entity> getEntities(Class<?> entityType) {
-        return player.getEntities(entityType);
+        return entities.stream().filter(entity -> entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
     }
 
     public void addEntity(Entity entity) {

@@ -58,7 +58,7 @@ public class Backpack {
         if (pickupable.getClass() == Key.class) key = (Key) pickupable;
         else if (pickupable.getClass() == Sword.class) sword = (Sword) pickupable;
         else if (pickupable.getClass() == Potion.class) potion = ((Potion) pickupable).pickup(potion, player);
-        else if (pickupable.getClass() == Medicine.class) player.setHealth();
+        else if (pickupable.getClass() == Medicine.class) player.setCurrHealth();
         else if (pickupable.getClass() == Treasure.class) {
             treasure++;
             player.complete();

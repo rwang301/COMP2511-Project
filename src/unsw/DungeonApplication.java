@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import unsw.dungeon.Dungeon;
@@ -47,6 +48,7 @@ public class DungeonApplication extends Application implements Observer {
         this.stage = primaryStage;
         primaryStage.setTitle("Dungeon");
         primaryStage.setFullScreen(true);
+        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 
         width = Screen.getScreens().get(0).getBounds().getWidth();
         height = Screen.getScreens().get(0).getBounds().getHeight();

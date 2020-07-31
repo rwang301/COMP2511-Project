@@ -2,7 +2,6 @@ package unsw.dungeon;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
 
 import javafx.beans.property.IntegerProperty;
 import unsw.ui.DungeonController;
@@ -73,6 +72,10 @@ public class Player extends Entity implements Subject {
         return use;
     }
 
+    public void setUse(Pickupable use) {
+        this.use = use;
+    }
+
     public int getCurrHealth() {
         return currHealth;
     }
@@ -81,12 +84,16 @@ public class Player extends Entity implements Subject {
         return prevHealth;
     }
 
-    void setHealth() {
+    public void setPrevHealth(int prevHealth) {
+        this.prevHealth = prevHealth;
+    }
+
+    void setCurrHealth() {
         currHealth++;
         notifyObservers();
     }
 
-    public Hound getHound() {
+    Hound getHound() {
         return (Hound) hound;
     }
 
@@ -217,8 +224,8 @@ public class Player extends Entity implements Subject {
      * @param entityType
      * @return a list of entities of a given type
      */
-    public List<Entity> getEntities(Class<?> entityType) {
-        return dungeon.getEntities().stream().filter(entity -> entityType.isAssignableFrom(entity.getClass())).collect(Collectors.toList());
+    List<Entity> getEntities(Class<?> entityType) {
+        return dungeon.getEntities(entityType);
     }
 
     /**
@@ -382,7 +389,9 @@ public class Player extends Entity implements Subject {
 
 	@Override
 	public void notifyObservers() {
-        if (use == null) {
+        if (use != null || prevHealth != currHealth) {
+            if (dungeonController != null) dungeonController.update(this);
+        } else {
             // TODO potential bug using current gone
             if (current.getClass() == Potion.class) enemies.forEach(enemy -> enemy.update(this));
             enemies.forEach(enemy -> ((Enemy) enemy).reset());
@@ -390,14 +399,6 @@ public class Player extends Entity implements Subject {
             if (hound != null) hound.update(this); // Move the hound first
             gnomes.forEach(gnome -> gnome.update(this)); // Then move the gnome
             // If gnome moves to the new position of hound then the hound dies
-
-            if (prevHealth != currHealth) {
-                dungeonController.update(this);
-                prevHealth = currHealth;
-            }
-        } else { // Use an item
-            if (dungeonController != null) dungeonController.update(this);
-            use = null;
         }
 	}
 }

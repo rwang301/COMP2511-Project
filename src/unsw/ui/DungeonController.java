@@ -299,22 +299,17 @@ public class DungeonController implements Subject, Observer {
         } else if (subject.getClass() == Player.class) {
             Player player = (Player) subject;
             List<Node> lives = health.getChildren();
-            if (player.getCurrHealth() < player.getPrevHealth()) {
-                Platform.runLater(() -> {
-                    lives.remove(lives.get(lives.size() - 1));
-                });
-            } else if (player.getCurrHealth() > player.getPrevHealth()) {
-                Platform.runLater(() -> {
-                    ImageView life = new ImageView(new Image((new File("src/images/heart.png")).toURI().toString(), prefDimension, prefDimension, true, true));
-                    lives.add(life);
-                });
+            Pickupable item = player.getUse();
+            if (item != null) {
+                player.setUse(null);
+                if (item.getClass() == Key.class) removeImage(DungeonControllerLoader.keyImage);
+                else if (item.getClass() == Sword.class) removeImage(DungeonControllerLoader.swordImage);
             } else {
-                Pickupable item = player.getUse();
-                if (item.getClass() == Key.class) {
-                    removeImage(DungeonControllerLoader.keyImage);
-                } else if (item.getClass() == Sword.class) {
-                    removeImage(DungeonControllerLoader.swordImage);
-                }
+                int currHealth = player.getCurrHealth();
+                int prevHealth = player.getPrevHealth();
+                if (currHealth < prevHealth) Platform.runLater(() -> lives.remove(lives.get(lives.size() - 1)));
+                else if (currHealth > prevHealth) Platform.runLater(() -> lives.add(new ImageView(new Image((new File("src/images/heart.png")).toURI().toString(), prefDimension, prefDimension, true, true))));
+                player.setPrevHealth(currHealth);
             }
         }
     }

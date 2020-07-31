@@ -67,7 +67,6 @@ public abstract class DungeonLoader implements Observer {
      */
     public Dungeon load() {
         Dungeon dungeon = new Dungeon((int) (application.getWidth()/DungeonControllerLoader.getWidth()), (int) (application.getHeight()/DungeonControllerLoader.getHeight()));
-        dungeon.attach(application);
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 
@@ -77,26 +76,30 @@ public abstract class DungeonLoader implements Observer {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
 
-        player.getEntities(Enemy.class).forEach(enemy -> player.attach((Observer) enemy));
+        initialise(dungeon);
+        return dungeon;
+    }
+
+    private void initialise(Dungeon dungeon) {
+        dungeon.attach(application);
+
+        dungeon.getEntities(Enemy.class).forEach(enemy -> player.attach((Observer) enemy));
         player.getEnemies().forEach(enemy -> ((Enemy) enemy).initialise(player));
 
-        player.getEntities(Gnome.class).forEach(gnome -> player.attach((Observer) gnome));
+        dungeon.getEntities(Gnome.class).forEach(gnome -> player.attach((Observer) gnome));
         player.getGnomes().forEach(gnome -> ((Gnome) gnome).initialise(player));
 
         dungeon.attach(this);
         dungeon.setGoal(goal);
 
-        player.getEntities(Switch.class).forEach(floorSwitch -> {
-            for (Entity boulder: player.getEntities(Boulder.class)) {
-                if (boulder.isOn(floorSwitch)) {
-                    ((Switch) floorSwitch).setTriggered();
-                }
-            }
+        dungeon.getEntities(Switch.class).forEach(floorSwitch -> {
+            dungeon.getEntities(Boulder.class).forEach(boulder -> {
+                if (boulder.isOn(floorSwitch)) ((Switch) floorSwitch).setTriggered();
+            });
         });
-        return dungeon;
     }
 
-    private void loadGoals(JSONObject goals, Composite condition){
+    private void loadGoals(JSONObject goals, Composite condition) {
         String goal = goals.getString("goal");
 
         switch (goal) {

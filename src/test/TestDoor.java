@@ -97,7 +97,6 @@ public class TestDoor {
     @Test
     public void testThreeDoors() {
         initialise();
-        int count = player.getEntities(Door.class).size();
-        assertEquals(count, 3);
+        assertEquals(dungeon.getEntities(Door.class).size(), 3);
     }
 }
