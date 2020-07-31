@@ -67,7 +67,7 @@ public class Potion extends Entity implements Pickupable, Subject, Observer {
 
     @Override
     public void update(Subject subject) {
-        if (((DungeonController) subject).getPlayer().getPotion() == null) return; // potion hasn't been picked up yet
+        if (((DungeonController) subject).getPlayer().getPotion() != this) return; // potion hasn't been picked up yet
         if (((DungeonController) subject).isPause()) {
             cancelTimer();
             effectTime = effectTime - (System.currentTimeMillis() - pickupTime);
