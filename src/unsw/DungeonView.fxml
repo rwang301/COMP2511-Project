@@ -33,6 +33,7 @@
       </HBox>
    </StackPane>
    <ImageView fx:id="setting" />
+   <ImageView fx:id="mission" />
    <FlowPane fx:id="backpack" />
    <VBox fx:id="health">
       <ImageView />

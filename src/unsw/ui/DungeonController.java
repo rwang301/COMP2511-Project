@@ -70,6 +70,9 @@ public class DungeonController implements Subject, Observer {
     private ImageView setting;
 
     @FXML
+    private ImageView mission;
+
+    @FXML
     private Label text;
 
     private List<ImageView> initialEntities;
@@ -91,6 +94,7 @@ public class DungeonController implements Subject, Observer {
     private boolean newGame;
     private boolean pause = false;
     private List<Node> inventory;
+    private boolean goal = false;
 
     public DungeonController(Dungeon dungeon, List<ImageView> initialEntities, DungeonApplication application) {
         this.dungeon = dungeon;
@@ -116,6 +120,14 @@ public class DungeonController implements Subject, Observer {
         return newGame;
     }
 
+    public boolean isGoal() {
+        return goal;
+    }
+
+    public Dungeon getDungeon() {
+        return dungeon;
+    }
+
    @FXML
     public void initialize() {
         // Add the ground first so it is below all other entities
@@ -129,6 +141,7 @@ public class DungeonController implements Subject, Observer {
         initialiseSetting();
         initialiseInventory();
         initialiseHealth();
+        initialiseMission();
     }
 
     private void initialiseButtons() {
@@ -145,6 +158,16 @@ public class DungeonController implements Subject, Observer {
         });
         text.setText("Setting");
         text.setStyle(style + "-fx-text-fill: cornflowerblue");
+    }
+
+    private void initialiseMission() {
+        mission.setImage(new Image((new File("src/images/success.png")).toURI().toString(), prefDimension, prefDimension, true, true));
+        mission.setLayoutX(width - prefDimension);
+        mission.setLayoutY(prefDimension * 2);
+        mission.setOnMouseClicked(event -> {
+            goal = true;
+            notifyObservers();
+        });
     }
 
     private void initialiseInventory() {
@@ -166,7 +189,7 @@ public class DungeonController implements Subject, Observer {
         ImageView life = (ImageView) health.getChildren().get(0);
         life.setImage(new Image((new File("src/images/heart.png")).toURI().toString(), prefDimension, prefDimension, true, true));
         health.setLayoutX(width - prefDimension);
-        health.setLayoutY(prefDimension * 2);
+        health.setLayoutY(prefDimension * 4);
     }
 
     @FXML

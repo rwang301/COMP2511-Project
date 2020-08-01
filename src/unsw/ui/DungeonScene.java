@@ -40,6 +40,7 @@ public class DungeonScene implements Subject {
     private final int totalLevels = 4;
     private String level;
     private List<String> levels = new ArrayList<>();
+    private Dungeon dungeon;
 
     public DungeonScene(DungeonApplication application) throws IOException {
         stage = application.getStage();
@@ -53,9 +54,10 @@ public class DungeonScene implements Subject {
 
         DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(application);
         controller = dungeonLoader.loadController(application);
+        dungeon = controller.getDungeon();   
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../DungeonView.fxml"));
-        loader.setController(controller);
+        loader.setController(controller);     
 
         root = loader.load();
         scene = new Scene(root, application.getWidth(), application.getHeight());
@@ -69,15 +71,19 @@ public class DungeonScene implements Subject {
         layout();
     }
 
+    public String getLevel() {
+        return level;
+    }
+
+    public Dungeon getDungeon() {
+        return dungeon;
+    }
+
     private void initialiseLevels() {
         levels.add("maze.json");
         levels.add("boulders.json");
         levels.add("advanced.json");
         levels.add("master.json");
-    }
-
-    public String getLevel() {
-        return level;
     }
 
     private void layout() {
@@ -131,17 +137,17 @@ public class DungeonScene implements Subject {
         ft.play();
     }
 
-    public void start() {
-        stage.setScene(scene);
-        stage.show();
-    }
-
     private void rotateText(Label text) {
         RotateTransition rt = new RotateTransition(Duration.millis(500), text);
         rt.setByAngle(10);
         rt.setCycleCount(2);
         rt.setAutoReverse(true);
         rt.play();
+    }
+
+    public void start() {
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Override

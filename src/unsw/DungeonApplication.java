@@ -12,15 +12,18 @@ import unsw.dungeon.Observer;
 import unsw.dungeon.Subject;
 import unsw.ui.DungeonController;
 import unsw.ui.DungeonScene;
+import unsw.ui.GoalScene;
 import unsw.ui.MainMenuScene;
 
 public class DungeonApplication extends Application implements Observer {
     private Stage stage;
     private MainMenuScene mainMenuScene;
     private DungeonScene dungeonScene;
+    private GoalScene goalScene;
     private String level;
     private double width;
     private double height;
+    private Dungeon dungeon;
     private final int prefDimension = 50;
 
     public Stage getStage() {
@@ -41,6 +44,10 @@ public class DungeonApplication extends Application implements Observer {
 
     public int getPrefDimension() {
         return prefDimension;
+    }
+
+    public Dungeon getDungeon() {
+        return dungeon;
     }
 
     @Override
@@ -71,8 +78,11 @@ public class DungeonApplication extends Application implements Observer {
                 dungeonScene.gameOver((Dungeon) subject);
             });
         } else if (subject.getClass() == DungeonController.class) {
-            if (((DungeonController) subject).isNewGame()) {
+            DungeonController controller = (DungeonController) subject;
+            if (controller.isNewGame()) {
                 start();
+            } else if (controller.isGoal() == true) {
+                goalScene.start();
             } else {
                 mainMenuScene.start();
                 stage.setFullScreen(true);
@@ -87,6 +97,8 @@ public class DungeonApplication extends Application implements Observer {
         try {
             dungeonScene = new DungeonScene(this);
             dungeonScene.start();
+            dungeon = dungeonScene.getDungeon();
+            goalScene = new GoalScene(this);
         } catch (IOException e) {
             // TODO Auto-generated catch block
         }
