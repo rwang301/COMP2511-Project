@@ -85,7 +85,7 @@ public class DungeonController implements Subject, Observer {
     private final int backpackDimension = 150;
     private final int backpackInventory = 4;
     private final int prefDimension;
-    private final String style = "-fx-font-size: 5em; -fx-text-fill: chocolate;";
+    private final String style = "-fx-font-size: 15em; -fx-font-family: serif; -fx-font-weight: bold;";
 
     private boolean shift = false;
     private boolean newGame;
@@ -144,7 +144,7 @@ public class DungeonController implements Subject, Observer {
             handleSetting(event);
         });
         text.setText("Setting");
-        text.setStyle("-fx-font-size: 15em; -fx-text-fill: chocolate; -fx-font-family: Elephant");
+        text.setStyle(style + "-fx-text-fill: cornflowerblue");
     }
 
     private void initialiseInventory() {

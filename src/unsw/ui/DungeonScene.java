@@ -93,13 +93,13 @@ public class DungeonScene implements Subject {
     }
 
     public void gameOver(Dungeon dungeon) {
-        String style = "-fx-font-size: 15em;";
+        String style = controller.getStyle();
         Button button = (Button) buttons.getChildren().get(1);
         if (dungeon.isComplete()) {
             int nextLevel = levels.indexOf(level) + 1;
             if (nextLevel < totalLevels) {
                 level = levels.get(nextLevel);
-                text.setStyle(style + "-fx-text-fill: goldenrod; -fx-font-family: Elephant");
+                text.setStyle(style + "-fx-text-fill: gold");
                 text.setText("You Won!");
                 button.setText("Continue");
                 button.setOnAction(event -> {
@@ -110,14 +110,10 @@ public class DungeonScene implements Subject {
                 text.setText("You Completed All Levels!");
                 buttons.getChildren().remove(button);
             }
-            RotateTransition rt = new RotateTransition(Duration.millis(500), text);
-            rt.setByAngle(10);
-            rt.setCycleCount(4);
-            rt.setAutoReverse(true);
-            rt.play();
+            rotateText(text);
         } else {
             text.setText("You Lost!");
-            text.setStyle(style + "-fx-text-fill: red; -fx-font-family: Elephant");
+            text.setStyle(style + "-fx-text-fill: red");
             button.setText("Restart");
         }
         fadeTransition(text);
@@ -138,6 +134,14 @@ public class DungeonScene implements Subject {
     public void start() {
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void rotateText(Label text) {
+        RotateTransition rt = new RotateTransition(Duration.millis(500), text);
+        rt.setByAngle(10);
+        rt.setCycleCount(2);
+        rt.setAutoReverse(true);
+        rt.play();
     }
 
     @Override

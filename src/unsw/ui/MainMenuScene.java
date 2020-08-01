@@ -110,16 +110,17 @@ public class MainMenuScene implements Subject {
         Label label5 = setLabelStyle("Drink this to increase your health.", new ImageView(DungeonControllerLoader.medicineImage));
         Label label6 = setLabelStyle("Drink this potion and enemy runs away for 5 seconds.", new ImageView(DungeonControllerLoader.potionImage));
         Label label7 = setLabelStyle("SHIFT + KEY to move these out of your way!", new ImageView(DungeonControllerLoader.boulderImage));
+        Label label8 = setLabelStyle("Mans best friend will sacrifice themselves for you.", new ImageView(DungeonControllerLoader.houndImage));
         Label help = new Label("HELP");
 
-        vBox.getChildren().addAll(label1, label2, label3, label4, label5, label6, label7);
+        vBox.getChildren().addAll(label1, label2, label3, label4, label5, label6, label7, label8);
         hBox.getChildren().add(help);
 
         vBox.setAlignment(Pos.CENTER_LEFT);
         hBox.setAlignment(Pos.TOP_CENTER);
         vBox.setMaxSize(width/3*2, height/3*2);
         label6.setWrapText(true);
-        help.setStyle("-fx-font-size: 10em; -fx-text-fill: chocolate; -fx-font-family: Elephant");
+        help.setStyle("-fx-font-size: 10em; -fx-text-fill: mediumseagreen; -fx-font-family: serif; -fx-font-weight: bold");
 
         vBox.setStyle("-fx-border-color: #CD853F; -fx-border-insets: 5; -fx-border-width: 3; -fx-background-color: blanchedalmond; -fx-border-radius: 20 20 20 20; -fx-background-radius: 20 20 20 20;");
         vBox.setPadding(new Insets(prefDimension));

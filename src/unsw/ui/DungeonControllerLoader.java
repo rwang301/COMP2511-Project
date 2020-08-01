@@ -50,7 +50,6 @@ public class DungeonControllerLoader extends DungeonLoader {
      * otherwise it will be null so that images can be removed
      */
     private Image update = null;
-
     static final Image ground = new Image((new File("src/images/dirt_0_new.png")).toURI().toString());
     static final Image playerImage = new Image((new File("src/images/human_new.png")).toURI().toString());
     static final Image wallImage = new Image((new File("src/images/brick_brown_0.png")).toURI().toString());
@@ -84,30 +83,35 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void onLoad(Entity player) {
         ImageView view = new ImageView(playerImage);
+        view.setViewOrder(Layer.MOVEABLE.getZIndex());
         addEntity(player, view);
     }
 
     @Override
     public void onLoad(Wall wall) {
         ImageView view = new ImageView(wallImage);
+        view.setViewOrder(Layer.STATIC.getZIndex());
         addEntity(wall, view);
     }
 
     @Override
     public void onLoad(Exit exit) {
         ImageView view = new ImageView(exitImage);
+        view.setViewOrder(Layer.THROUGHABLE.getZIndex());
         addEntity(exit, view);
     }
 
     @Override
     public void onLoad(Portal portal) {
         ImageView view = new ImageView(portalImage);
+        view.setViewOrder(Layer.PORTAL.getZIndex());
         addEntity(portal, view);
     }
 
     @Override
     public void onLoad(Key key) {
         ImageView view = new ImageView(keyImage);
+        view.setViewOrder(Layer.PICKUPABLE.getZIndex());
         view.setId(key.toString());
         items.put(key, view);
         addEntity(key, view);
@@ -116,6 +120,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void onLoad(Door door) {
         ImageView view = new ImageView(closedDoorImage);
+        view.setViewOrder(Layer.THROUGHABLE.getZIndex());
         view.setId(door.toString());
         items.put(door, view);
         addEntity(door, view);
@@ -124,6 +129,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void onLoad(Treasure treasure) {
         ImageView view = new ImageView(treasureImage);
+        view.setViewOrder(Layer.PICKUPABLE.getZIndex());
         view.setId(treasure.toString());
         items.put(treasure, view);
         addEntity(treasure, view);
@@ -132,18 +138,21 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void onLoad(Switch floorSwitch) {
         ImageView view = new ImageView(switchImage);
+        view.setViewOrder(Layer.STATIC.getZIndex());
         addEntity(floorSwitch, view);
     }
 
     @Override
     public void onLoad(Boulder boulder) {
         ImageView view = new ImageView(boulderImage);
+        view.setViewOrder(Layer.MOVEABLE.getZIndex());
         addEntity(boulder, view);
     }
 
     @Override
     public void onLoad(Enemy enemy) {
         ImageView view = new ImageView(enemyImage);
+        view.setViewOrder(Layer.MOVEABLE.getZIndex());
         view.setId(enemy.toString());
         items.put(enemy, view);
         addEntity(enemy, view);
@@ -152,6 +161,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void onLoad(Sword sword) {
         ImageView view = new ImageView(swordImage);
+        view.setViewOrder(Layer.PICKUPABLE.getZIndex());
         view.setId(sword.toString());
         items.put(sword, view);
         addEntity(sword, view);
@@ -160,6 +170,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void onLoad(Potion potion) {
         ImageView view = new ImageView(potionImage);
+        view.setViewOrder(Layer.PICKUPABLE.getZIndex());
         view.setId(potion.toString());
         items.put(potion, view);
         addEntity(potion, view);
@@ -169,6 +180,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Medicine medicine) {
         ImageView view = new ImageView(medicineImage);
         view.setId(medicine.toString());
+        view.setViewOrder(Layer.PICKUPABLE.getZIndex());
         items.put(medicine, view);
         addEntity(medicine, view);
     }
@@ -176,6 +188,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void onLoad(Hound hound) {
         ImageView view = new ImageView(houndImage);
+        view.setViewOrder(Layer.MOVEABLE.getZIndex());
         view.setId(hound.toString());
         items.put(hound, view);
         addEntity(hound, view);
@@ -184,6 +197,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void onLoad(Gnome gnome) {
         ImageView view = new ImageView(gnomeImage);
+        view.setViewOrder(Layer.FLYABLE.getZIndex());
         view.setId(gnome.toString());
         items.put(gnome, view);
         addEntity(gnome, view);
@@ -252,7 +266,9 @@ public class DungeonControllerLoader extends DungeonLoader {
     static void loadBackground(int width, int height, GridPane squares) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                squares.add(new ImageView(ground), x, y);
+                ImageView view = new ImageView(ground);
+                view.setViewOrder(Layer.GROUND.getZIndex());
+                squares.add(view, x, y);
             }
         }
     }
