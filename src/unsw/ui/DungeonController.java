@@ -143,8 +143,8 @@ public class DungeonController implements Subject, Observer {
         setting.setOnMouseClicked(event -> {
             handleSetting(event);
         });
-        text.setStyle(style);
-        text.setText("What would you like to do?\nClick the gear icon again to resume.");
+        text.setText("Setting");
+        text.setStyle("-fx-font-size: 15em; -fx-text-fill: chocolate; -fx-font-family: Elephant");
     }
 
     private void initialiseInventory() {

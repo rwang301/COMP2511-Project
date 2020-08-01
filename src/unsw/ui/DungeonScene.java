@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.RotateTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -109,6 +110,11 @@ public class DungeonScene implements Subject {
                 text.setText("You Completed All Levels!");
                 buttons.getChildren().remove(button);
             }
+            RotateTransition rt = new RotateTransition(Duration.millis(500), text);
+            rt.setByAngle(10);
+            rt.setCycleCount(4);
+            rt.setAutoReverse(true);
+            rt.play();
         } else {
             text.setText("You Lost!");
             text.setStyle(style + "-fx-text-fill: red; -fx-font-family: Elephant");
