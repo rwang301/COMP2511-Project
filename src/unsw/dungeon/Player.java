@@ -392,7 +392,7 @@ public class Player extends Entity implements Subject {
         if (use != null || prevHealth != currHealth) {
             if (dungeonController != null) dungeonController.update(this);
         } else {
-            // TODO potential bug using current gone
+            // TODO potential bug using current, werid behaviour from enemy when potion disappears and it swaps strategy
             if (current.getClass() == Potion.class) enemies.forEach(enemy -> enemy.update(this));
             else enemies.forEach(enemy -> ((Enemy) enemy).reset());
 

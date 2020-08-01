@@ -51,28 +51,31 @@ public class Potion extends Entity implements Pickupable, Subject, Observer {
     }
 
     @Override
-	public void attach(Observer enemy) {
+    public void attach(Observer enemy) {
         enemies.add(enemy);
-	};
+    };
 
-	@Override
-	public void detach(Observer enemy) {
-		enemies.remove(enemy);
-	}
+    @Override
+    public void detach(Observer enemy) {
+	    enemies.remove(enemy);
+    }
 
-	@Override
-	public void notifyObservers() {
+    @Override
+    public void notifyObservers() {
         enemies.forEach(enemy -> enemy.update(this));
-	}
+    }
 
     @Override
     public void update(Subject subject) {
-        if (((DungeonController) subject).getPlayer().getPotion() != this) return; // potion hasn't been picked up yet
-        if (((DungeonController) subject).isPause()) {
+        DungeonController controller = (DungeonController) subject;
+        Player player = controller.getPlayer();
+        if (player.getPotion() != this) return; // potion hasn't been picked up yet
+
+        if (controller.isPause()) {
             cancelTimer();
             effectTime = effectTime - (System.currentTimeMillis() - pickupTime);
         } else {
-            timer = scheduleTimer(((DungeonController) subject).getPlayer());
+            timer = scheduleTimer(player);
         }
     }
 }
