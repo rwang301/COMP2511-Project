@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -15,6 +16,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import unsw.DungeonApplication;
 import unsw.dungeon.Dungeon;
 import unsw.dungeon.Observer;
@@ -102,7 +104,7 @@ public class DungeonScene implements Subject {
                 button.setOnAction(event -> {
                     notifyObservers();
                 });
-            } else {
+            } else { // This is the last level
                 text.setStyle(controller.getStyle());
                 text.setText("You Completed All Levels!");
                 buttons.getChildren().remove(button);
@@ -112,11 +114,19 @@ public class DungeonScene implements Subject {
             text.setStyle(style + "-fx-text-fill: red; -fx-font-family: Elephant");
             button.setText("Restart");
         }
+        fadeTransition(text);
         dungeon.setPause();
         root.requestFocus();
         controller.blur(new GaussianBlur());
         setting.setDisable(true);
         gameOver.setVisible(true);
+    }
+
+    private void fadeTransition(Label text) {
+        FadeTransition ft = new FadeTransition(Duration.millis(2000), text);
+        ft.setFromValue(0);
+        ft.setToValue(1);
+        ft.play();
     }
 
     public void start() {
