@@ -38,12 +38,13 @@ public class Potion extends Entity implements Pickupable, Subject, Observer {
     }
 
     private Timer scheduleTimer(Player player) {
+        Potion _this = this;
         pickupTime = System.currentTimeMillis();
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                player.setPotion(null);
+                player.useupPotion(_this);
                 notifyObservers();
             }
         }, effectTime);

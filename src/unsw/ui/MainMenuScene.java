@@ -26,7 +26,7 @@ public class MainMenuScene implements Subject {
     private StackPane root;
     private Observer application;
     private String level;
-    private final String style = "-fx-text-fill: firebrick; -fx-background-color: ivory; -fx-font-size: 2em;";
+    private final String style;
     private final double width;
     private final double height;
     private final double buttonWidth = 200;
@@ -47,6 +47,7 @@ public class MainMenuScene implements Subject {
         prefDimension = application.getPrefDimension();
         buttonHeight = prefDimension;
         imageDimension = width / 5;
+        style = application.getButtonStyle();
 
         root = new StackPane();
         root.setAlignment(Pos.CENTER);
@@ -64,11 +65,13 @@ public class MainMenuScene implements Subject {
         Button exit = new GameButton(buttonWidth, buttonHeight, "Exit", style);
         BorderPane borderPane = createInstructions();
 
+        Label title = new Label("DungeonEscape");
+        title.setStyle("-fx-font-weight: bold; -fx-text-fill: magenta; -fx-font-size: 10em; -fx-font-family: serif;");
+        StackPane logo = new StackPane(new ImageView((new Image((new File("src/images/sand_castle.png")).toURI().toString()))), title);
+
         HBox hBox = new HBox(start, help, exit);
         hBox.setAlignment(Pos.CENTER);
-        Label title = new Label("DungeonEscape");
-        title.setStyle("-fx-font-weight: bold; -fx-text-fill: coral; -fx-font-size: 10em; -fx-font-family: serif;");
-        StackPane logo = new StackPane(new ImageView((new Image((new File("src/images/historic.png")).toURI().toString()))), title);
+
         VBox group = new VBox(logo, hBox);
         group.setAlignment(Pos.CENTER);
         group.setSpacing(height/20);
@@ -78,9 +81,7 @@ public class MainMenuScene implements Subject {
         levels.setAlignment(Pos.CENTER);
         levels.setSpacing((imageDimension - buttonWidth / 2) / 5);
 
-        Button back = new Button("Back", new ImageView(new Image((new File("src/images/back-button.png")).toURI().toString(), buttonHeight, buttonHeight, true, true)));
-        StackPane.setAlignment(back, Pos.TOP_LEFT);
-        back.setStyle(style);
+        Button back = ((DungeonApplication) application).backButton();
         back.setOnAction(event -> {
             root.getChildren().removeAll(back, levels, borderPane);
             root.getChildren().add(group);
@@ -106,14 +107,14 @@ public class MainMenuScene implements Subject {
         BorderPane borderPane = new BorderPane();
         VBox vBox = new VBox(7);
         HBox hBox = new HBox();
-        Label label1 = setLabelStyle("Try to kill the enemy before it kills YOU!", new ImageView(DungeonControllerLoader.enemyImage));
-        Label label2 = setLabelStyle("Flying Enemies can move through walls.", new ImageView(DungeonControllerLoader.gnomeImage));
-        Label label3 = setLabelStyle("Sword can kill up to 5 enemies.", new ImageView(DungeonControllerLoader.swordImage));
-        Label label4 = setLabelStyle("Use the key to open doors.", new ImageView(DungeonControllerLoader.keyImage));
-        Label label5 = setLabelStyle("Drink this to increase your health.", new ImageView(DungeonControllerLoader.medicineImage));
-        Label label6 = setLabelStyle("Drink this potion and enemy runs away for 5 seconds.", new ImageView(DungeonControllerLoader.potionImage));
-        Label label7 = setLabelStyle("SHIFT + KEY to move these out of your way!", new ImageView(DungeonControllerLoader.boulderImage));
-        Label label8 = setLabelStyle("Mans best friend will sacrifice themselves for you.", new ImageView(DungeonControllerLoader.houndImage));
+        Label label1 = createLabel("Try to kill the enemy before it kills YOU!", new ImageView(DungeonControllerLoader.enemyImage));
+        Label label2 = createLabel("Flying Enemies can move through walls.", new ImageView(DungeonControllerLoader.gnomeImage));
+        Label label3 = createLabel("Sword can kill up to 5 enemies.", new ImageView(DungeonControllerLoader.swordImage));
+        Label label4 = createLabel("Use the key to open doors.", new ImageView(DungeonControllerLoader.keyImage));
+        Label label5 = createLabel("Drink this to increase your health.", new ImageView(DungeonControllerLoader.medicineImage));
+        Label label6 = createLabel("Drink this potion and enemy runs away for 5 seconds.", new ImageView(DungeonControllerLoader.potionImage));
+        Label label7 = createLabel("SHIFT + KEY to move these out of your way!", new ImageView(DungeonControllerLoader.boulderImage));
+        Label label8 = createLabel("Mans best friend will sacrifice themselves for you.", new ImageView(DungeonControllerLoader.houndImage));
         Label help = new Label("HELP");
 
         vBox.getChildren().addAll(label1, label2, label3, label4, label5, label6, label7, label8);
@@ -133,7 +134,7 @@ public class MainMenuScene implements Subject {
         return borderPane;
     }
 
-    private Label setLabelStyle(String text, ImageView view){
+    private Label createLabel(String text, ImageView view){
         Label label = new Label(text, view);
         view.setFitWidth(prefDimension);
         view.setFitHeight(prefDimension);

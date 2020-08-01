@@ -1,10 +1,16 @@
 package unsw;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import unsw.dungeon.Dungeon;
@@ -25,6 +31,7 @@ public class DungeonApplication extends Application implements Observer {
     private double height;
     private Dungeon dungeon;
     private final int prefDimension = 50;
+    private final String buttonStyle = "-fx-text-fill: firebrick; -fx-background-color: ivory; -fx-font-size: 2em;";
 
     public Stage getStage() {
         return stage;
@@ -46,8 +53,19 @@ public class DungeonApplication extends Application implements Observer {
         return prefDimension;
     }
 
+    public String getButtonStyle() {
+        return buttonStyle;
+    }
+
     public Dungeon getDungeon() {
         return dungeon;
+    }
+
+    public Button backButton() {
+        Button back = new Button("Back", new ImageView(new Image((new File("src/images/back-button.png")).toURI().toString(), prefDimension, prefDimension, true, true)));
+        StackPane.setAlignment(back, Pos.TOP_LEFT);
+        back.setStyle(buttonStyle);
+        return back;
     }
 
     @Override
@@ -77,31 +95,37 @@ public class DungeonApplication extends Application implements Observer {
             Platform.runLater(() -> {
                 dungeonScene.gameOver((Dungeon) subject);
             });
+            return;
         } else if (subject.getClass() == DungeonController.class) {
             DungeonController controller = (DungeonController) subject;
             if (controller.isNewGame()) {
                 start();
-            } else if (controller.isGoal() == true) {
-                goalScene.start();
+            } else if (controller.isGoalScene()) {
+                dungeonScene.start();
+                controller.setGoalScene(false);
+                controller.setGoal(false);
+            } else if (controller.isGoal()) {
+                goalScene.start(controller);
+                controller.setGoalScene(true);
             } else {
                 mainMenuScene.start();
-                stage.setFullScreen(true);
             }
         } else if (subject.getClass() == DungeonScene.class) {
             level = ((DungeonScene) subject).getLevel();
             start();
         }
+        stage.setFullScreen(true);
     }
 
     private void start() {
         try {
             dungeonScene = new DungeonScene(this);
             dungeonScene.start();
+
             dungeon = dungeonScene.getDungeon();
             goalScene = new GoalScene(this);
         } catch (IOException e) {
             // TODO Auto-generated catch block
         }
-        stage.setFullScreen(true);
     }
 }

@@ -148,7 +148,7 @@ public class Dungeon implements Subject {
     public void notifyObservers() {
         if (entity != null) {
             if (dungeonController != null) {
-                if (entity instanceof Pickupable && entity.getClass() != Potion.class && entity.getClass() != Medicine.class) {
+                if (entity instanceof Pickupable && entity.getClass() != Medicine.class) {
                     dungeonController.update(this);
                 }
             }

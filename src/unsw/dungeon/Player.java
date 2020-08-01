@@ -121,8 +121,9 @@ public class Player extends Entity implements Subject {
         return dungeon.getTreasure();
     }
 
-    void setPotion(Potion potion) {
-        backpack.setPotion(potion);
+    void useupPotion(Potion potion) {
+        use(potion);
+        backpack.setPotion(null);
     }
 
 
@@ -310,7 +311,6 @@ public class Player extends Entity implements Subject {
             ((Character) current).collide(this);
         }
         notifyObservers(); // notify all the characters every time the player moves
-        // TODO walk on top of switches
     }
 
 
@@ -392,8 +392,7 @@ public class Player extends Entity implements Subject {
         if (use != null || prevHealth != currHealth) {
             if (dungeonController != null) dungeonController.update(this);
         } else {
-            // TODO potential bug using current, werid behaviour from enemy when potion disappears and it swaps strategy
-            if (current.getClass() == Potion.class) enemies.forEach(enemy -> enemy.update(this));
+            if (getPotion() != null) enemies.forEach(enemy -> enemy.update(this));
             else enemies.forEach(enemy -> ((Enemy) enemy).reset());
 
             if (hound != null) hound.update(this); // Move the hound first

@@ -35,6 +35,7 @@ public class DungeonScene implements Subject {
     private StackPane gameOver;
     private Node squares;
     private Node setting;
+    private Node mission;
     private final double width;
     private final double height;
     private final int totalLevels = 4;
@@ -66,6 +67,7 @@ public class DungeonScene implements Subject {
         squares = children.get(0);
         gameOver = (StackPane) children.get(1);
         setting = children.get(2);
+        mission = children.get(3);
 
         squares.requestFocus();
         layout();
@@ -112,8 +114,8 @@ public class DungeonScene implements Subject {
                     notifyObservers();
                 });
             } else { // This is the last level
-                text.setStyle(controller.getStyle());
-                text.setText("You Completed All Levels!");
+                text.setStyle(style + "-fx-text-fill: mediumseagreen");
+                text.setText("You Escaped!");
                 buttons.getChildren().remove(button);
             }
             rotateText(text);
@@ -127,6 +129,7 @@ public class DungeonScene implements Subject {
         root.requestFocus();
         controller.blur(new GaussianBlur());
         setting.setDisable(true);
+        mission.setDisable(true);
         gameOver.setVisible(true);
     }
 
@@ -140,7 +143,7 @@ public class DungeonScene implements Subject {
     private void rotateText(Label text) {
         RotateTransition rt = new RotateTransition(Duration.millis(500), text);
         rt.setByAngle(10);
-        rt.setCycleCount(2);
+        rt.setCycleCount(4);
         rt.setAutoReverse(true);
         rt.play();
     }

@@ -95,6 +95,7 @@ public class DungeonController implements Subject, Observer {
     private boolean pause = false;
     private List<Node> inventory;
     private boolean goal = false;
+    private boolean goalScene = false;
 
     public DungeonController(Dungeon dungeon, List<ImageView> initialEntities, DungeonApplication application) {
         this.dungeon = dungeon;
@@ -120,12 +121,32 @@ public class DungeonController implements Subject, Observer {
         return newGame;
     }
 
+    public boolean isPause() {
+        return dungeon.isPause();
+    }
+
     public boolean isGoal() {
         return goal;
     }
 
+    public void setGoal(boolean goal) {
+        this.goal = goal;
+    }
+
+    public boolean isGoalScene() {
+        return goalScene;
+    }
+
+    public void setGoalScene(boolean goalScene) {
+        this.goalScene = goalScene;
+    }
+
     public Dungeon getDungeon() {
         return dungeon;
+    }
+
+    public Player getPlayer() {
+        return dungeon.getPlayer();
     }
 
    @FXML
@@ -165,6 +186,7 @@ public class DungeonController implements Subject, Observer {
         mission.setLayoutX(width - prefDimension);
         mission.setLayoutY(prefDimension * 2);
         mission.setOnMouseClicked(event -> {
+            dungeon.setPause();
             goal = true;
             notifyObservers();
         });
@@ -213,6 +235,7 @@ public class DungeonController implements Subject, Observer {
         dungeon.setPause();
         pause = true;
         notifyObservers();
+        //TODO disable mission button
 
         setting.setOnMouseClicked(event1 -> {
             gameOver.setVisible(false);
@@ -233,14 +256,6 @@ public class DungeonController implements Subject, Observer {
         squares.setEffect(blur);
         backpack.setEffect(blur);
         health.setEffect(blur);
-    }
-
-    public boolean isPause() {
-        return dungeon.isPause();
-    }
-
-    public Player getPlayer() {
-        return dungeon.getPlayer();
     }
 
     @FXML
@@ -302,25 +317,31 @@ public class DungeonController implements Subject, Observer {
         if (pause) {
             potions.forEach(potion -> potion.update(this));
             pause = false;
-        } else application.update(this);
+        } else {
+            if (goal) potions.forEach(potion -> potion.update(this));
+            application.update(this);
+        }
     }
 
     @Override
     public void update(Subject subject) {
-        if (subject.getClass() == Dungeon.class) {
+        if (subject.getClass() == Dungeon.class) { // Pick up items
             Entity entity = dungeon.getEntity();
+            // TODO pickup potion
             if (entity.getClass() == Key.class) addImage(DungeonControllerLoader.keyImage);
             else if (entity.getClass() == Sword.class) addImage(DungeonControllerLoader.swordImage);
             else if (entity.getClass() == Treasure.class) pickupTreasure(DungeonControllerLoader.treasureImage, dungeon.getPlayer().getTreasure());
+            else if (entity.getClass() == Potion.class) addImage(DungeonControllerLoader.potionImage);
         } else if (subject.getClass() == Player.class) {
             Player player = (Player) subject;
             List<Node> lives = health.getChildren();
             Pickupable item = player.getUse();
-            if (item != null) {
+            if (item != null) { // Use up items
                 if (item.getClass() == Key.class) removeImage(DungeonControllerLoader.keyImage);
                 else if (item.getClass() == Sword.class) removeImage(DungeonControllerLoader.swordImage);
+                else if (item.getClass() == Potion.class) removeImage(DungeonControllerLoader.potionImage);
                 player.setUse(null);
-            } else {
+            } else { // Add health
                 int currHealth = player.getCurrHealth();
                 int prevHealth = player.getPrevHealth();
                 if (currHealth < prevHealth) Platform.runLater(() -> lives.remove(lives.get(lives.size() - 1)));
