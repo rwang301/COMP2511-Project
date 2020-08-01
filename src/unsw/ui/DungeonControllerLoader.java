@@ -49,7 +49,7 @@ public class DungeonControllerLoader extends DungeonLoader {
      * If the update image is Door then it will be openDoorImage
      * otherwise it will be null so that images can be removed
      */
-    static Image update = null;
+    private Image update = null;
 
     static final Image ground = new Image((new File("src/images/dirt_0_new.png")).toURI().toString());
     static final Image playerImage = new Image((new File("src/images/human_new.png")).toURI().toString());

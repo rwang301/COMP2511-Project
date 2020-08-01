@@ -118,7 +118,6 @@ public class DungeonController implements Subject, Observer {
 
    @FXML
     public void initialize() {
-        // TODO layering is already done like this? What about Enum z index
         // Add the ground first so it is below all other entities
         DungeonControllerLoader.loadBackground(dungeon.getWidth(), dungeon.getHeight(), squares);
 
