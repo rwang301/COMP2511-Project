@@ -66,7 +66,10 @@ public class MainMenuScene implements Subject {
 
         HBox hBox = new HBox(start, help, exit);
         hBox.setAlignment(Pos.CENTER);
-        VBox group = new VBox(new ImageView((new Image((new File("src/images/historic.png")).toURI().toString()))), hBox);
+        Label title = new Label("DungeonEscape");
+        title.setStyle("-fx-font-weight: bold; -fx-text-fill: green; -fx-font-size: 10em; -fx-font-family: serif;");
+        StackPane logo = new StackPane(new ImageView((new Image((new File("src/images/historic.png")).toURI().toString()))), title);
+        VBox group = new VBox(logo, hBox);
         group.setAlignment(Pos.CENTER);
         group.setSpacing(height/20);
         hBox.setSpacing((width / 2 - buttonWidth*3) / 2);
