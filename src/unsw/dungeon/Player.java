@@ -3,7 +3,9 @@ package unsw.dungeon;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
 import unsw.ui.DungeonController;
 
 /**
@@ -101,6 +103,10 @@ public class Player extends Entity implements Subject {
         return backpack.getTreasure();
     }
 
+    public IntegerProperty getTreasureProperty() {
+        return backpack.getTreasureProperty();
+    }
+
     public Key getKey() {
         return backpack.getKey();
     }
@@ -109,8 +115,16 @@ public class Player extends Entity implements Subject {
         return backpack.getPotion();
     }
 
+    public LongProperty getTick() {
+        return backpack.getTick();
+    }
+
     public Sword getSword() {
         return backpack.getSword();
+    }
+
+    public IntegerProperty getHits() {
+        return backpack.getHits();
     }
 
     Door getKeyDoor() {
@@ -166,7 +180,7 @@ public class Player extends Entity implements Subject {
      * Reduce the times the sword can be used when hitting an enemy
      */
     void hit() {
-        backpack.hit(this);
+        Platform.runLater(() -> backpack.hit(this));
     }
 
     /**
@@ -186,7 +200,7 @@ public class Player extends Entity implements Subject {
     }
 
     /**
-     * Inform the dungeon that the player is dead
+     * The player lost one live
      */
     void die() {
         if (currHealth == startingHealth) {

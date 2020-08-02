@@ -5,16 +5,28 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javafx.application.Platform;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
 import unsw.ui.DungeonController;
 
 public class Potion extends Entity implements Pickupable, Subject, Observer {
     private long pickupTime;
     private long effectTime = 5000;
+    private LongProperty tick = new SimpleLongProperty(effectTime / 1000);
     private Timer timer;
     private List<Observer> enemies = new ArrayList<>();
 
     public Potion(int x, int y) {
         super(x, y);
+    }
+
+    LongProperty getTick() {
+        return tick;
+    }
+
+    public void setTick() {
+        Platform.runLater(() -> tick.set(tick.get() - 1));
     }
 
     /**
@@ -26,6 +38,7 @@ public class Potion extends Entity implements Pickupable, Subject, Observer {
         enemies = player.getEnemies();
         if (potion != null) {
             effectTime += potion.effectTime - (System.currentTimeMillis() - potion.pickupTime);
+            tick = new SimpleLongProperty(effectTime / 1000);
             potion.cancelTimer();
         }
         timer = scheduleTimer(player);
@@ -44,10 +57,15 @@ public class Potion extends Entity implements Pickupable, Subject, Observer {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                player.useupPotion(_this);
-                notifyObservers();
+                if (tick.get() < 1) {
+                    player.useupPotion(_this);
+                    notifyObservers();
+                    cancelTimer();
+                } else {
+                    setTick();
+                }
             }
-        }, effectTime);
+        }, 0, 1000);
         return timer;
     }
 
@@ -75,6 +93,7 @@ public class Potion extends Entity implements Pickupable, Subject, Observer {
         if (controller.isPause()) {
             cancelTimer();
             effectTime = effectTime - (System.currentTimeMillis() - pickupTime);
+            tick = new SimpleLongProperty(effectTime / 1000);
         } else {
             timer = scheduleTimer(player);
         }

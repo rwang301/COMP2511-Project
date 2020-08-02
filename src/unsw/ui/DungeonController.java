@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
+import javafx.beans.binding.StringBinding;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -88,7 +90,7 @@ public class DungeonController implements Subject, Observer {
     private final int backpackDimension = 150;
     private final int backpackInventory = 4;
     private final int prefDimension;
-    private final String style = "-fx-font-size: 15em; -fx-font-family: serif; -fx-font-weight: bold;";
+    private final String style = "-fx-font-size: 13em; -fx-font-family: serif; -fx-font-weight: bold;";
 
     private boolean shift = false;
     private boolean newGame;
@@ -330,10 +332,10 @@ public class DungeonController implements Subject, Observer {
         if (subject.getClass() == Dungeon.class) { // Pick up items
             Entity entity = dungeon.getEntity();
             // TODO pickup potion
-            if (entity.getClass() == Key.class) addImage(DungeonControllerLoader.keyImage);
-            else if (entity.getClass() == Sword.class) addImage(DungeonControllerLoader.swordImage);
-            else if (entity.getClass() == Treasure.class) pickupTreasure(DungeonControllerLoader.treasureImage, dungeon.getPlayer().getTreasure());
-            else if (entity.getClass() == Potion.class) addImage(DungeonControllerLoader.potionImage);
+            if (entity.getClass() == Key.class) addImage(DungeonControllerLoader.keyImage, new SimpleIntegerProperty(1).asString());
+            else if (entity.getClass() == Sword.class) addImage(DungeonControllerLoader.swordImage, player.getHits().asString());
+            else if (entity.getClass() == Treasure.class) addImage(DungeonControllerLoader.treasureImage, player.getTreasureProperty().asString());
+            else if (entity.getClass() == Potion.class) addImage(DungeonControllerLoader.potionImage, player.getTick().asString());
         } else if (subject.getClass() == Player.class) {
             Player player = (Player) subject;
             List<Node> lives = health.getChildren();
@@ -346,11 +348,45 @@ public class DungeonController implements Subject, Observer {
             } else { // Add health
                 int currHealth = player.getCurrHealth();
                 int prevHealth = player.getPrevHealth();
-                if (currHealth < prevHealth) Platform.runLater(() -> lives.remove(lives.get(lives.size() - 1)));
+                if (currHealth < prevHealth) Platform.runLater(() -> lives.remove(lives.get(lives.size() - 1))); // TODO sometimes get -1 index
                 else if (currHealth > prevHealth) Platform.runLater(() -> lives.add(new ImageView(new Image((new File("src/images/heart.png")).toURI().toString(), prefDimension, prefDimension, true, true))));
                 player.setPrevHealth(currHealth);
             }
         }
+    }
+
+    private void addImage(Image image, StringBinding string) {
+        List<Node> space;
+        for (int i = 0; i < inventory.size(); i++) {
+            space = ((StackPane) inventory.get(i)).getChildren();
+            if (space.size() > 1) { // the space has an item in it
+                ImageView item = (ImageView) space.get(1);
+                Label num = (Label) space.get(2);
+                if (item.getImage() == image) {
+                    String[] path = image.getUrl().split("/");
+                    if (path[path.length - 1].equals("bubbly.png")) num.textProperty().bind(string);
+                    return;
+                }
+            }
+        }
+
+        // Did not found the image
+        for (int i = 0; i < inventory.size(); i++) {
+            space = ((StackPane) inventory.get(i)).getChildren();
+            if (space.size() == 1) { // the space has no entity in it, 1 is the background image of the grid
+                space.add(new ImageView(image));
+                space.add(numItems(string));
+                break;
+            }
+        }
+    }
+
+    private Label numItems(StringBinding string) {
+        Label num = new Label();
+        num.setId("num");
+        num.textProperty().bind(string);
+        StackPane.setAlignment(num, Pos.BOTTOM_RIGHT);
+        return num;
     }
 
     private void removeImage(Image image) {
@@ -358,51 +394,16 @@ public class DungeonController implements Subject, Observer {
             List<Node> space;
             for (int i = 0; i < inventory.size(); i++) {
                 space = ((StackPane) inventory.get(i)).getChildren();
-                if (space.size() > 1){
+                if (space.size() > 1) {
                     ImageView item = (ImageView) space.get(1);
+                    Label num = (Label) space.get(2);
                     if (item.getImage() == image) {
                         space.remove(item);
+                        space.remove(num);
                         break;
                     }
                 }
             }
         });
-    }
-
-    private void addImage(Image image) {
-        List<Node> space;
-        for (int i = 0; i < inventory.size(); i++) {
-            space = ((StackPane) inventory.get(i)).getChildren();
-            if (space.size() == 1) {
-                space.add(new ImageView(image));
-                break;
-            }
-        }
-    }
-
-    private void pickupTreasure(Image image, int amount) {
-        List<Node> space;
-        for (int i = 0; i < inventory.size(); i++) {
-            space = ((StackPane) inventory.get(i)).getChildren();
-            if (space.size() > 1) {
-                ImageView item = (ImageView) space.get(1);
-                if (item.getImage() == image) {
-                    Label num = (Label) space.get(2);
-                    num.setText(Integer.toString(Integer.parseInt((num).getText()) + 1));
-                    return;
-                }
-            }
-        }
-        for (int i = 0; i < inventory.size(); i++) {
-            space = ((StackPane) inventory.get(i)).getChildren();
-            if (space.size() == 1) {
-                space.add(new ImageView(image));
-                Label num = new Label(Integer.toString(amount));
-                num.setId("num");
-                StackPane.setAlignment(num, Pos.BOTTOM_RIGHT);
-                space.add(num);
-                break;
-            }
-        }
     }
 }

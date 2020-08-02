@@ -1,14 +1,14 @@
 package unsw.dungeon;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Backpack {
-    private int treasure = 0;
+    private IntegerProperty treasure = new SimpleIntegerProperty(0);
     private Key key = null;
     private Potion potion = null;
     private Sword sword = null;
-
-    int getTreasure() {
-        return treasure;
-    }
 
     Key getKey() {
         return key;
@@ -28,6 +28,26 @@ public class Backpack {
 
     Sword getSword() {
         return sword;
+    }
+
+    int getTreasure() {
+        return treasure.get();
+    }
+
+    IntegerProperty getTreasureProperty() {
+        return treasure;
+    }
+
+    private void setTreasure() {
+        treasure.set(getTreasure() + 1);
+    }
+
+    IntegerProperty getHits() {
+        return sword.getHitsProperty();
+    }
+
+    LongProperty getTick() {
+        return potion.getTick();
     }
 
 	void hit(Player player) {
@@ -60,7 +80,7 @@ public class Backpack {
         else if (pickupable.getClass() == Potion.class) potion = ((Potion) pickupable).pickup(potion, player);
         else if (pickupable.getClass() == Medicine.class) player.setCurrHealth();
         else if (pickupable.getClass() == Treasure.class) {
-            treasure++;
+            setTreasure();
             player.complete();
         }
     }
