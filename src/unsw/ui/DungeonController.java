@@ -228,6 +228,7 @@ public class DungeonController implements Subject, Observer {
 
     public void handleSetting(MouseEvent event) {
         gameOver.setVisible(true);
+        mission.setDisable(true);
         root.requestFocus();
         blur(new GaussianBlur());
         restart.setText("Restart");
@@ -235,10 +236,11 @@ public class DungeonController implements Subject, Observer {
         dungeon.setPause();
         pause = true;
         notifyObservers();
-        //TODO disable mission button
 
+        // TODO allow mission button in setting
         setting.setOnMouseClicked(event1 -> {
             gameOver.setVisible(false);
+            mission.setDisable(false);
             squares.requestFocus();
             blur(null);
 
