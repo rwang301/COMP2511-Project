@@ -49,7 +49,6 @@ import unsw.dungeon.Wall;
 public abstract class DungeonLoader implements Observer {
 
     private JSONObject json;
-    private Player player;
     private Component goal;
     private Map<Integer, Portal> portals = new HashMap<>();
     private Map<Integer, Door> doors = new HashMap<>();
@@ -82,21 +81,10 @@ public abstract class DungeonLoader implements Observer {
 
     private void initialise(Dungeon dungeon) {
         dungeon.attach(application);
-
-        dungeon.getEntities(Enemy.class).forEach(enemy -> player.attach((Observer) enemy));
-        player.getEnemies().forEach(enemy -> ((Enemy) enemy).initialise(player));
-
-        dungeon.getEntities(Gnome.class).forEach(gnome -> player.attach((Observer) gnome));
-        player.getGnomes().forEach(gnome -> ((Gnome) gnome).initialise(player));
-
         dungeon.attach(this);
-        dungeon.setGoal(goal);
 
-        dungeon.getEntities(Switch.class).forEach(floorSwitch -> {
-            dungeon.getEntities(Boulder.class).forEach(boulder -> {
-                if (boulder.isOn(floorSwitch)) ((Switch) floorSwitch).setTriggered();
-            });
-        });
+        dungeon.initialise();
+        dungeon.setGoal(goal);
     }
 
     private void loadGoals(JSONObject goals, Composite condition) {
@@ -158,7 +146,6 @@ public abstract class DungeonLoader implements Observer {
             dungeon.setPlayer(player);
             onLoad(player);
             entity = player;
-            this.player = player;
             break;
         case "wall":
             Wall wall = new Wall(x, y);

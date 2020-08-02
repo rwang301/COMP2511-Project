@@ -126,7 +126,7 @@ public class MainMenuScene implements Subject {
         label6.setWrapText(true);
         help.setStyle("-fx-font-size: 10em; -fx-text-fill: mediumseagreen; -fx-font-family: serif; -fx-font-weight: bold");
 
-        vBox.setStyle("-fx-border-color: #CD853F; -fx-border-insets: 5; -fx-border-width: 3; -fx-background-color: blanchedalmond; -fx-border-radius: 20 20 20 20; -fx-background-radius: 20 20 20 20;");
+        vBox.setStyle("-fx-border-color: chocolate; -fx-border-insets: 5; -fx-border-width: 3; -fx-background-color: blanchedalmond; -fx-border-radius: 20; -fx-background-radius: 20;");
         vBox.setPadding(new Insets(prefDimension));
         borderPane.setCenter(vBox);
         borderPane.setTop(hBox);

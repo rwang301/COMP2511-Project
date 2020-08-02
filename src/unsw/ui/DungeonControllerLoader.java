@@ -104,7 +104,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void onLoad(Portal portal) {
         ImageView view = new ImageView(portalImage);
-        view.setViewOrder(Layer.PORTAL.getZIndex());
+        view.setViewOrder(Layer.STATIC.getZIndex());
         addEntity(portal, view);
     }
 

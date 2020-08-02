@@ -114,7 +114,6 @@ public class DungeonScene implements Subject {
                     notifyObservers();
                 });
             } else { // This is the last level
-                // TODO text got omitted because it's too long
                 text.setStyle(style + "-fx-text-fill: mediumseagreen");
                 text.setText("You Escaped!");
                 buttons.getChildren().remove(button);

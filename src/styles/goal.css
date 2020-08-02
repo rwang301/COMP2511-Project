@@ -1,6 +1,38 @@
+.label {
+    -fx-font-family: serif;
+    -fx-text-alignment: center;
+}
+
 #mission {
     -fx-text-fill: cornflowerblue;
     -fx-font-weight: bold;
-    -fx-font-size: 15em;
-    -fx-font-family: serif;
+    -fx-font-size: 10em;
+}
+
+.goalTitle {
+    -fx-text-fill: seagreen;
+    -fx-font-size: 5em;
+}
+
+.goalDescription {
+    -fx-font-size: 3em;
+}
+
+.progress {
+    -fx-font-size: 3em;
+    -fx-text-fill: cornflowerblue;
+}
+
+.stats {
+    -fx-font-size: 2em;
+    -fx-font-weight: bold;
+}
+
+.goalBox {
+    -fx-background-color: blanchedalmond;
+    -fx-background-radius: 20;
+    -fx-border-width: 10;
+    -fx-border-color: chocolate;
+    -fx-border-radius: 15;
+    -fx-padding: 5px;
 }

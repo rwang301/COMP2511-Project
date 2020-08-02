@@ -6,9 +6,26 @@
     -fx-min-height: 50;
 }
 
+#description {
+    -fx-text-alignment: center;
+    -fx-text-fill: ivory;
+    -fx-font-size: 2em;
+    -fx-font-weight: bold;
+    -fx-font-family: serif;
+}
+
+#goals {
+    -fx-background-radius: 20;
+    -fx-background-color: lightslategray;
+    -fx-border-width: 10;
+    -fx-border-color: dimgrey;
+    -fx-border-radius: 15;
+    -fx-padding: 5px;
+}
+
 #num {
     -fx-text-fill: khaki;
-    -fx-font-weight: 900;
+    -fx-font-weight: bold;
     -fx-font-size: 2.5em;
     -fx-padding: 5;
 }

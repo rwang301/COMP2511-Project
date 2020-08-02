@@ -1,5 +1,7 @@
 package unsw.dungeon;
 
+import javafx.beans.property.IntegerProperty;
+
 public class Boulder extends Entity implements Blockable {
 
     public Boulder(int x, int y) {
@@ -13,48 +15,34 @@ public class Boulder extends Entity implements Blockable {
      * @param direction direction the boulder is to be pushed
      */
     void push(Player player, String direction) {
-        if (direction.equals("right")) {
-            if (player.hasEntity((getX() + 1), getY())) return;
-            untrigger(player);
-            x().set(getX() + 1);
+        if (direction.equals("up")) {
+            if (!player.hasEntity(getX(), (getY() - 1))) setTrigger(player, y(), getY() - 1, -1);
         } else if (direction.equals("down")) {
-            if (player.hasEntity(getX(), (getY() + 1))) return;
-            untrigger(player);
-            y().set(getY() + 1);
+            if (!player.hasEntity(getX(), (getY() + 1))) setTrigger(player, y(), getY() + 1, -1);
         } else if (direction.equals("left")) {
-            if (player.hasEntity((getX() - 1), getY())) return;
-            untrigger(player);
-            x().set(getX() - 1);
-        } else if (direction.equals("up")) {
-            if (player.hasEntity(getX(), (getY() - 1))) return;
-            untrigger(player);
-            y().set(getY() - 1);
+            if (!player.hasEntity((getX() - 1), getY())) setTrigger(player, x(), getX() - 1, -1);
+        } else if (direction.equals("right")) {
+            if (!player.hasEntity((getX() + 1), getY())) setTrigger(player, x(), getX() + 1, -1);
         }
-        trigger(player);
+        setTrigger(player, null, 0, 1);
     }
 
     /**
-     * If the boulder is on a floor switch before being pushed then untrigger the floor switch
+     * Trigger or untrigger a switch
      * @param player
+     * @param coordinate
+     * @param position
+     * @param trigger 1 to trigger a switch -1 to untrigger it
      */
-    private boolean untrigger(Player player) {
+    private void setTrigger(Player player, IntegerProperty coordinate, int position, int trigger) {
         for (Entity floorSwitch: player.getEntities(Switch.class)) {
             if (this.isOn(floorSwitch)) {
                 ((Switch) floorSwitch).setTriggered();
-                return true;
+                if (trigger == 1) player.complete();
+                player.setTriggers(trigger);
+                break;
             }
         }
-        return false;
-    }
-
-    /**
-     * If the boulder is on a floor switch after being pushed then trigger the floor switch
-     * and check for the goal of having a boulder on all floor switches
-     * @param player
-     */
-    private void trigger(Player player) {
-        if (untrigger(player)) {
-            player.complete();
-        }
+        if (trigger == -1) setPosition(coordinate, position);
     }
 }

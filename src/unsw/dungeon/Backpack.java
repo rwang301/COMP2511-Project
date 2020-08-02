@@ -38,10 +38,6 @@ public class Backpack {
         return treasure;
     }
 
-    private void setTreasure() {
-        treasure.set(getTreasure() + 1);
-    }
-
     IntegerProperty getHits() {
         return sword.getHitsProperty();
     }
@@ -58,8 +54,8 @@ public class Backpack {
         }
 	}
 
-	Door getKeyDoor() {
-		return key.getDoor();
+    Door getKeyDoor() {
+        return key.getDoor();
     }
     
     /**
@@ -80,7 +76,7 @@ public class Backpack {
         else if (pickupable.getClass() == Potion.class) potion = ((Potion) pickupable).pickup(potion, player);
         else if (pickupable.getClass() == Medicine.class) player.setCurrHealth();
         else if (pickupable.getClass() == Treasure.class) {
-            setTreasure();
+            treasure.set(getTreasure() + 1);
             player.complete();
         }
     }

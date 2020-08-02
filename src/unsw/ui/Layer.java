@@ -1,13 +1,12 @@
 package unsw.ui;
 
 public enum Layer {
-    PORTAL(0),
-    FLYABLE(1),
-    THROUGHABLE(2),
-    MOVEABLE(3),
-    PICKUPABLE(4),
-    STATIC(5),
-    GROUND(6);
+    FLYABLE(0), // Gnome
+    THROUGHABLE(1), // Exit, Door
+    MOVEABLE(2), // Player, Enemy, hound, boulder
+    PICKUPABLE(3), // Potion, Medicine, Sword, Key, Treasure
+    STATIC(4), // Wall, Portal, Switch
+    GROUND(5);
 
     private final int z;
 

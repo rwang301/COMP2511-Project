@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import unsw.ui.DungeonController;
 
 /**
@@ -35,6 +36,9 @@ public class Player extends Entity implements Subject {
     private int startingY;
     private Entity currPosition;
     private Entity prevPosition;
+    private IntegerProperty exit = new SimpleIntegerProperty(0);
+    private IntegerProperty triggers = new SimpleIntegerProperty(0);
+    private IntegerProperty kills = new SimpleIntegerProperty(0);
 
     /**
      * Create a player positioned in square (x,y)
@@ -103,8 +107,32 @@ public class Player extends Entity implements Subject {
         return backpack.getTreasure();
     }
 
+    public IntegerProperty getExit() {
+        return exit;
+    }
+
+    public void setExit(int exit) {
+        this.exit.set(exit);
+    }
+
+    public IntegerProperty getTriggers() {
+        return triggers;
+    }
+
+    public void setTriggers(int triggers) {
+        this.triggers.set(this.triggers.get() + triggers);
+    }
+
     public IntegerProperty getTreasureProperty() {
         return backpack.getTreasureProperty();
+    }
+
+    public IntegerProperty getHits() {
+        return backpack.getHits();
+    }
+
+    public IntegerProperty getKills() {
+        return kills;
     }
 
     public Key getKey() {
@@ -121,10 +149,6 @@ public class Player extends Entity implements Subject {
 
     public Sword getSword() {
         return backpack.getSword();
-    }
-
-    public IntegerProperty getHits() {
-        return backpack.getHits();
     }
 
     Door getKeyDoor() {
@@ -189,6 +213,7 @@ public class Player extends Entity implements Subject {
      */
     void kill(Character character) {
         // TODO weird bug where potion calls this method twice
+        kills.set(kills.get() + 1);
         disappear(character);
         detach(character);
         if (character.getClass() == Enemy.class) {
@@ -315,14 +340,22 @@ public class Player extends Entity implements Subject {
     private void action(IntegerProperty coordinate, int position) {
         if (isOn(Portal.class)) {
             teleport((Portal) current);
+            setExit(0);
         } else if (isOn(Blockable.class)) {
             ((Blockable) current).block(this, coordinate, position);
+            setExit(0);
         } else if (isOn(Pickupable.class)) {
             pickup();
+            setExit(0);
         } else if (isOn(Exit.class)) {
             complete();
+            // TODO doesn't work when goes too fast into exit
+            setExit(1);
         } else if (isOn(Character.class)) {
             ((Character) current).collide(this);
+            setExit(0);
+        } else {
+            setExit(0);
         }
         notifyObservers(); // notify all the characters every time the player moves
     }

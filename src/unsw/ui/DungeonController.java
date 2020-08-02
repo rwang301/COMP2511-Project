@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -49,6 +50,9 @@ public class DungeonController implements Subject, Observer {
 
     @FXML
     private GridPane squares;
+
+    @FXML
+    private BorderPane goals;
 
     @FXML
     private FlowPane backpack;
@@ -160,11 +164,38 @@ public class DungeonController implements Subject, Observer {
             squares.getChildren().add(entity);
         }
 
+        initialiseGoals();
         initialiseButtons();
         initialiseSetting();
         initialiseInventory();
         initialiseHealth();
         initialiseMission();
+    }
+
+    private void initialiseGoals() {
+        Label description = new Label(dungeon.getGoal().getDescription());
+        description.setId("description");
+
+        Button start = new Button("Start");
+        start.setLayoutX(width / 2 - prefDimension / 2);
+        start.setLayoutY(height * 3 / 4);
+        start.getStyleClass().add("action");
+        start.setOnAction(event -> {
+            dungeon.setPause();
+            goals.setVisible(false);
+            squares.requestFocus();
+        });
+
+        HBox container = new HBox(start);
+        container.setAlignment(Pos.CENTER);
+
+        goals.setMinSize(width / 2, height / 2);
+        goals.setMaxSize(width / 2, height / 2);
+        goals.setLayoutX(width / 4);
+        goals.setLayoutY(height / 4);
+
+        goals.setCenter(description);
+        goals.setBottom(container);
     }
 
     private void initialiseButtons() {
@@ -331,7 +362,6 @@ public class DungeonController implements Subject, Observer {
     public void update(Subject subject) {
         if (subject.getClass() == Dungeon.class) { // Pick up items
             Entity entity = dungeon.getEntity();
-            // TODO pickup potion
             if (entity.getClass() == Key.class) addImage(DungeonControllerLoader.keyImage, new SimpleIntegerProperty(1).asString());
             else if (entity.getClass() == Sword.class) addImage(DungeonControllerLoader.swordImage, player.getHits().asString());
             else if (entity.getClass() == Treasure.class) addImage(DungeonControllerLoader.treasureImage, player.getTreasureProperty().asString());
