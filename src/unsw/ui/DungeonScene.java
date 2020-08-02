@@ -33,7 +33,6 @@ public class DungeonScene implements Subject {
     private Observer application;
     private List<Node> children;
     private StackPane gameOver;
-    private Node squares;
     private Node setting;
     private Node mission;
     private final double width;
@@ -64,12 +63,9 @@ public class DungeonScene implements Subject {
         scene = new Scene(root, application.getWidth(), application.getHeight());
 
         children = root.getChildrenUnmodifiable();
-        squares = children.get(0);
         gameOver = (StackPane) children.get(1);
         setting = children.get(2);
         mission = children.get(3);
-
-        squares.requestFocus();
         layout();
     }
 

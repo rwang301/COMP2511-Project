@@ -173,6 +173,9 @@ public class DungeonController implements Subject, Observer {
     }
 
     private void initialiseGoals() {
+        setting.setDisable(true);
+        mission.setDisable(true);
+
         Label description = new Label(dungeon.getGoal().getDescription());
         description.setId("description");
 
@@ -181,9 +184,11 @@ public class DungeonController implements Subject, Observer {
         start.setLayoutY(height * 3 / 4);
         start.getStyleClass().add("action");
         start.setOnAction(event -> {
-            dungeon.setPause();
             goals.setVisible(false);
+            setting.setDisable(false);
+            mission.setDisable(false);
             squares.requestFocus();
+            dungeon.setPause();
         });
 
         HBox container = new HBox(start);
