@@ -29,6 +29,7 @@ public class TestMovement {
     private Wall wall4 = new Wall(4, 3);
 
     public void initialise() {
+        dungeon.setPause();
         dungeon.setPlayer(player);
         dungeon.addEntity(player);
         dungeon.addEntity(enemy);

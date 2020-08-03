@@ -20,6 +20,7 @@ public class TestEnemy {
     private Enemy enemy = new Enemy(dungeon, 0, 2);
 
     public void initialise() {
+        dungeon.setPause();
         dungeon.setPlayer(player);
         dungeon.addEntity(player);
         dungeon.addEntity(enemy);

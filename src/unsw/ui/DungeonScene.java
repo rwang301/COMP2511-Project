@@ -113,7 +113,7 @@ public class DungeonScene implements Subject {
                 buttons.getChildren().remove(button);
             }
             text.setStyle("-fx-text-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, gold 0%, mediumseagreen 50%)");
-            rotateText(text);
+            rotateTransition(text);
         } else {
             text.setText("You Lost!");
             text.setStyle("-fx-text-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, black 0%, firebrick 50%)");
@@ -136,7 +136,7 @@ public class DungeonScene implements Subject {
         ft.play();
     }
 
-    private void rotateText(Label text) {
+    private void rotateTransition(Label text) {
         RotateTransition rt = new RotateTransition(Duration.millis(500), text);
         rt.setByAngle(10);
         rt.setCycleCount(4);

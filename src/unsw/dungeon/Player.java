@@ -62,16 +62,16 @@ public class Player extends Entity implements Subject {
         return gnomes;
     }
 
-    void setCurrPosition(Entity currPosition) {
-        this.currPosition = currPosition;
+    Entity getPrevPosition() {
+        return prevPosition;
     }
 
     Entity getCurrPosition() {
         return currPosition;
     }
 
-    Entity getPrevPosition() {
-        return prevPosition;
+    void setCurrPosition(Entity currPosition) {
+        this.currPosition = currPosition;
     }
 
     public Pickupable getUse() {
@@ -92,19 +92,6 @@ public class Player extends Entity implements Subject {
 
     public void setPrevHealth(int prevHealth) {
         this.prevHealth = prevHealth;
-    }
-
-    void setCurrHealth() {
-        currHealth++;
-        notifyObservers();
-    }
-
-    Hound getHound() {
-        return (Hound) hound;
-    }
-
-    public int getTreasure() {
-        return backpack.getTreasure();
     }
 
     public IntegerProperty getExit() {
@@ -135,16 +122,20 @@ public class Player extends Entity implements Subject {
         return kills;
     }
 
+    public LongProperty getTick() {
+        return backpack.getTick();
+    }
+
+    public int getTreasure() {
+        return backpack.getTreasure();
+    }
+
     public Key getKey() {
         return backpack.getKey();
     }
 
     public Potion getPotion(){
         return backpack.getPotion();
-    }
-
-    public LongProperty getTick() {
-        return backpack.getTick();
     }
 
     public Sword getSword() {
@@ -159,9 +150,18 @@ public class Player extends Entity implements Subject {
         return dungeon.getTreasure();
     }
 
-    void useupPotion(Potion potion) {
+    void useUpPotion(Potion potion) {
         use(potion);
         backpack.setPotion(null);
+    }
+
+    void setCurrHealth() {
+        currHealth++;
+        notifyObservers();
+    }
+
+    Hound getHound() {
+        return (Hound) hound;
     }
 
 
@@ -204,7 +204,8 @@ public class Player extends Entity implements Subject {
      * Reduce the times the sword can be used when hitting an enemy
      */
     void hit() {
-        Platform.runLater(() -> backpack.hit(this));
+        if (dungeonController == null) backpack.hit(this);
+        else Platform.runLater(() -> backpack.hit(this));
     }
 
     /**
@@ -213,7 +214,7 @@ public class Player extends Entity implements Subject {
      */
     void kill(Character character) {
         // TODO weird bug where potion calls this method twice
-        kills.set(kills.get() + 1);
+        if (character.getClass() == Enemy.class) kills.set(kills.get() + 1);
         disappear(character);
         detach(character);
         if (character.getClass() == Enemy.class) {
@@ -230,13 +231,14 @@ public class Player extends Entity implements Subject {
     void die() {
         if (currHealth == startingHealth) {
             dungeon.complete(true);
-        } else {
+        } else { // Reset the player position
+            notifyObservers(); // Notify enemies to reset, assume no potion because player cannot die with a potion
             setPosition(x(), startingX);
             setPosition(y(), startingY);
             detach(hound);
         }
         currHealth--;
-        notifyObservers();
+        notifyObservers(); // Notify dungeonController to remove one life image
     }
 
     void sacrifice() {
@@ -276,7 +278,7 @@ public class Player extends Entity implements Subject {
     boolean isOn(Class<?> entityType) {
         for (Entity entity: getEntities(entityType)) {
             if (this.isOn(entity)) {
-                if (entity.getClass() == Door.class && ((Door) entity).isOpen()) continue;
+                if (entity.getClass() == Hound.class && hound != null || entity.getClass() == Door.class && ((Door) entity).isOpen()) continue;
                 current = entity;
                 return true;
             }
@@ -338,10 +340,7 @@ public class Player extends Entity implements Subject {
      * @param position the previous x or y value before the player took the move
      */
     private void action(IntegerProperty coordinate, int position) {
-        if (isOn(Portal.class)) {
-            setExit(0);
-            teleport((Portal) current);
-        } else if (isOn(Blockable.class)) {
+        if (isOn(Blockable.class)) {
             setExit(0);
             ((Blockable) current).block(this, coordinate, position);
         } else if (isOn(Pickupable.class)) {
@@ -359,7 +358,10 @@ public class Player extends Entity implements Subject {
         } else {
             setExit(0);
         }
-        notifyObservers(); // notify all the characters every time the player moves
+        if (isOn(Portal.class)) {
+            teleport((Portal) current);
+        }
+        notifyObservers(); // Notify all the characters every time the player moves
     }
 
 

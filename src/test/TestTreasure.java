@@ -19,6 +19,7 @@ public class TestTreasure {
     private Component goalTreasure = new GoalTreasure();
 
     private void initialise() {
+        dungeon.setPause();
         dungeon.setGoal(goalTreasure);
         dungeon.setPlayer(player);
         dungeon.addEntity(player);

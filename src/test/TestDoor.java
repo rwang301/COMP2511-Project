@@ -24,6 +24,7 @@ public class TestDoor {
     private Enemy enemy = new Enemy(dungeon, 3, 0);
 
     public void initialise() {
+        dungeon.setPause();
         dungeon.setPlayer(player);
         dungeon.addEntity(player);
         dungeon.addEntity(key);

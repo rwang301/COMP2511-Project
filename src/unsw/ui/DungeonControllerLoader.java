@@ -208,7 +208,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void onLoad(Fire fire) {
         ImageView view = new ImageView(fireImage);
-        view.setViewOrder(Layer.MOVEABLE.getZIndex());
+        view.setViewOrder(Layer.PICKUPABLE.getZIndex());
         view.setId(fire.toString());
         view.setFitWidth(30);
         view.setFitHeight(30);
@@ -222,7 +222,7 @@ public class DungeonControllerLoader extends DungeonLoader {
         entities.add(view);
     }
 
-    private void removeEntity(Entity entity) {
+    private void updateImage(Entity entity) {
         for (int i = 0; i < entities.size(); i++) {
             if (items.get(entity).getId().equals(entities.get(i).getId())) {
                 entities.get(i).setImage(update);
@@ -237,9 +237,9 @@ public class DungeonControllerLoader extends DungeonLoader {
         Entity entity = dungeon.getEntity();
         dungeon.setEntity(null);
         if (entity.getClass() == Door.class) update = openDoorImage;
-        else if (entity.getClass() == Fire.class) update = dungeon.isRespawn() ? fireImage : null;
+        else if (entity.getClass() == Fire.class && dungeon.isRespawn()) update = fireImage;
         else update = null;
-        removeEntity(entity);
+        updateImage(entity);
     }
 
     /**

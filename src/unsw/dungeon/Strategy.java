@@ -62,7 +62,8 @@ public abstract class Strategy {
                 player.kill(character);
                 player.sacrifice();
             }
-        } else if (isOn(Portal.class)) {
+        }
+        if (isOn(Portal.class)) {
             character.x().set(((Portal) current).getPortal().getX());
             character.y().set(((Portal) current).getPortal().getY());
         }

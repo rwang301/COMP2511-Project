@@ -22,6 +22,7 @@ public class TestBoulder {
     Component goalBoulders = new GoalBoulders();
 
     private void initialise() {
+        dungeon.setPause();
         dungeon.setGoal(goalBoulders);
         dungeon.setPlayer(player);
         dungeon.addEntity(player);

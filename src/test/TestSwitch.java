@@ -22,6 +22,7 @@ public class TestSwitch {
     private Component goalBoulders = new GoalBoulders();
 
     public void initialise() {
+        dungeon.setPause();
         dungeon.setGoal(goalBoulders);
         dungeon.setPlayer(player);
         dungeon.addEntity(player);

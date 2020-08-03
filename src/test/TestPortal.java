@@ -15,6 +15,7 @@ public class TestPortal {
     private Portal portal2 = new Portal(1, 0);
 
     public void initialise() {
+        dungeon.setPause();
         dungeon.setPlayer(player);
         dungeon.addEntity(player);
         dungeon.addEntity(portal1);

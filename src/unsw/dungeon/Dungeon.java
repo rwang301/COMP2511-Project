@@ -209,6 +209,8 @@ public class Dungeon implements Subject {
                 }
             }
             if (dungeonLoader != null) dungeonLoader.update(this);
-        } else if (application != null) application.update(this);
+        } else if (application != null) {
+            application.update(this);
+        }
     }
 }

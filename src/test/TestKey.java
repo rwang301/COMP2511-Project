@@ -19,6 +19,7 @@ public class TestKey {
     private Door door2 = new Door(2, 1);
 
     public void initialise() {
+        dungeon.setPause();
         dungeon.setPlayer(player);
         dungeon.addEntity(player);
         dungeon.addEntity(key1);

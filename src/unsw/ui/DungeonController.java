@@ -278,7 +278,7 @@ public class DungeonController implements Subject, Observer {
         pause = true;
         notifyObservers();
 
-        // TODO allow mission button in setting
+        // TODO allow mission button in setting, clean up the booleans and logic
         setting.setOnMouseClicked(event1 -> {
             gameOver.setVisible(false);
             mission.setDisable(false);

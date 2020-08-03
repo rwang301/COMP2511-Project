@@ -56,11 +56,11 @@ public class GoalScene {
         StackPane root = new StackPane();
         root.getStylesheets().add("/styles/goal.css");
         back = ((DungeonApplication) application).backButton();
-        root.getChildren().addAll(gridPane, setGoalScene(), back);
+        root.getChildren().addAll(gridPane, createGoalScene(), back);
         scene = new Scene(root, width, height);
     }
 
-    private BorderPane setGoalScene() {
+    private BorderPane createGoalScene() {
         BorderPane borderPane = new BorderPane();
 
         HBox hBox = new HBox();
@@ -78,10 +78,13 @@ public class GoalScene {
 
         Label description = new Label(dungeon.getGoal().getDescription(1));
         description.setId("description");
-        description.setMinSize(width / 2, height / 2.5);
-        description.setMaxSize(width / 2, height / 2.5);
 
-        VBox vBox = new VBox(mission, description, hBox);
+        BorderPane container = new BorderPane(description);
+        container.setMinSize(width / 2, height / 2.5);
+        container.setMaxSize(width / 2, height / 2.5);
+        container.setId("container");
+
+        VBox vBox = new VBox(mission, container, hBox);
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(height/100);
         borderPane.setCenter(vBox);

@@ -53,13 +53,14 @@ public class Potion extends Entity implements Pickupable, Subject, Observer {
     private Timer scheduleTimer(Player player) {
         Potion _this = this;
         pickupTime = System.currentTimeMillis();
+
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 // TODO count down starts from 4 instead of 5
                 if (tick.get() < 1) {
-                    player.useupPotion(_this);
+                    player.useUpPotion(_this);
                     notifyObservers();
                     cancelTimer();
                 } else {

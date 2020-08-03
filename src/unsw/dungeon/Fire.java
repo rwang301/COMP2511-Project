@@ -5,15 +5,21 @@ import java.util.TimerTask;
 
 public class Fire extends Entity {
     private boolean on = true;
+    private Timer timer;
 
     public Fire(int x, int y) {
         super(x, y);
     }
 
+    private void cancelTimer() {
+        timer.cancel();
+        timer.purge();
+    }
+
     void initialise(Dungeon dungeon) {
         Fire _this = this;
         Player player = dungeon.getPlayer();
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -22,12 +28,19 @@ public class Fire extends Entity {
                         dungeon.disappear(_this);
                         on = false;
                     } else {
-                        dungeon.respawn(_this);
                         if (_this.isOn(player)) player.die();
+                        for (Entity boulder: dungeon.getEntities(Boulder.class)) {
+                            if (_this.isOn(boulder)) {
+                                cancelTimer();
+                                return;
+                            }
+                        }
+
+                        dungeon.respawn(_this);
                         on = true;
                     }
                 }
             }
-        }, 0, 3000); // Be careful when change the delay and period it will fail the JUnit tests
+        }, 0, 3000);
     }
 }
