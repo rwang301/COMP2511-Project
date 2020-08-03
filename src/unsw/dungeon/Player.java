@@ -353,6 +353,9 @@ public class Player extends Entity implements Subject {
         } else if (isOn(Character.class)) {
             setExit(0);
             ((Character) current).collide(this);
+        } else if (isOn(Fire.class)) {
+            setExit(0);
+            die();
         } else {
             setExit(0);
         }

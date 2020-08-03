@@ -40,10 +40,19 @@ public class Dungeon implements Subject {
     private Component goal;
     private boolean complete = false;
     private boolean pause = true;
+    private boolean respawn;
 
     public Dungeon(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    public boolean isRespawn() {
+        return respawn;
+    }
+
+    public boolean isComplete() {
+        return complete;
     }
 
     public boolean isPause() {
@@ -102,10 +111,6 @@ public class Dungeon implements Subject {
         return goal;
     }
 
-    public boolean isComplete() {
-        return complete;
-    }
-
     public List<Entity> getEntities() {
         return entities;
     }
@@ -134,17 +139,19 @@ public class Dungeon implements Subject {
             this.switches.set(this.switches.get() + 1);
         });
 
-        List<Entity> enemies = getEntities(Enemy.class);
-        enemies.forEach(enemy -> {
+        getEntities(Enemy.class).forEach(enemy -> {
             player.attach((Observer) enemy);
             ((Enemy) enemy).initialise(player);
-            this.enemies.set(this.enemies.get() + 1);
+            enemies.set(enemies.get() + 1);
         });
 
-        List<Entity> gnomes = getEntities(Gnome.class);
-        gnomes.forEach(gnome -> {
+        getEntities(Gnome.class).forEach(gnome -> {
             player.attach((Observer) gnome);
             ((Gnome) gnome).initialise(player);
+        });
+
+        getEntities(Fire.class).forEach(fire -> {
+            ((Fire) fire).initialise(this);
         });
     }
 
@@ -155,7 +162,15 @@ public class Dungeon implements Subject {
 
     void disappear(Entity entity) {
         this.entity = entity;
+        respawn = false;
         removeEntity(entity);
+        notifyObservers();
+    }
+
+    void respawn(Entity entity) {
+        this.entity = entity;
+        respawn = true;
+        addEntity(entity);
         notifyObservers();
     }
 
