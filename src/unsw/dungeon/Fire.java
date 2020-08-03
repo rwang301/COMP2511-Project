@@ -36,6 +36,7 @@ public class Fire extends Entity {
                             }
                         }
 
+                        // TODO doesn't work with more than one fire
                         dungeon.respawn(_this);
                         on = true;
                     }
