@@ -74,7 +74,7 @@ public class GoalScene {
 
         Label mission = new Label("Mission");
         mission.setId("mission");
-        mission.setFont(Font.loadFont("file:src/fonts/Ghostz-77qw.ttf", 100));
+        mission.setFont(Font.loadFont("file:src/fonts/Ghostz-77qw.ttf", 80));
 
         Label description = new Label(dungeon.getGoal().getDescription(1));
         description.setId("description");
@@ -83,7 +83,7 @@ public class GoalScene {
 
         VBox vBox = new VBox(mission, description, hBox);
         vBox.setAlignment(Pos.CENTER);
-        vBox.setSpacing(height/50);
+        vBox.setSpacing(height/100);
         borderPane.setCenter(vBox);
 
         return borderPane;

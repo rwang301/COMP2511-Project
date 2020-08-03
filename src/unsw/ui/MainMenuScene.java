@@ -10,8 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -65,7 +63,7 @@ public class MainMenuScene implements Subject {
         Button start = new GameButton(buttonWidth, buttonHeight, "Start", style);
         Button help = new GameButton(buttonWidth, buttonHeight, "Help", style);
         Button exit = new GameButton(buttonWidth, buttonHeight, "Exit", style);
-        BorderPane borderPane = createInstructions();
+        VBox vBox = createInstructions();
 
         Label title = new Label("Dungeon Escape");
         title.setStyle("-fx-font-weight: bold; -fx-text-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, chocolate 0%, orchid 50%);");
@@ -87,7 +85,7 @@ public class MainMenuScene implements Subject {
 
         Button back = ((DungeonApplication) application).backButton();
         back.setOnAction(event -> {
-            root.getChildren().removeAll(back, levels, borderPane);
+            root.getChildren().removeAll(back, levels, vBox);
             root.getChildren().add(group);
         });
 
@@ -98,7 +96,7 @@ public class MainMenuScene implements Subject {
 
         help.setOnAction(event -> {
             root.getChildren().remove(group);
-            root.getChildren().addAll(borderPane, back);
+            root.getChildren().addAll(vBox, back);
         });
 
         exit.setOnAction(event -> {
@@ -107,8 +105,8 @@ public class MainMenuScene implements Subject {
         return group;
     }
 
-    private BorderPane createInstructions() {
-        BorderPane borderPane = new BorderPane();
+    private VBox createInstructions() {
+        VBox instructions = new VBox();
         VBox vBox = new VBox(7);
         HBox hBox = new HBox();
         Label label1 = createLabel("Try to kill the enemy before it kills YOU!", new ImageView(DungeonControllerLoader.enemyImage));
@@ -125,18 +123,17 @@ public class MainMenuScene implements Subject {
         vBox.getChildren().addAll(label1, label2, label3, label4, label5, label6, label7, label8, label9);
         hBox.getChildren().add(help);
 
-        vBox.setAlignment(Pos.CENTER_LEFT);
-        hBox.setAlignment(Pos.TOP_CENTER);
+        hBox.setAlignment(Pos.CENTER);
         vBox.setMaxSize(width/3*2, height/3*2);
         label6.setWrapText(true);
         help.setStyle("-fx-text-fill: mediumseagreen;");
         help.setFont(Font.loadFont("file:src/fonts/Ghostz-77qw.ttf", 120));
 
         vBox.setStyle("-fx-border-color: chocolate; -fx-border-insets: 5; -fx-border-width: 3; -fx-background-color: blanchedalmond; -fx-border-radius: 20; -fx-background-radius: 20;");
-        vBox.setPadding(new Insets(0, prefDimension, 0, prefDimension));
-        borderPane.setCenter(vBox);
-        borderPane.setTop(hBox);
-        return borderPane;
+        vBox.setPadding(new Insets(prefDimension));
+        instructions.getChildren().addAll(hBox, vBox);
+        instructions.setAlignment(Pos.CENTER);
+        return instructions;
     }
 
     private Label createLabel(String text, ImageView view){

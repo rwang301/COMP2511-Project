@@ -174,6 +174,7 @@ public class DungeonController implements Subject, Observer {
 
         Label title = new Label("Your Mission ...");
         title.setId("title");
+        title.setFont(Font.loadFont("file:src/fonts/Ghostz-77qw.ttf", 75));
 
         HBox titleContainer = new HBox(title);
         titleContainer.setAlignment(Pos.CENTER);

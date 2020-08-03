@@ -1,11 +1,6 @@
-.label {
-    -fx-font-family: serif;
-}
-
 #mission {
     -fx-text-fill: cornflowerblue;
     -fx-font-weight: bold;
-    -fx-font-size: 8em;
     -fx-text-alignment: center;
 }
 
@@ -26,23 +21,27 @@
     -fx-text-fill: seagreen;
     -fx-font-size: 4em;
     -fx-text-alignment: center;
+    -fx-font-family: serif;
 }
 
 .goalDescription {
     -fx-font-size: 3em;
     -fx-text-alignment: center;
+    -fx-font-family: serif;
 }
 
 .progress {
     -fx-font-size: 3em;
     -fx-text-fill: cornflowerblue;
     -fx-text-alignment: center;
+    -fx-font-family: serif;
 }
 
 .stats {
     -fx-font-size: 2em;
     -fx-font-weight: bold;
     -fx-text-alignment: center;
+    -fx-font-family: serif;
 }
 
 .goalBox {
