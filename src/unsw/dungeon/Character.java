@@ -7,6 +7,6 @@ public abstract class Character extends Entity implements Observer {
         super(x, y);
     }
 
-    abstract void collide(Player player);
     abstract void initialise(Player player);
+    abstract void collide(Player player);
 }

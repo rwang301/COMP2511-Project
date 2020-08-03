@@ -10,16 +10,16 @@ public class Sword extends Entity implements Pickupable {
         super(x, y);
     }
 
-    int getHits() {
-        return hits.get();
-    }
-
     public IntegerProperty getHitsProperty() {
         return hits;
     }
 
-    void setHit() {
+    void setHits() {
         hits.set(getHits() - 1);
+    }
+
+    int getHits() {
+        return hits.get();
     }
 
     /**

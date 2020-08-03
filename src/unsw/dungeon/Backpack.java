@@ -30,12 +30,12 @@ public class Backpack {
         return sword;
     }
 
-    int getTreasure() {
-        return treasure.get();
-    }
-
     IntegerProperty getTreasureProperty() {
         return treasure;
+    }
+
+    int getTreasure() {
+        return treasure.get();
     }
 
     IntegerProperty getHits() {
@@ -46,18 +46,18 @@ public class Backpack {
         return potion.getTick();
     }
 
+    Door getKeyDoor() {
+        return key.getDoor();
+    }
+
 	void hit(Player player) {
-        sword.setHit();
+        sword.setHits();
         if (!sword.capable()) {
             player.use(sword);
             sword = null;
         }
 	}
 
-    Door getKeyDoor() {
-        return key.getDoor();
-    }
-    
     /**
      * If the pickupable item is a key or a sword then check if they already exist in the backpack
      * @param pickupable
