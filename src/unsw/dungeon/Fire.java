@@ -12,13 +12,20 @@ public class Fire extends Entity {
 
     void initialise(Dungeon dungeon) {
         Fire _this = this;
+        Player player = dungeon.getPlayer();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 if (!dungeon.isPause()) {
-                    if (on) dungeon.disappear(_this);
-                    else dungeon.respawn(_this);
+                    if (on) {
+                        dungeon.disappear(_this);
+                        on = false;
+                    } else {
+                        dungeon.respawn(_this);
+                        if (_this.isOn(player)) player.die();
+                        on = true;
+                    }
                 }
             }
         }, 0, 3000); // Be careful when change the delay and period it will fail the JUnit tests

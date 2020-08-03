@@ -226,7 +226,6 @@ public class DungeonControllerLoader extends DungeonLoader {
         for (int i = 0; i < entities.size(); i++) {
             if (items.get(entity).getId().equals(entities.get(i).getId())) {
                 entities.get(i).setImage(update);
-                entities.remove(i);
                 break;
             }
         }
@@ -237,13 +236,10 @@ public class DungeonControllerLoader extends DungeonLoader {
         Dungeon dungeon = (Dungeon) subject;
         Entity entity = dungeon.getEntity();
         dungeon.setEntity(null);
-        if (dungeon.isRespawn()) {
-            addEntity(entity, new ImageView(fireImage));
-        } else {
-            if (entity.getClass() == Door.class) update = openDoorImage;
-            else update = null;
-            removeEntity(entity);
-        }
+        if (entity.getClass() == Door.class) update = openDoorImage;
+        else if (entity.getClass() == Fire.class) update = dungeon.isRespawn() ? fireImage : null;
+        else update = null;
+        removeEntity(entity);
     }
 
     /**
