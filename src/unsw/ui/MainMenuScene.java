@@ -109,22 +109,22 @@ public class MainMenuScene implements Subject {
         VBox instructions = new VBox();
         VBox vBox = new VBox(7);
         HBox hBox = new HBox();
-        Label label1 = createLabel("Try to kill the enemy before it kills YOU!", new ImageView(DungeonControllerLoader.enemyImage));
-        Label label2 = createLabel("Flying Enemies can move through walls.", new ImageView(DungeonControllerLoader.gnomeImage));
-        Label label3 = createLabel("Sword can kill up to 5 enemies.", new ImageView(DungeonControllerLoader.swordImage));
-        Label label4 = createLabel("Use the key to open doors.", new ImageView(DungeonControllerLoader.keyImage));
-        Label label5 = createLabel("Drink this to increase your health.", new ImageView(DungeonControllerLoader.medicineImage));
-        Label label6 = createLabel("Drink this potion and enemy runs away for 5 seconds.", new ImageView(DungeonControllerLoader.potionImage));
-        Label label7 = createLabel("SHIFT + KEY to move these out of your way!", new ImageView(DungeonControllerLoader.boulderImage));
-        Label label8 = createLabel("Mans best friend will sacrifice themselves for you.", new ImageView(DungeonControllerLoader.houndImage));
-        Label label9 = createLabel("Watch out for the fire!", new ImageView(DungeonControllerLoader.fireImage));
+        Label label1 = createLabel("Watch out for the fire!", new ImageView(DungeonControllerLoader.fireImage));
+        Label label2 = createLabel("Use it to open doors.", new ImageView(DungeonControllerLoader.keyImage));
+        Label label3 = createLabel("SHIFT + KEY to move these out of your way!", new ImageView(DungeonControllerLoader.boulderImage));
+        Label label4 = createLabel("Have some medicine to boost your health.", new ImageView(DungeonControllerLoader.medicineImage));
+        Label label5 = createLabel("Drink this potion and be invincible for 5 seconds.", new ImageView(DungeonControllerLoader.potionImage));
+        Label label6 = createLabel("Sword can kill up to 5 enemies.", new ImageView(DungeonControllerLoader.swordImage));
+        Label label7 = createLabel("Mans best friend will sacrifice themselves for you.", new ImageView(DungeonControllerLoader.houndImage));
+        Label label8 = createLabel("Try to kill the enemy before it kills YOU!", new ImageView(DungeonControllerLoader.enemyImage));
+        Label label9 = createLabel("Gnomes can move everywhere, can only be killed by drinking potions.", new ImageView(DungeonControllerLoader.gnomeImage));
         Label help = new Label("HELP");
 
         vBox.getChildren().addAll(label1, label2, label3, label4, label5, label6, label7, label8, label9);
         hBox.getChildren().add(help);
 
         hBox.setAlignment(Pos.CENTER);
-        vBox.setMaxSize(width/3*2, height/3*2);
+        vBox.setMaxSize(width/4*3, height/3*2);
         label6.setWrapText(true);
         help.setStyle("-fx-text-fill: mediumseagreen;");
         help.setFont(Font.loadFont("file:src/fonts/Ghostz-77qw.ttf", 120));
