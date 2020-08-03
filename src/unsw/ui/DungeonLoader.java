@@ -19,6 +19,7 @@ import unsw.dungeon.Dungeon;
 import unsw.dungeon.Enemy;
 import unsw.dungeon.Entity;
 import unsw.dungeon.Exit;
+import unsw.dungeon.Fire;
 import unsw.dungeon.Gnome;
 import unsw.dungeon.GoalBoulders;
 import unsw.dungeon.GoalEnemies;
@@ -239,6 +240,11 @@ public abstract class DungeonLoader implements Observer {
             onLoad(gnome);
             entity = gnome;
             break;
+        case "fire":
+            Fire fire = new Fire(x, y);
+            onLoad(fire);
+            entity = fire;
+            break;
         default:
             System.out.println("Invalid entity");
             break;
@@ -275,4 +281,6 @@ public abstract class DungeonLoader implements Observer {
     public abstract void onLoad(Hound hound);
 
     public abstract void onLoad(Gnome gnome);
+
+    public abstract void onLoad(Fire fire);
 }

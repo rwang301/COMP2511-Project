@@ -66,7 +66,7 @@ public class MainMenuScene implements Subject {
         BorderPane borderPane = createInstructions();
 
         Label title = new Label("DungeonEscape");
-        title.setStyle("-fx-font-weight: bold; -fx-text-fill: orchid; -fx-font-size: 10em; -fx-font-family: serif;");
+        title.setStyle("-fx-font-weight: bold; -fx-text-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, chocolate 0%, orchid 50%); -fx-font-size: 10em; -fx-font-family: serif;");
         StackPane logo = new StackPane(new ImageView((new Image((new File("src/images/sand_castle.png")).toURI().toString()))), title);
 
         HBox hBox = new HBox(start, help, exit);

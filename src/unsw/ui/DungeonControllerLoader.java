@@ -19,6 +19,7 @@ import unsw.dungeon.Dungeon;
 import unsw.dungeon.Enemy;
 import unsw.dungeon.Entity;
 import unsw.dungeon.Exit;
+import unsw.dungeon.Fire;
 import unsw.dungeon.Gnome;
 import unsw.dungeon.Hound;
 import unsw.dungeon.Key;
@@ -67,6 +68,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     static final Image medicineImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
     static final Image houndImage = new Image((new File("src/images/hound.png")).toURI().toString());
     static final Image gnomeImage = new Image((new File("src/images/gnome.png")).toURI().toString());
+    static final Image fireImage = new Image((new File("src/images/fire.gif")).toURI().toString());
 
     public DungeonControllerLoader(DungeonApplication application) throws FileNotFoundException {
         super(application);
@@ -201,6 +203,16 @@ public class DungeonControllerLoader extends DungeonLoader {
         view.setId(gnome.toString());
         items.put(gnome, view);
         addEntity(gnome, view);
+    }
+
+    @Override
+    public void onLoad(Fire fire) {
+        ImageView view = new ImageView(fireImage);
+        view.setViewOrder(Layer.MOVEABLE.getZIndex());
+        view.setFitWidth(20);
+        view.setId(fire.toString());
+        items.put(fire, view);
+        addEntity(fire, view);
     }
 
 

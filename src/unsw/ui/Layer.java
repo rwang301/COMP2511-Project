@@ -3,7 +3,7 @@ package unsw.ui;
 public enum Layer {
     FLYABLE(0), // Gnome
     THROUGHABLE(1), // Exit, Door
-    MOVEABLE(2), // Player, Enemy, hound, boulder
+    MOVEABLE(2), // Player, Enemy, hound, boulder, fire
     PICKUPABLE(3), // Potion, Medicine, Sword, Key, Treasure
     STATIC(4), // Wall, Portal, Switch
     GROUND(5);

@@ -103,21 +103,20 @@ public class DungeonScene implements Subject {
             int nextLevel = levels.indexOf(level) + 1;
             if (nextLevel < totalLevels) {
                 level = levels.get(nextLevel);
-                text.setStyle(style + "-fx-text-fill: gold");
                 text.setText("You Won!");
                 button.setText("Continue");
                 button.setOnAction(event -> {
                     notifyObservers();
                 });
             } else { // This is the last level
-                text.setStyle(style + "-fx-text-fill: mediumseagreen");
                 text.setText("You Escaped!");
                 buttons.getChildren().remove(button);
             }
+            text.setStyle(style + "-fx-text-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, gold 0%, mediumseagreen 50%)");
             rotateText(text);
         } else {
             text.setText("You Lost!");
-            text.setStyle(style + "-fx-text-fill: red");
+            text.setStyle(style + "-fx-text-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, black 0%, firebrick 50%)");
             button.setText("Restart");
         }
         fadeTransition(text);
