@@ -24,6 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.layout.StackPane;
 import unsw.DungeonApplication;
 import unsw.dungeon.Dungeon;
@@ -94,7 +95,6 @@ public class DungeonController implements Subject, Observer {
     private final int backpackDimension = 150;
     private final int backpackInventory = 4;
     private final int prefDimension;
-    private final String style = "-fx-font-size: 13em; -fx-font-family: serif; -fx-font-weight: bold;";
 
     private boolean shift = false;
     private boolean newGame;
@@ -117,10 +117,6 @@ public class DungeonController implements Subject, Observer {
         width = application.getWidth();
         height = application.getHeight();
         prefDimension = application.getPrefDimension();
-    }
-
-    public String getStyle() {
-        return style;
     }
 
     public boolean isNewGame() {
@@ -221,7 +217,8 @@ public class DungeonController implements Subject, Observer {
             handleSetting(event);
         });
         text.setText("Setting");
-        text.setStyle(style + "-fx-text-fill: cornflowerblue");
+        text.setStyle("-fx-text-fill: cornflowerblue");
+        text.setFont(Font.loadFont("file:src/fonts/Ghostz-77qw.ttf", 120));
     }
 
     private void initialiseMission() {

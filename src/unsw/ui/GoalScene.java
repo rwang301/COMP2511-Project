@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import unsw.DungeonApplication;
 import unsw.dungeon.Component;
@@ -73,6 +74,7 @@ public class GoalScene {
 
         Label mission = new Label("Mission");
         mission.setId("mission");
+        mission.setFont(Font.loadFont("file:src/fonts/Ghostz-77qw.ttf", 100));
 
         Label description = new Label(dungeon.getGoal().getDescription(1));
         description.setId("description");

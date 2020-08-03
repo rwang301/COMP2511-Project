@@ -10,11 +10,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import unsw.DungeonApplication;
 import unsw.dungeon.Observer;
@@ -65,8 +67,10 @@ public class MainMenuScene implements Subject {
         Button exit = new GameButton(buttonWidth, buttonHeight, "Exit", style);
         BorderPane borderPane = createInstructions();
 
-        Label title = new Label("DungeonEscape");
-        title.setStyle("-fx-font-weight: bold; -fx-text-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, chocolate 0%, orchid 50%); -fx-font-size: 10em; -fx-font-family: serif;");
+        Label title = new Label("Dungeon Escape");
+        title.setStyle("-fx-font-weight: bold; -fx-text-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, chocolate 0%, orchid 50%);");
+        title.setFont(Font.loadFont("file:src/fonts/Ghostz-77qw.ttf", 100));
+
         StackPane logo = new StackPane(new ImageView((new Image((new File("src/images/sand_castle.png")).toURI().toString()))), title);
 
         HBox hBox = new HBox(start, help, exit);
@@ -115,22 +119,23 @@ public class MainMenuScene implements Subject {
         Label label6 = createLabel("Drink this potion and enemy runs away for 5 seconds.", new ImageView(DungeonControllerLoader.potionImage));
         Label label7 = createLabel("SHIFT + KEY to move these out of your way!", new ImageView(DungeonControllerLoader.boulderImage));
         Label label8 = createLabel("Mans best friend will sacrifice themselves for you.", new ImageView(DungeonControllerLoader.houndImage));
+        Label label9 = createLabel("Watch out for the fire!", new ImageView(DungeonControllerLoader.fireImage));
         Label help = new Label("HELP");
 
-        vBox.getChildren().addAll(label1, label2, label3, label4, label5, label6, label7, label8);
+        vBox.getChildren().addAll(label1, label2, label3, label4, label5, label6, label7, label8, label9);
         hBox.getChildren().add(help);
 
         vBox.setAlignment(Pos.CENTER_LEFT);
         hBox.setAlignment(Pos.TOP_CENTER);
         vBox.setMaxSize(width/3*2, height/3*2);
         label6.setWrapText(true);
-        help.setStyle("-fx-font-size: 10em; -fx-text-fill: mediumseagreen; -fx-font-family: serif; -fx-font-weight: bold");
+        help.setStyle("-fx-text-fill: mediumseagreen;");
+        help.setFont(Font.loadFont("file:src/fonts/Ghostz-77qw.ttf", 120));
 
         vBox.setStyle("-fx-border-color: chocolate; -fx-border-insets: 5; -fx-border-width: 3; -fx-background-color: blanchedalmond; -fx-border-radius: 20; -fx-background-radius: 20;");
-        vBox.setPadding(new Insets(prefDimension));
+        vBox.setPadding(new Insets(0, prefDimension, 0, prefDimension));
         borderPane.setCenter(vBox);
         borderPane.setTop(hBox);
-        BorderPane.setAlignment(vBox, Pos.TOP_CENTER);
         return borderPane;
     }
 
@@ -138,7 +143,6 @@ public class MainMenuScene implements Subject {
         Label label = new Label(text, view);
         view.setFitWidth(prefDimension);
         view.setFitHeight(prefDimension);
-        view.setPreserveRatio(true);
         label.setStyle("-fx-font-size: 2em;");
         label.setGraphicTextGap(prefDimension);
         return label;

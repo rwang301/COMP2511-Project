@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import unsw.DungeonApplication;
@@ -97,7 +98,6 @@ public class DungeonScene implements Subject {
     }
 
     public void gameOver(Dungeon dungeon) {
-        String style = controller.getStyle();
         Button button = (Button) buttons.getChildren().get(1);
         if (dungeon.isComplete()) {
             int nextLevel = levels.indexOf(level) + 1;
@@ -112,13 +112,14 @@ public class DungeonScene implements Subject {
                 text.setText("You Escaped!");
                 buttons.getChildren().remove(button);
             }
-            text.setStyle(style + "-fx-text-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, gold 0%, mediumseagreen 50%)");
+            text.setStyle("-fx-text-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, gold 0%, mediumseagreen 50%)");
             rotateText(text);
         } else {
             text.setText("You Lost!");
-            text.setStyle(style + "-fx-text-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, black 0%, firebrick 50%)");
+            text.setStyle("-fx-text-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, black 0%, firebrick 50%)");
             button.setText("Restart");
         }
+        text.setFont(Font.loadFont("file:src/fonts/Ghostz-77qw.ttf", 120));
         fadeTransition(text);
         dungeon.setPause();
         root.requestFocus();
