@@ -74,8 +74,14 @@ public class GoalScene {
         Label mission = new Label("Mission");
         mission.setId("mission");
 
-        VBox vBox = new VBox(mission, hBox);
+        Label description = new Label(dungeon.getGoal().getDescription(1));
+        description.setId("description");
+        description.setMinSize(width / 2, height / 2.5);
+        description.setMaxSize(width / 2, height / 2.5);
+
+        VBox vBox = new VBox(mission, description, hBox);
         vBox.setAlignment(Pos.CENTER);
+        vBox.setSpacing(height/50);
         borderPane.setCenter(vBox);
 
         return borderPane;
@@ -95,7 +101,7 @@ public class GoalScene {
 
         Label descriptionLabel = new Label(description);
         descriptionLabel.getStyleClass().add("goalDescription");
-        descriptionLabel.setWrapText(true);
+        descriptionLabel.wrapTextProperty().set(true);
 
         view.setFitWidth(prefDimension);
         view.setFitHeight(prefDimension);
@@ -120,9 +126,9 @@ public class GoalScene {
 
         VBox goal = new VBox(titleLabel, descriptionLabel, view, progress, stats);
         goal.getStyleClass().add("goalBox");
-        goal.setMinSize(width/5, height/2);
-        goal.setMaxSize(width/5, height/2);
-        goal.setSpacing(height/50);
+        goal.setMinSize(width/5, height/2.5);
+        goal.setMaxSize(width/5, height/2.5);
+        goal.setSpacing(height/100);
         goal.setAlignment(Pos.CENTER);
         return goal;
     }

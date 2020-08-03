@@ -77,7 +77,6 @@ public class DungeonApplication extends Application implements Observer {
 
         width = Screen.getScreens().get(0).getBounds().getWidth();
         height = Screen.getScreens().get(0).getBounds().getHeight();
-
         this.mainMenuScene = new MainMenuScene(this);
         mainMenuScene.start();
     }

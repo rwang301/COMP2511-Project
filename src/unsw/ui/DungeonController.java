@@ -176,12 +176,16 @@ public class DungeonController implements Subject, Observer {
         setting.setDisable(true);
         mission.setDisable(true);
 
-        Label description = new Label(dungeon.getGoal().getDescription());
+        Label title = new Label("Your Mission ...");
+        title.setId("title");
+
+        HBox titleContainer = new HBox(title);
+        titleContainer.setAlignment(Pos.CENTER);
+
+        Label description = new Label(dungeon.getGoal().getDescription(1));
         description.setId("description");
 
         Button start = new Button("Start");
-        start.setLayoutX(width / 2 - prefDimension / 2);
-        start.setLayoutY(height * 3 / 4);
         start.getStyleClass().add("action");
         start.setOnAction(event -> {
             goals.setVisible(false);
@@ -191,16 +195,17 @@ public class DungeonController implements Subject, Observer {
             dungeon.setPause();
         });
 
-        HBox container = new HBox(start);
-        container.setAlignment(Pos.CENTER);
+        HBox buttonContainer = new HBox(start);
+        buttonContainer.setAlignment(Pos.CENTER);
 
         goals.setMinSize(width / 2, height / 2);
-        goals.setMaxSize(width / 2, height / 2);
+        goals.setMaxSize(width / 2, height / 1.5);
         goals.setLayoutX(width / 4);
         goals.setLayoutY(height / 4);
 
         goals.setCenter(description);
-        goals.setBottom(container);
+        goals.setTop(titleContainer);
+        goals.setBottom(buttonContainer);
     }
 
     private void initialiseButtons() {

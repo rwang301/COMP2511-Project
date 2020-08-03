@@ -12,11 +12,18 @@ public class And extends Composite {
 	}
 
 	@Override
-	public String getDescription() {
+	public String getDescription(int depth) {
+		description = "";
+		return recursion(depth);
+	}
+	
+	private String recursion(int depth) {
+		description +=  "Both:\n";
 		components.forEach(goal -> {
-			if (description != "") description +=  "\nAND\n";
-			description += goal.getDescription();
+			for (int i = 0; i < depth; i++) description += "\t";
+			description += "- ";
+			description += goal.getDescription(depth + 1) + "\n";
 		});
-		return description + '\n';
+		return description;
 	}
 }

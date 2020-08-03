@@ -1,3 +1,7 @@
+.label {
+
+}
+
 .action {
     -fx-text-fill: firebrick;
     -fx-background-color: ivory;
@@ -6,8 +10,14 @@
     -fx-min-height: 50;
 }
 
-#description {
+#title {
+    -fx-text-fill: firebrick;
+    -fx-font-size: 4em;
     -fx-text-alignment: center;
+    -fx-font-family: serif;
+}
+
+#description {
     -fx-text-fill: ivory;
     -fx-font-size: 2em;
     -fx-font-weight: bold;

@@ -9,7 +9,7 @@ public class GoalTreasure extends Leaf {
     }
 
     @Override
-    public String getDescription() {
+    public String getDescription(int depth) {
         return description;
     }
 }

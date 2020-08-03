@@ -339,21 +339,20 @@ public class Player extends Entity implements Subject {
      */
     private void action(IntegerProperty coordinate, int position) {
         if (isOn(Portal.class)) {
+            setExit(0);
             teleport((Portal) current);
-            setExit(0);
         } else if (isOn(Blockable.class)) {
+            setExit(0);
             ((Blockable) current).block(this, coordinate, position);
-            setExit(0);
         } else if (isOn(Pickupable.class)) {
+            setExit(0);
             pickup();
-            setExit(0);
         } else if (isOn(Exit.class)) {
-            complete();
-            // TODO doesn't work when goes too fast into exit
             setExit(1);
+            complete();
         } else if (isOn(Character.class)) {
-            ((Character) current).collide(this);
             setExit(0);
+            ((Character) current).collide(this);
         } else {
             setExit(0);
         }

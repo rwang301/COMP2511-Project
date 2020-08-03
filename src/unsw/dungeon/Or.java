@@ -11,12 +11,19 @@ public class Or extends Composite {
         return false;
     }
 
-    @Override
-    public String getDescription() {
+	@Override
+	public String getDescription(int depth) {
+		description = "";
+		return recursion(depth);
+	}
+
+	private String recursion(int depth) {
+		description +=  "Either:\n";
 		components.forEach(goal -> {
-			if (description != "") description +=  "\nOR\n";
-			description += goal.getDescription();
+			for (int i = 0; i < depth; i++) description += "\t";
+			description += "- ";
+			description += goal.getDescription(depth + 1) + "\n";
 		});
-		return description + '\n';
-    }
+		return description;
+	}
 }
