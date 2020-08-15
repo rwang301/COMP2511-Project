@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Enemy extends Character {
-    final int range = 3;
+    final int range = 5;
     private Strategy moveToward;
     private Strategy moveAway;
     private Strategy curr;
