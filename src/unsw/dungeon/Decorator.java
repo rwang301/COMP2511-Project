@@ -2,8 +2,10 @@ package unsw.dungeon;
 
 public abstract class Decorator extends Strategy {
 
-    Decorator(Dungeon dungeon, Gnome gnome) {
-        super(dungeon, gnome);
+    Strategy strategy;
+
+    Decorator(Dungeon dungeon, Character character) {
+        super(dungeon, character);
     }
 
     @Override

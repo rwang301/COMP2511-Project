@@ -305,13 +305,12 @@ public class Player extends Entity implements Subject {
     }
 
     /**
-     * Check if the player is within the gnome's range
-     * @param gnome
-     * @return true if the absolute path between the player and the gnome is within the range otherwise false
+     * Check if the player is within a character's range
+     * @param character
+     * @return true if the absolute path between the player and the character is within the range otherwise false
      */
-    boolean withinRange(Gnome gnome) {
-        if (Math.abs(gnome.getX() - getX()) + Math.abs(gnome.getY() - getY()) <= gnome.getRange()) return true;
-        else return false;
+    boolean withinRange(Character character) {
+        return Math.abs(character.getX() - getX()) + Math.abs(character.getY() - getY()) <= character.getRange();
     }
 
     /**

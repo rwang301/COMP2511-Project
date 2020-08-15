@@ -3,10 +3,9 @@ package unsw.dungeon;
 import java.util.Random;
 
 public class MoveThrough extends Decorator {
-    private Strategy strategy;
 
-    MoveThrough(Dungeon dungeon, Gnome gnome, Strategy strategy) {
-        super(dungeon, gnome);
+    MoveThrough(Dungeon dungeon, Character character, Strategy strategy) {
+        super(dungeon, character);
         this.strategy = strategy;
     }
 

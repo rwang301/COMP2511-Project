@@ -8,6 +8,11 @@ public class Hound extends Character {
     }
 
     @Override
+    int getRange() {
+        return range;
+    }
+
+    @Override
     void initialise(Player player) {
         player.attach(this);
         strategy.setPlayer(player);

@@ -4,8 +4,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Enemy extends Character {
+    final int range = 3;
     private Strategy moveToward;
     private Strategy moveAway;
+    private Strategy curr;
     private Timer timer;
     private Dungeon dungeon;
 
@@ -41,12 +43,18 @@ public class Enemy extends Character {
         strategy.reset();
     }
 
+    @Override
+    int getRange() {
+        return range;
+    }
+
     /**
      * Initialise a timer for the enemy
      * @param player
      */
     @Override
     public void initialise(Player player) {
+        Enemy _this = this;
         moveToward.setPlayer(player);
         moveAway.setPlayer(player);
         moveToward.setCurrentPosition();
@@ -56,7 +64,11 @@ public class Enemy extends Character {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (!dungeon.isPause()) strategy.move();
+                if (!dungeon.isPause()) {
+                    if (player.withinRange(_this)) curr = new MoveTwice(dungeon, _this, strategy);
+                    else curr = strategy;
+                    curr.move();
+                }
             }
         }, 1000, 500); // Be careful when change the delay and period it will fail the JUnit tests
     }

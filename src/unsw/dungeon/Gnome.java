@@ -1,7 +1,6 @@
 package unsw.dungeon;
 
 public class Gnome extends Character {
-    private final int range = 10;
     private Strategy moveThrough;
 
     public Gnome(Dungeon dungeon, int x, int y) {
@@ -10,10 +9,11 @@ public class Gnome extends Character {
         moveThrough = new MoveThrough(dungeon, this, strategy);
     }
 
-    public int getRange() {
+    @Override
+    int getRange() {
         return range;
     }
-    
+
     @Override
     public void initialise(Player player) {
         strategy.setPlayer(player);
