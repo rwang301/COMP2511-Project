@@ -113,7 +113,7 @@ public class TestBoulder {
 
     /**
      * Given a player tires to push a boulder.
-     * When there is no entity on the adjacent sqaure in the direction of pushing.
+     * When there is no entity on the adjacent square in the direction of pushing.
      * Then the boulder moves to that square and the player stays where they were.
      */
     @Test
@@ -195,7 +195,7 @@ public class TestBoulder {
 
     /**
      * Given a player tries to push a boulder.
-     * When there is a door on the adjacent sqaure in the direction of pushing.
+     * When there is a door on the adjacent square in the direction of pushing.
      * Given the door is closed.
      * Then the boulder and the player stay where they were.
      */
@@ -215,7 +215,7 @@ public class TestBoulder {
 
     /**
      * Given a player tries to push a boulder.
-     * When there is a door on the adjacent sqaure in the direction of pushing.
+     * When there is a door on the adjacent square in the direction of pushing.
      * Given the door is open.
      * Then the boulder moves to that square sharing with the door and the player stays where they were.
      */
