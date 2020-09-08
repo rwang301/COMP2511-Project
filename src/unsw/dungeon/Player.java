@@ -214,7 +214,7 @@ public class Player extends Entity implements Subject {
      */
     void kill(Character character) {
         // TODO weird bug where potion calls this method twice
-        if (character.getClass() == Enemy.class) kills.set(kills.get() + 1);
+        if (character.getClass() == Enemy.class) kills.set(kills.get() + 1); // TODO kill counts gives an error runlater might fix it
         disappear(character);
         detach(character);
         if (character.getClass() == Enemy.class) {
