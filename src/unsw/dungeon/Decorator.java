@@ -2,12 +2,16 @@ package unsw.dungeon;
 
 public abstract class Decorator extends Strategy {
 
-    Strategy strategy;
+    private Strategy strategy;
 
-    Decorator(Dungeon dungeon, Character character) {
+    Decorator(Dungeon dungeon, Character character, Strategy strategy) {
         super(dungeon, character);
+        this.strategy = strategy;
     }
 
     @Override
-    abstract void move();
+    void move() {
+        strategy.move();
+    }
+
 }

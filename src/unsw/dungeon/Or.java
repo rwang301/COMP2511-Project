@@ -18,7 +18,7 @@ public class Or extends Composite {
 	}
 
 	private String recursion(int depth) {
-		description +=  "Either:\n";
+		description += "Either:\n";
 		components.forEach(goal -> {
 			for (int i = 0; i < depth; i++) description += "\t";
 			description += "- ";

@@ -18,7 +18,7 @@ public class And extends Composite {
 	}
 	
 	private String recursion(int depth) {
-		description +=  "Both:\n";
+		description += "Both:\n";
 		components.forEach(goal -> {
 			for (int i = 0; i < depth; i++) description += "\t";
 			description += "- ";

@@ -3,14 +3,13 @@ package unsw.dungeon;
 public class MoveTwice extends Decorator {
 
     MoveTwice(Dungeon dungeon, Character character, Strategy strategy) {
-        super(dungeon, character);
-        this.strategy = strategy;
+        super(dungeon, character, strategy);
     }
 
     @Override
     void move() {
-        strategy.move();
-        strategy.move();
+        super.move();
+        super.move();
     }
     
 }

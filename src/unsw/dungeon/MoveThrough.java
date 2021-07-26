@@ -5,13 +5,12 @@ import java.util.Random;
 public class MoveThrough extends Decorator {
 
     MoveThrough(Dungeon dungeon, Character character, Strategy strategy) {
-        super(dungeon, character);
-        this.strategy = strategy;
+        super(dungeon, character, strategy);
     }
 
     @Override
     boolean canMove() {
-        strategy.canMove();
+        super.canMove();
         return true;
     }
 
