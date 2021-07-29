@@ -1,3 +1,7 @@
+StackPane {
+    -fx-font-family: Arial, Helvetica, sans-serif;
+}
+
 #mission {
     -fx-text-fill: cornflowerblue;
     -fx-font-weight: bold;

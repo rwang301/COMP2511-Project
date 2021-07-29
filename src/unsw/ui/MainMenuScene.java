@@ -50,6 +50,7 @@ public class MainMenuScene implements Subject {
         style = application.getButtonStyle();
 
         root = new StackPane();
+        root.setStyle("-fx-font-family: 'serif', 'arial', 'helvetica'");
         root.setAlignment(Pos.CENTER);
 
         GridPane gridPane = new GridPane();

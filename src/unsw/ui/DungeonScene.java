@@ -61,6 +61,7 @@ public class DungeonScene implements Subject {
         loader.setController(controller);     
 
         root = loader.load();
+        root.setStyle("-fx-font-family: 'serif', 'arial', 'helvetica'");
         scene = new Scene(root, application.getWidth(), application.getHeight());
 
         children = root.getChildrenUnmodifiable();
