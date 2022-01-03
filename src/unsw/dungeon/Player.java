@@ -25,7 +25,7 @@ public class Player extends Entity {
     public void moveUp() {
         if (getY() > 0)
             y().set(getY() - 1);
-        if (!canMove()) {
+        if (isBlocked(Blockable.class)) {
             y().set(getY() + 1);
         }
     }
@@ -33,7 +33,7 @@ public class Player extends Entity {
     public void moveDown() {
         if (getY() < dungeon.getHeight() - 1)
             y().set(getY() + 1);
-        if (!canMove()) {
+        if (isBlocked(Blockable.class)) {
             y().set(getY() - 1);
         }
     }
@@ -41,7 +41,7 @@ public class Player extends Entity {
     public void moveLeft() {
         if (getX() > 0)
             x().set(getX() - 1);
-        if (!canMove()) {
+        if (isBlocked(Blockable.class)) {
             x().set(getX() + 1);
         }
     }
@@ -49,17 +49,18 @@ public class Player extends Entity {
     public void moveRight() {
         if (getX() < dungeon.getWidth() - 1)
             x().set(getX() + 1);
-        if (!canMove()) {
+        if (isBlocked(Blockable.class)) {
             x().set(getX() - 1);
         }
     }
 
-    public List<Entity> getWalls() {
-        return dungeon.getEntities().stream().filter(e -> e instanceof Wall).collect(Collectors.toList());
+    private boolean isBlocked(Class<?> blockableType) {
+        System.out.println(getEntityType(blockableType));
+        if (getEntityType(blockableType).contains(this)) return true;
+        return false;
     }
 
-    public boolean canMove() {
-        if (getWalls().contains(this)) return false;
-        return true;
+    private List<Entity> getEntityType(Class<?> entityType) {
+        return dungeon.getEntities().stream().filter(e -> entityType.isAssignableFrom(e.getClass())).collect(Collectors.toList());
     }
 }
