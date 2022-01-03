@@ -39,4 +39,19 @@ public class Entity {
     public int getX() {
         return x().get();
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj instanceof Entity) {
+            Entity entity = (Entity) obj;
+            return x.get() == entity.getX() && y.get() == entity.getY();
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [" + getX() + ", " + getY() + "]";
+    }
 }

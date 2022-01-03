@@ -38,6 +38,7 @@ public class DungeonController {
         Image ground = new Image((new File("images/dirt_0_new.png")).toURI().toString());
 
         // Add the ground first so it is below all other entities
+        // System.out.println(dungeon.getEntities());
         for (int x = 0; x < dungeon.getWidth(); x++) {
             for (int y = 0; y < dungeon.getHeight(); y++) {
                 squares.add(new ImageView(ground), x, y);
