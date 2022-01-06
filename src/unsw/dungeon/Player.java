@@ -3,6 +3,8 @@ package unsw.dungeon;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.beans.property.IntegerProperty;
+
 /**
  * The player entity
  * @author Robert Clifton-Everest
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
 public class Player extends Entity {
 
     private Dungeon dungeon;
+    private Key key;
 
     /**
      * Create a player positioned in square (x,y)
@@ -22,66 +25,99 @@ public class Player extends Entity {
         this.dungeon = dungeon;
     }
 
+    
+    public void moveDown() {
+        if (getY() < dungeon.getHeight() - 1)
+        y().set(getY() + 1);
+        if (isOn(Blockable.class)) {
+            y().set(getY() - 1);
+        }
+        if (isOn(Portal.class)) {
+            portalTeleport();
+        }
+    }
+    
+    public void moveLeft() {
+        if (getX() > 0)
+        x().set(getX() - 1);
+        if (isOn(Blockable.class)) {
+            x().set(getX() + 1);
+        }
+        if (isOn(Portal.class)) {
+            portalTeleport();
+        }
+    }
+    
+    public void moveRight() {
+        if (getX() < dungeon.getWidth() - 1)
+        x().set(getX() + 1);
+        if (isOn(Blockable.class)) {
+            x().set(getX() - 1);
+        }
+        if (isOn(Portal.class)) {
+            portalTeleport();
+        }
+    }
+    
     public void moveUp() {
         if (getY() > 0)
             y().set(getY() - 1);
+        action(y(), getY() + 1);
+    }
+    private void action(IntegerProperty coordinate, int position) {
+        
         if (isOn(Blockable.class)) {
-            y().set(getY() + 1);
-        }
-        if (isOn(Portal.class)) {
+            coordinate.set(position);
+        } else if (isOn(Portal.class)) {
             portalTeleport();
+        } else if (isOn(Key.class)) {
+            Key key = (Key)getCurrEntity(Key.class);
+            key.pickup(this);
+        } else if (isOn(Door.class)) {
+
         }
     }
 
-    public void moveDown() {
-        if (getY() < dungeon.getHeight() - 1)
-            y().set(getY() + 1);
-        if (isOn(Blockable.class)) {
-            y().set(getY() - 1);
-        }
-        if (isOn(Portal.class)) {
-            portalTeleport();
-        }
+    public Key getKey() {
+        return key;
     }
 
-    public void moveLeft() {
-        if (getX() > 0)
-            x().set(getX() - 1);
-        if (isOn(Blockable.class)) {
-            x().set(getX() + 1);
-        }
-        if (isOn(Portal.class)) {
-            portalTeleport();
-        }
+    public void setKey(Key key) {
+        this.key = key;
     }
 
-    public void moveRight() {
-        if (getX() < dungeon.getWidth() - 1)
-            x().set(getX() + 1);
-        if (isOn(Blockable.class)) {
-            x().set(getX() - 1);
-        }
-        if (isOn(Portal.class)) {
-            portalTeleport();
-        }
+    public Dungeon getDungeon() {
+        return dungeon;
     }
 
     private boolean isOn(Class<?> entityType) {
-        if (getEntityType(entityType).contains(this)) return true;
+        System.out.println(getEntityType(entityType));
+        // if (getEntityType(entityType).contains(this))
+        //     return true;
+        for (Entity e : getEntityType(entityType)) {
+           if (this.getX() == e.getX() && this.getY() == e.getY()) {
+               return true;
+           }
+        }
         return false;
     }
 
     private void portalTeleport() {
-        Portal matchingPortal = getCurrPortal().getMatchingPortal();
+        Portal matchingPortal = ((Portal)getCurrEntity(Portal.class)).getMatchingPortal();
         x().set(matchingPortal.getX());
         y().set(matchingPortal.getY());
     }
 
-    private Portal getCurrPortal() {
-        return (Portal)getEntityType(Portal.class).stream().filter(e -> e.equals(this)).findFirst().get();
+    // private Portal getCurrPortal() {
+    //     return (Portal) getEntityType(Portal.class).stream().filter(e -> e.equals(this)).findFirst().get();
+    // }
+
+    private Entity getCurrEntity(Class<?> entityType) {
+        return getEntityType(entityType).stream().filter(e -> e.isOn(this)).findFirst().get();
     }
 
     private List<Entity> getEntityType(Class<?> entityType) {
-        return dungeon.getEntities().stream().filter(e -> entityType.isAssignableFrom(e.getClass())).collect(Collectors.toList());
+        return dungeon.getEntities().stream().filter(e -> entityType.isAssignableFrom(e.getClass()))
+                .collect(Collectors.toList());
     }
 }

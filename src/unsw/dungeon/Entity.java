@@ -39,13 +39,17 @@ public class Entity {
     public int getX() {
         return x().get();
     }
+
+    public boolean isOn(Entity e) {
+        return this.getX() == e.getX() && this.getY() == e.getY();
+    }
     
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
-        if (obj instanceof Entity) {
+        if (this.getClass() == obj.getClass()) {
             Entity entity = (Entity) obj;
-            return x.get() == entity.getX() && y.get() == entity.getY();
+            return this.getX() == entity.getX() && this.getY() == entity.getY();
         }
         return false;
     }

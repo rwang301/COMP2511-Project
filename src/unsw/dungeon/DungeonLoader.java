@@ -20,6 +20,8 @@ public abstract class DungeonLoader {
 
     private JSONObject json;
     private Portal portal = null;
+    private Key key = null;
+    private Door door = null;
 
     public DungeonLoader(String filename) throws FileNotFoundException {
         json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename)));
@@ -79,6 +81,30 @@ public abstract class DungeonLoader {
             onLoad(exit);
             entity = exit;
             break;
+        case "key":
+            Key key = new Key(x, y);
+            onLoad(key);
+            entity = key;
+            if (this.door != null) {
+                key.setDoor(this.door);
+                this.door.setKey(key);
+                this.door = null;
+            } else {
+                this.key = key;
+            }
+            break;
+        case "door":
+            Door door = new Door(x, y);
+            onLoad(door);
+            entity = door;
+            if (this.key != null) {
+                door.setKey(this.key);
+                this.key.setDoor(door);
+                this.key = null;
+            } else {
+                this.door = door;
+            }
+            break;
         }
         dungeon.addEntity(entity);
     }
@@ -90,6 +116,10 @@ public abstract class DungeonLoader {
     public abstract void onLoad(Portal portal);
 
     public abstract void onLoad(Exit exit);
+
+    public abstract void onLoad(Key key);
+
+    public abstract void onLoad(Door door);
 
     // TODO Create additional abstract methods for the other entities
 
