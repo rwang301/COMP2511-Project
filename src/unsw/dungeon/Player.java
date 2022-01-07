@@ -48,34 +48,27 @@ public class Player extends Entity {
             y().set(getY() - 1);
         action(y(), getY() + 1);
     }
+
+    public void setPosition(IntegerProperty coordinate, int position) {
+        coordinate.set(position);
+    }
+
     private void action(IntegerProperty coordinate, int position) {
         
         if (isOn(Blockable.class)) {
-            if (isOn(Door.class)) {
-                if (!canEnter((Door) getCurrEntity(Door.class))) {
-                    coordinate.set(position);
-                }
-            } else {
-                coordinate.set(position);
-            }
+            // if (isOn(Door.class)) {
+            //     if (!canEnter((Door) getCurrEntity(Door.class))) {
+            //         coordinate.set(position);
+            //     }
+            // } else {
+            //     coordinate.set(position);
+            // }
+            ((Blockable)getCurrEntity(Blockable.class)).block(this, coordinate, position);
         } else if (isOn(Portal.class)) {
             portalTeleport();
         } else if (isOn(Key.class)) {
             if (key == null) ((Key)getCurrEntity(Key.class)).pickup(this);
         }
-    }
-
-    private boolean canEnter(Door door) {
-        if (!door.getIsOpen()) {
-            if (key == door.getKey()) {
-                door.setIsOpen(true);
-                key = null;
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return true;
     }
 
     public Key getKey() {
