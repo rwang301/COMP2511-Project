@@ -61,8 +61,7 @@ public class Player extends Entity {
         } else if (isOn(Portal.class)) {
             portalTeleport();
         } else if (isOn(Key.class)) {
-            Key key = (Key) getCurrEntity(Key.class);
-            key.pickup(this);
+            if (key == null) ((Key)getCurrEntity(Key.class)).pickup(this);
         }
     }
 
@@ -70,6 +69,7 @@ public class Player extends Entity {
         if (!door.getIsOpen()) {
             if (key == door.getKey()) {
                 door.setIsOpen(true);
+                key = null;
                 return true;
             } else {
                 return false;

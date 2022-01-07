@@ -2,6 +2,7 @@ package unsw.dungeon;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,9 +20,9 @@ import org.json.JSONTokener;
 public abstract class DungeonLoader {
 
     private JSONObject json;
-    private Portal portal = null;
-    private Key key = null;
-    private Door door = null;
+    private HashMap<Integer, Portal> portals = new HashMap<>();
+    private HashMap<Integer, Key> keys = new HashMap<>();
+    private HashMap<Integer, Door> doors = new HashMap<>();
 
     public DungeonLoader(String filename) throws FileNotFoundException {
         json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename)));
@@ -65,15 +66,15 @@ public abstract class DungeonLoader {
             break;
         // TODO Handle other possible entities
         case "portal":
+            Integer portalId = json.getInt("id");
             Portal portal = new Portal(x, y);
             onLoad(portal);
             entity = portal;
-            if (this.portal != null) {
-                this.portal.setMatchingPortal(portal);
-                portal.setMatchingPortal(this.portal);
-                this.portal = null;
+            if (portals.containsKey(portalId)) {
+                portals.get(portalId).setMatchingPortal(portal);
+                portal.setMatchingPortal(portals.get(portalId));
             } else {
-                this.portal = portal;
+                portals.put(portalId, portal);
             }
             break;
         case "exit":
@@ -82,28 +83,26 @@ public abstract class DungeonLoader {
             entity = exit;
             break;
         case "key":
+            Integer keyId = json.getInt("id");
             Key key = new Key(x, y);
             onLoad(key);
             entity = key;
-            if (this.door != null) {
-                key.setDoor(this.door);
-                this.door.setKey(key);
-                this.door = null;
-            } else {
-                this.key = key;
-            }
+            if (doors.containsKey(keyId)) {
+                doors.get(keyId).setKey(key);
+                key.setDoor(doors.get(keyId));
+            } 
+            keys.put(keyId, key);
             break;
         case "door":
+            Integer doorId = json.getInt("id");
             Door door = new Door(x, y);
             onLoad(door);
             entity = door;
-            if (this.key != null) {
-                door.setKey(this.key);
-                this.key.setDoor(door);
-                this.key = null;
-            } else {
-                this.door = door;
-            }
+            if (keys.containsKey(doorId)) {
+                keys.get(doorId).setDoor(door);
+                door.setKey(keys.get(doorId));
+            } 
+            doors.put(doorId, door);
             break;
         }
         dungeon.addEntity(entity);
