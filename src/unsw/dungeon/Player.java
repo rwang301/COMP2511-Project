@@ -49,25 +49,14 @@ public class Player extends Entity {
         action(y(), getY() + 1);
     }
 
-    public void setPosition(IntegerProperty coordinate, int position) {
-        coordinate.set(position);
-    }
-
     private void action(IntegerProperty coordinate, int position) {
         
         if (isOn(Blockable.class)) {
-            // if (isOn(Door.class)) {
-            //     if (!canEnter((Door) getCurrEntity(Door.class))) {
-            //         coordinate.set(position);
-            //     }
-            // } else {
-            //     coordinate.set(position);
-            // }
             ((Blockable)getCurrEntity(Blockable.class)).block(this, coordinate, position);
         } else if (isOn(Portal.class)) {
             portalTeleport();
-        } else if (isOn(Key.class)) {
-            if (key == null) ((Key)getCurrEntity(Key.class)).pickup(this);
+        } else if (isOn(Pickupable.class)) {
+            if (key == null) ((Pickupable)getCurrEntity(Pickupable.class)).pickup(this, dungeon);
         }
     }
 

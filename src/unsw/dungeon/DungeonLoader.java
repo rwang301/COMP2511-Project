@@ -17,7 +17,7 @@ import org.json.JSONTokener;
  * @author Robert Clifton-Everest
  *
  */
-public abstract class DungeonLoader {
+public abstract class DungeonLoader implements Observer{
 
     private JSONObject json;
     private HashMap<Integer, Portal> portals = new HashMap<>();
@@ -37,6 +37,7 @@ public abstract class DungeonLoader {
         int height = json.getInt("height");
 
         Dungeon dungeon = new Dungeon(width, height);
+        dungeon.attach(this);
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 

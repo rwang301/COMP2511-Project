@@ -43,6 +43,10 @@ public class Entity {
     public boolean isOn(Entity e) {
         return this.getX() == e.getX() && this.getY() == e.getY();
     }
+
+    public void setPosition(IntegerProperty coordinate, int position) {
+        coordinate.set(position);
+    }
     
     @Override
     public boolean equals(Object obj) {

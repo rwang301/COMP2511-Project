@@ -25,7 +25,6 @@ public class DungeonApplication extends Application {
         root.requestFocus();
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
     public static void main(String[] args) {

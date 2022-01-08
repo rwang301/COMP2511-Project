@@ -2,7 +2,9 @@ package unsw.dungeon;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,6 +24,8 @@ import java.io.File;
 public class DungeonControllerLoader extends DungeonLoader {
 
     private List<ImageView> entities;
+    private Map<Door, ImageView> doors = new HashMap<>();
+    private Map<Key, ImageView> keys = new HashMap<>();
 
     //Images
     private Image playerImage;
@@ -70,6 +74,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void onLoad(Key key) {
         ImageView view = new ImageView(keyImage);
+        view.setId(key.toString());
         addEntity(key, view);
     }
 
@@ -140,6 +145,22 @@ public class DungeonControllerLoader extends DungeonLoader {
      */
     public DungeonController loadController() throws FileNotFoundException {
         return new DungeonController(load(), entities);
+    }
+
+    private void removeEntity(Entity entity) {
+        if (entity.getClass() == Key.class) {
+            for (int i = 0; i < entities.size(); i++) {
+                if (entity.toString().equals(entities.get(i).getId())) {
+                    entities.get(i).setImage(null);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void update(Subject subject) {
+        removeEntity(((Dungeon)subject).getToUpdate());
     }
 
 }
