@@ -87,6 +87,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     @Override
     public void onLoad(Door door) {
         ImageView view = new ImageView(closedDoorImage);
+        view.setId(door.toString());
         addEntity(door, view);
     }
 
@@ -101,6 +102,7 @@ public class DungeonControllerLoader extends DungeonLoader {
         ImageView view = new ImageView(switchImage);
         addEntity(floorSwitch, view);
     }
+    
     private void addEntity(Entity entity, ImageView view) {
         trackPosition(entity, view);
         entities.add(view);
@@ -152,6 +154,13 @@ public class DungeonControllerLoader extends DungeonLoader {
             for (int i = 0; i < entities.size(); i++) {
                 if (entity.toString().equals(entities.get(i).getId())) {
                     entities.get(i).setImage(null);
+                    break;
+                }
+            }
+        } else if (entity.getClass() == Door.class) {
+            for (int i = 0; i < entities.size(); i++) {
+                if (entity.toString().equals(entities.get(i).getId())) {
+                    entities.get(i).setImage(openDoorImage);
                     break;
                 }
             }

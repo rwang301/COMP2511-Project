@@ -38,6 +38,11 @@ public class Dungeon implements Subject {
         notifyObservers();
     }
 
+    public void open(Door door) {
+        this.toUpdate = door;
+        notifyObservers();
+    }
+
     public int getWidth() {
         return width;
     }
