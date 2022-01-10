@@ -1,6 +1,13 @@
 {
   "width": 45,
   "height": 38,
+  "goal-condition": {
+    "goal": "AND", 
+    "subgoals": [ 
+      { "goal": "treasure" },
+      { "goal": "exit"}
+    ]
+  },
   "entities": [
     {
       "x": 0,
@@ -118,6 +125,26 @@
       "type": "wall"
     },
     {
+      "x": 5,
+      "y": 1,
+      "type": "boulder"
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "type": "boulder"
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "type": "switch"
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "type": "treasure"
+    },
+    {
       "x": 15,
       "y": 1,
       "type": "wall"
@@ -214,7 +241,7 @@
       "type": "wall"
     },
     {
-      "x": 4,
+      "x": 6,
       "y": 3,
       "id": 0,
       "type": "key"
@@ -266,6 +293,11 @@
       "type": "wall"
     },
     {
+      "x": 2,
+      "y": 4,
+      "type": "treasure"
+    },
+    {
       "x": 3,
       "y": 4,
       "type": "wall"
@@ -293,7 +325,8 @@
     {
       "x": 13,
       "y": 4,
-      "type": "wall"
+      "id": 0,
+      "type": "portal"
     },
     {
       "x": 16,
@@ -591,7 +624,8 @@
     {
       "x": 17,
       "y": 9,
-      "type": "wall"
+      "id": 3,
+      "type": "door"
     },
     {
       "x": 19,
@@ -800,10 +834,15 @@
       "type": "wall"
     },
     {
+      "x": 16,
+      "y": 13,
+      "id": 3,
+      "type": "key"
+    },
+    {
       "x": 17,
       "y": 13,
-      "id": 0,
-      "type": "portal"
+      "type": "wall"
     },
     {
       "x": 19,
@@ -910,6 +949,11 @@
       "x": 17,
       "y": 15,
       "type": "wall"
+    },
+    {
+      "x": 18,
+      "y": 15,
+      "type": "treasure"
     },
     {
       "x": 19,
@@ -1082,8 +1126,5 @@
       "y": 17,
       "type": "wall"
     }
-  ],
-  "goal-condition": {
-    "goal": "exit"
-  }
+  ]
 }

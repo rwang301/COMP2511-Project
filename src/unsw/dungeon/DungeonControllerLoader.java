@@ -26,6 +26,8 @@ public class DungeonControllerLoader extends DungeonLoader {
     private List<ImageView> entities;
     private Map<Door, ImageView> doors = new HashMap<>();
     private Map<Key, ImageView> keys = new HashMap<>();
+    private Image newImage = null;
+    private int treasureToWin = 0;
 
     //Images
     private Image playerImage;
@@ -37,6 +39,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image closedDoorImage;
     private Image boulderImage;
     private Image switchImage;
+    private Image treasureImage;
 
     public DungeonControllerLoader(String filename)
             throws FileNotFoundException {
@@ -51,6 +54,7 @@ public class DungeonControllerLoader extends DungeonLoader {
         closedDoorImage = new Image((new File("images/closed_door.png")).toURI().toString());
         boulderImage = new Image((new File("images/boulder.png")).toURI().toString());
         switchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
+        treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
     }
 
     @Override
@@ -103,6 +107,14 @@ public class DungeonControllerLoader extends DungeonLoader {
         addEntity(floorSwitch, view);
     }
     
+    @Override
+    public void onLoad(Treasure treasure) {
+        ImageView view = new ImageView(treasureImage);
+        view.setId(treasure.toString());
+        addEntity(treasure, view);
+        this.treasureToWin++;
+    }
+
     private void addEntity(Entity entity, ImageView view) {
         trackPosition(entity, view);
         entities.add(view);
@@ -150,26 +162,24 @@ public class DungeonControllerLoader extends DungeonLoader {
     }
 
     private void removeEntity(Entity entity) {
-        if (entity.getClass() == Key.class) {
-            for (int i = 0; i < entities.size(); i++) {
-                if (entity.toString().equals(entities.get(i).getId())) {
-                    entities.get(i).setImage(null);
-                    break;
-                }
-            }
-        } else if (entity.getClass() == Door.class) {
-            for (int i = 0; i < entities.size(); i++) {
-                if (entity.toString().equals(entities.get(i).getId())) {
-                    entities.get(i).setImage(openDoorImage);
-                    break;
-                }
+        System.out.println("xd");
+        for (int i = 0; i < entities.size(); i++) {
+            if (entity.toString().equals(entities.get(i).getId())) {
+                entities.get(i).setImage(newImage);
+                break;
             }
         }
     }
 
     @Override
     public void update(Subject subject) {
-        removeEntity(((Dungeon)subject).getToUpdate());
+        Entity entity = ((Dungeon)subject).getToUpdate();
+        if (Pickupable.class.isAssignableFrom(entity.getClass())) {
+            newImage = null;
+        } else if (entity.getClass() == Door.class) {
+            newImage = openDoorImage;
+        }
+        removeEntity(entity);
     }
 
 }

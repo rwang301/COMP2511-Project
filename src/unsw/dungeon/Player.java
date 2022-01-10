@@ -14,6 +14,7 @@ public class Player extends Entity {
 
     private Dungeon dungeon;
     private Key key;
+    private int treasure = 0;
 
     /**
      * Create a player positioned in square (x,y)
@@ -56,7 +57,9 @@ public class Player extends Entity {
         } else if (isOn(Portal.class)) {
             portalTeleport();
         } else if (isOn(Pickupable.class)) {
-            if (key == null) ((Pickupable)getCurrEntity(Pickupable.class)).pickup(this, dungeon);
+            if (key == null || !isOn(Key.class)) ((Pickupable)getCurrEntity(Pickupable.class)).pickup(this, dungeon);
+        } else if (isOn(Exit.class)) {
+            this.dungeon.complete();
         }
     }
 
@@ -72,7 +75,19 @@ public class Player extends Entity {
         return dungeon;
     }
 
-    private boolean isOn(Class<?> entityType) {
+    public int getTreasure() {
+        return treasure;
+    }
+
+    public int getTreasureGoal() {
+        return this.dungeon.getTotalTreasure();
+    }
+
+    public void setTreasure() {
+        this.treasure = treasure + 1;
+    }
+
+    public boolean isOn(Class<?> entityType) {
         for (Entity e : getEntityType(entityType)) {
             if (this.getX() == e.getX() && this.getY() == e.getY()) {
                 return true;
@@ -95,4 +110,5 @@ public class Player extends Entity {
         return dungeon.getEntities().stream().filter(e -> entityType.isAssignableFrom(e.getClass()))
                 .collect(Collectors.toList());
     }
+
 }

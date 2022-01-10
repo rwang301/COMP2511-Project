@@ -20,6 +20,8 @@ import org.json.JSONTokener;
 public abstract class DungeonLoader implements Observer{
 
     private JSONObject json;
+    private Component goal;
+    private int totalTreasure = 0;
     private HashMap<Integer, Portal> portals = new HashMap<>();
     private HashMap<Integer, Key> keys = new HashMap<>();
     private HashMap<Integer, Door> doors = new HashMap<>();
@@ -44,6 +46,11 @@ public abstract class DungeonLoader implements Observer{
         for (int i = 0; i < jsonEntities.length(); i++) {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
+
+        loadGoals(json.getJSONObject("goal-condition"), null);
+        dungeon.setGoal(this.goal);
+        dungeon.setTotalTreasure(this.totalTreasure);
+
         return dungeon;
     }
 
@@ -115,8 +122,61 @@ public abstract class DungeonLoader implements Observer{
             onLoad(floorSwitch);
             entity = floorSwitch;
             break;
+        case "treasure":
+            Treasure treasure = new Treasure(x, y);
+            onLoad(treasure);
+            entity = treasure;
+            this.totalTreasure++;
+            break;
         }
         dungeon.addEntity(entity);
+    }
+
+    private void loadGoals(JSONObject goals, Composite condition) {
+        String goal = goals.getString("goal");
+        switch (goal) {
+            case "OR":
+                Composite or = new Or(); 
+                if (condition == null) {
+                    this.goal = or;
+                } else {
+                    condition.add(or);
+                }
+                for (int i = 0; i < goals.getJSONArray("subgoals").length(); i++) {
+                    loadGoals(goals.getJSONArray("subgoals").getJSONObject(i), or);
+                }
+                break;
+            case "AND":
+                Composite and = new And();
+                if (condition == null) {
+                    this.goal = and;
+                } else {
+                    condition.add(and);
+                }
+                for (int i = 0; i < goals.getJSONArray("subgoals").length(); i++) {
+                    loadGoals(goals.getJSONArray("subgoals").getJSONObject(i), and);
+                }
+                break;
+            default:
+                Leaf leaf = null;
+                switch (goal) {
+                    case "exit":
+                        leaf = new GoalExit(); 
+                        break;
+                    case "boulders":
+                        leaf = new GoalBoulders(); 
+                        break;
+                    case "treasure":
+                        leaf = new GoalTreasure(); 
+                        break;
+                    case "enemies":
+                        leaf = new GoalEnemies(); 
+                        break;
+                }
+                if (condition == null) this.goal = leaf;
+                else condition.add(leaf);
+                break;
+        }
     }
 
     public abstract void onLoad(Entity player);
@@ -134,6 +194,8 @@ public abstract class DungeonLoader implements Observer{
     public abstract void onLoad(Boulder boulder);
 
     public abstract void onLoad(Switch floorSwitch);
+
+    public abstract void onLoad(Treasure treasure);
 
     // TODO Create additional abstract methods for the other entities
 

@@ -22,6 +22,8 @@ public class Dungeon implements Subject {
     private Player player;
     private Entity toUpdate = null;
     private List<Observer> observers;
+    private Component goal;
+    private int totalTreasure;
 
     public Dungeon(int width, int height) {
         this.width = width;
@@ -79,6 +81,18 @@ public class Dungeon implements Subject {
         this.toUpdate = toUpdate;
     }
 
+    public void setGoal(Component goal) {
+        this.goal = goal;
+    }
+
+    public int getTotalTreasure() {
+        return totalTreasure;
+    }
+
+    public void setTotalTreasure(int totalTreasure) {
+        this.totalTreasure = totalTreasure;
+    }
+
     @Override
     public void attach(Observer o) {
         observers.add(o);
@@ -92,5 +106,11 @@ public class Dungeon implements Subject {
     @Override
     public void notifyObservers() {
         observers.forEach(o -> o.update(this));
+    }
+
+    public void complete() {
+        if (this.goal.complete(this.player)) {
+            System.exit(0);
+        }
     }
 }
