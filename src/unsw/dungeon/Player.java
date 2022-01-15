@@ -1,5 +1,6 @@
 package unsw.dungeon;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,11 +11,14 @@ import javafx.beans.property.IntegerProperty;
  * @author Robert Clifton-Everest
  *
  */
-public class Player extends Entity {
+public class Player extends Entity implements Subject {
 
     private Dungeon dungeon;
     private Key key;
     private int treasure = 0;
+    private Sword sword = null;
+    private Potion potion = null;
+    private List<Observer> enemies = new ArrayList<>();
 
     /**
      * Create a player positioned in square (x,y)
@@ -51,7 +55,7 @@ public class Player extends Entity {
     }
 
     private void action(IntegerProperty coordinate, int position) {
-        
+        notifyObservers();
         if (isOn(Blockable.class)) {
             ((Blockable)getCurrEntity(Blockable.class)).block(this, coordinate, position);
         } else if (isOn(Portal.class)) {
@@ -60,6 +64,8 @@ public class Player extends Entity {
             if (key == null || !isOn(Key.class)) ((Pickupable)getCurrEntity(Pickupable.class)).pickup(this, dungeon);
         } else if (isOn(Exit.class)) {
             this.dungeon.complete();
+        } else if (isOn(Enemy.class)) {
+            ((Enemy)getCurrEntity(Enemy.class)).collide(this, this.getDungeon());
         }
     }
 
@@ -87,6 +93,30 @@ public class Player extends Entity {
         this.treasure = treasure + 1;
     }
 
+    public Sword getSword() {
+        return sword;
+    }
+
+    public void setSword(Sword sword) {
+        this.sword = sword;
+    }
+
+    public void hit() {
+        if (this.sword.capable()) {
+            this.sword.setHits();
+        } else {
+            this.sword = null;
+        }
+    }
+
+    public Potion getPotion() {
+        return this.potion;
+    }
+
+    public void setPotion(Potion potion) {
+        this.potion = potion;
+    }
+
     public boolean isOn(Class<?> entityType) {
         for (Entity e : getEntityType(entityType)) {
             if (this.getX() == e.getX() && this.getY() == e.getY()) {
@@ -106,9 +136,82 @@ public class Player extends Entity {
         return getEntityType(entityType).stream().filter(e -> e.isOn(this)).findFirst().get();
     }
 
-    private List<Entity> getEntityType(Class<?> entityType) {
+    public List<Entity> getEntityType(Class<?> entityType) {
         return dungeon.getEntities().stream().filter(e -> entityType.isAssignableFrom(e.getClass()))
                 .collect(Collectors.toList());
     }
 
+    public void moveBoulder(Direction direction) {
+        Boulder boulder = null;
+        switch (direction) {
+            case UP:
+                boulder = (Boulder)getEntity(Boulder.class, this.getX(), this.getY() - 1); 
+                if (boulder != null) {
+                    boulder.push(this, this.getX(), this.getY() - 2);
+                }
+                break;
+            case DOWN:
+                boulder = (Boulder)getEntity(Boulder.class, this.getX(), this.getY() + 1); 
+                if (boulder != null) {
+                    boulder.push(this, this.getX(), this.getY() + 2);
+                }
+                break;
+            case LEFT:
+                boulder = (Boulder)getEntity(Boulder.class, this.getX() - 1, this.getY()); 
+                if (boulder != null) {
+                    boulder.push(this, this.getX() - 2, this.getY());
+                }
+                break;
+            case RIGHT:
+                boulder = (Boulder)getEntity(Boulder.class, this.getX() + 1, this.getY()); 
+                if (boulder != null) {
+                    boulder.push(this, this.getX() + 2, this.getY());
+                }
+                break;
+        }
+    }
+
+    public Entity getEntity(Class<?> entityType, int x, int y) {
+        List<Entity> entities = getEntityType(entityType);
+        for (Entity e : entities) {
+            if (e.getX() == x && e.getY() == y) return e;
+        }
+        return null;
+    }
+
+    public boolean canMoveBoulder(int x, int y) {
+        for (Entity e: this.dungeon.getEntities()) {
+            if (e.getX() == x && e.getY() == y) {
+                if (e.getClass() == Door.class) {
+                    return ((Door)e).getIsOpen();
+                } else if (e.getClass() == Switch.class) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void attach(Observer o) {
+        enemies.add(o);
+    }
+
+    @Override
+    public void detach(Observer o) {
+        enemies.remove(o);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : this.enemies) {
+            observer.update(this);
+        }
+    }
+
+    public int getEnemies() {
+        return enemies.size();
+    }
 }

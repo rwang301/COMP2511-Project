@@ -23,6 +23,8 @@ public class DungeonController {
 
     private List<ImageView> initialEntities;
 
+    private boolean shift = false;
+
     private Player player;
 
     private Dungeon dungeon;
@@ -54,21 +56,42 @@ public class DungeonController {
     public void handleKeyPress(KeyEvent event) {
         switch (event.getCode()) {
         case UP:
-            player.moveUp();
+            if (shift) {
+                player.moveBoulder(Direction.UP);
+                this.shift = false;
+            } else {
+                player.moveUp();
+            }
             break;
         case DOWN:
-            player.moveDown();
+            if (shift) {
+                player.moveBoulder(Direction.DOWN);
+                this.shift = false;
+            } else {
+                player.moveDown();
+            }
             break;
         case LEFT:
-            player.moveLeft();
+            if (shift) {
+                player.moveBoulder(Direction.LEFT);
+                this.shift = false;
+            } else {
+                player.moveLeft();
+            }
             break;
         case RIGHT:
-            player.moveRight();
+            if (shift) {
+                player.moveBoulder(Direction.RIGHT);
+                this.shift = false;
+            } else {
+                player.moveRight();
+            }
             break;
+        case SHIFT:
+            this.shift = true;
         default:
             break;
         }
     }
 
 }
-

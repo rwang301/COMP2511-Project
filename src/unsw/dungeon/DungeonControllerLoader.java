@@ -24,8 +24,6 @@ import java.io.File;
 public class DungeonControllerLoader extends DungeonLoader {
 
     private List<ImageView> entities;
-    private Map<Door, ImageView> doors = new HashMap<>();
-    private Map<Key, ImageView> keys = new HashMap<>();
     private Image newImage = null;
     private int treasureToWin = 0;
 
@@ -40,6 +38,9 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image boulderImage;
     private Image switchImage;
     private Image treasureImage;
+    private Image swordImage;
+    private Image potionImage;
+    private Image enemyImage;
 
     public DungeonControllerLoader(String filename)
             throws FileNotFoundException {
@@ -55,6 +56,9 @@ public class DungeonControllerLoader extends DungeonLoader {
         boulderImage = new Image((new File("images/boulder.png")).toURI().toString());
         switchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
         treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
+        swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
+        potionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
+        enemyImage = new Image((new File("images/hound.png")).toURI().toString());
     }
 
     @Override
@@ -113,6 +117,26 @@ public class DungeonControllerLoader extends DungeonLoader {
         view.setId(treasure.toString());
         addEntity(treasure, view);
         this.treasureToWin++;
+    }
+
+    @Override
+    public void onLoad(Sword sword) {
+        ImageView view = new ImageView(swordImage);
+        view.setId(sword.toString());
+        addEntity(sword, view);
+    }
+
+    @Override
+    public void onLoad(Potion potion) {
+        ImageView view = new ImageView(potionImage);
+        view.setId(potion.toString());
+        addEntity(potion, view);
+    }
+
+    @Override
+    public void onLoad(Enemy enemy) {
+        ImageView view = new ImageView(enemyImage);
+        addEntity(enemy, view);
     }
 
     private void addEntity(Entity entity, ImageView view) {

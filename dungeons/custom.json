@@ -1,11 +1,23 @@
 {
-  "width": 45,
-  "height": 38,
+  "width": 40,
+  "height": 25,
   "goal-condition": {
-    "goal": "AND", 
+    "goal": "OR", 
     "subgoals": [ 
-      { "goal": "treasure" },
-      { "goal": "exit"}
+      { "goal": "boulders" },
+      {
+        "goal": "AND", 
+        "subgoals": [
+          {
+            "goal": "OR",
+            "subgoals": [
+              {"goal": "treasure" },
+              {"goal": "enemies" }
+            ]
+          },
+          {"goal": "exit" }
+        ]
+      }
     ]
   },
   "entities": [
@@ -125,6 +137,11 @@
       "type": "wall"
     },
     {
+      "x": 4,
+      "y": 1,
+      "type": "sword"
+    },
+    {
       "x": 5,
       "y": 1,
       "type": "boulder"
@@ -133,11 +150,6 @@
       "x": 6,
       "y": 1,
       "type": "boulder"
-    },
-    {
-      "x": 14,
-      "y": 1,
-      "type": "switch"
     },
     {
       "x": 14,
@@ -278,9 +290,16 @@
       "type": "wall"
     },
     {
+      "x": 18,
+      "y": 3,
+      "id": 4,
+      "type": "key"
+    },
+    {
       "x": 19,
       "y": 3,
-      "type": "wall"
+      "id": 4,
+      "type": "door"
     },
     {
       "x": 0,
@@ -542,9 +561,19 @@
       "type": "wall"
     },
     {
+      "x": 1,
+      "y": 8,
+      "type": "invincibility"
+    },
+    {
       "x": 3,
       "y": 8,
       "type": "wall"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "type": "invincibility"
     },
     {
       "x": 7,
@@ -560,6 +589,12 @@
       "x": 11,
       "y": 8,
       "type": "boulder"
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "id": 2,
+      "type": "portal"
     },
     {
       "x": 13,
@@ -643,6 +678,11 @@
       "type": "wall"
     },
     {
+      "x": 3,
+      "y": 10,
+      "type": "sword"
+    },
+    {
       "x": 5,
       "y": 10,
       "type": "wall"
@@ -696,6 +736,11 @@
       "x": 2,
       "y": 11,
       "type": "wall"
+    },
+    {
+      "x": 3,
+      "y": 11,
+      "type": "enemy"
     },
     {
       "x": 5,
@@ -806,6 +851,11 @@
       "x": 5,
       "y": 13,
       "type": "wall"
+    },
+    {
+      "x": 7,
+      "y": 13,
+      "type": "invincibility"
     },
     {
       "x": 8,
@@ -993,7 +1043,7 @@
     {
       "x": 11,
       "y": 16,
-      "type": "switch"
+      "type": "enemy"
     },
     {
       "x": 13,
@@ -1039,7 +1089,8 @@
     {
       "x": 2,
       "y": 17,
-      "type": "wall"
+      "id": 2,
+      "type": "portal"
     },
     {
       "x": 3,
@@ -1125,6 +1176,46 @@
       "x": 19,
       "y": 17,
       "type": "wall"
+    },
+    {
+      "x": 11,
+      "y": 20,
+      "type": "enemy"
+    },
+    {
+      "x": 3,
+      "y": 20,
+      "type": "boulder"
+    },
+    {
+      "x": 5,
+      "y": 21,
+      "type": "boulder"
+    },
+    {
+      "x": 8,
+      "y": 20,
+      "type": "switch"
+    },
+    {
+      "x": 9,
+      "y": 22,
+      "type": "switch"
+    },
+    {
+      "x": 30,
+      "y": 8,
+      "type": "enemy"
+    },
+    {
+      "x": 35,
+      "y": 10,
+      "type": "enemy"
+    },
+    {
+      "x": 25,
+      "y": 1,
+      "type": "enemy"
     }
   ]
 }

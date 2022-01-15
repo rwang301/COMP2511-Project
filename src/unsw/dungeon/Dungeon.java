@@ -33,10 +33,9 @@ public class Dungeon implements Subject {
         this.player = null;
     }
 
-    public void pickup(Pickupable item) {
-        Entity update = (Entity)item;
-        removeEntity(update);
-        this.toUpdate = update;
+    public void disappear(Entity item) {
+        removeEntity(item);
+        this.toUpdate = item;
         notifyObservers();
     }
 
@@ -112,5 +111,9 @@ public class Dungeon implements Subject {
         if (this.goal.complete(this.player)) {
             System.exit(0);
         }
+    }
+
+    public void die() {
+        System.exit(1);
     }
 }

@@ -2,7 +2,9 @@ package unsw.dungeon;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +27,7 @@ public abstract class DungeonLoader implements Observer{
     private HashMap<Integer, Portal> portals = new HashMap<>();
     private HashMap<Integer, Key> keys = new HashMap<>();
     private HashMap<Integer, Door> doors = new HashMap<>();
+    private List<Enemy> enemies = new ArrayList<>();
 
     public DungeonLoader(String filename) throws FileNotFoundException {
         json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename)));
@@ -50,6 +53,9 @@ public abstract class DungeonLoader implements Observer{
         loadGoals(json.getJSONObject("goal-condition"), null);
         dungeon.setGoal(this.goal);
         dungeon.setTotalTreasure(this.totalTreasure);
+        for (Enemy e : this.enemies) {
+            dungeon.getPlayer().attach(e);
+        }
 
         return dungeon;
     }
@@ -128,6 +134,22 @@ public abstract class DungeonLoader implements Observer{
             entity = treasure;
             this.totalTreasure++;
             break;
+        case "enemy":
+            Enemy enemy = new Enemy(x, y);
+            onLoad(enemy);
+            entity = enemy;
+            enemies.add(enemy);
+            break;
+        case "sword":
+            Sword sword = new Sword(x, y);
+            onLoad(sword);
+            entity = sword;
+            break;
+        case "invincibility":
+            Potion potion = new Potion(x, y);
+            onLoad(potion);
+            entity = potion;
+            break;
         }
         dungeon.addEntity(entity);
     }
@@ -196,6 +218,12 @@ public abstract class DungeonLoader implements Observer{
     public abstract void onLoad(Switch floorSwitch);
 
     public abstract void onLoad(Treasure treasure);
+    
+    public abstract void onLoad(Potion potion);
+
+    public abstract void onLoad(Sword sword);
+
+    public abstract void onLoad(Enemy Enemy);
 
     // TODO Create additional abstract methods for the other entities
 
