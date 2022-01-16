@@ -147,25 +147,25 @@ public class Player extends Entity implements Subject {
             case UP:
                 boulder = (Boulder)getEntity(Boulder.class, this.getX(), this.getY() - 1); 
                 if (boulder != null) {
-                    boulder.push(this, this.getX(), this.getY() - 2);
+                    boulder.push(this.dungeon, this.getX(), this.getY() - 2);
                 }
                 break;
             case DOWN:
                 boulder = (Boulder)getEntity(Boulder.class, this.getX(), this.getY() + 1); 
                 if (boulder != null) {
-                    boulder.push(this, this.getX(), this.getY() + 2);
+                    boulder.push(this.dungeon, this.getX(), this.getY() + 2);
                 }
                 break;
             case LEFT:
                 boulder = (Boulder)getEntity(Boulder.class, this.getX() - 1, this.getY()); 
                 if (boulder != null) {
-                    boulder.push(this, this.getX() - 2, this.getY());
+                    boulder.push(this.dungeon, this.getX() - 2, this.getY());
                 }
                 break;
             case RIGHT:
                 boulder = (Boulder)getEntity(Boulder.class, this.getX() + 1, this.getY()); 
                 if (boulder != null) {
-                    boulder.push(this, this.getX() + 2, this.getY());
+                    boulder.push(this.dungeon, this.getX() + 2, this.getY());
                 }
                 break;
         }
@@ -177,21 +177,6 @@ public class Player extends Entity implements Subject {
             if (e.getX() == x && e.getY() == y) return e;
         }
         return null;
-    }
-
-    public boolean canMoveBoulder(int x, int y) {
-        for (Entity e: this.dungeon.getEntities()) {
-            if (e.getX() == x && e.getY() == y) {
-                if (e.getClass() == Door.class) {
-                    return ((Door)e).getIsOpen();
-                } else if (e.getClass() == Switch.class) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     @Override

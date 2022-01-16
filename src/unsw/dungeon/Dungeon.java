@@ -44,6 +44,21 @@ public class Dungeon implements Subject {
         notifyObservers();
     }
 
+    public boolean isBlocked(int x, int y) {
+        for (Entity e: this.getEntities()) {
+            if (e.getX() == x && e.getY() == y) {
+                if (e.getClass() == Door.class) {
+                    return ((Door)e).getIsOpen();
+                } else if (e.getClass() == Switch.class) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public int getWidth() {
         return width;
     }

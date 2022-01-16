@@ -55,6 +55,7 @@ public abstract class DungeonLoader implements Observer{
         dungeon.setTotalTreasure(this.totalTreasure);
         for (Enemy e : this.enemies) {
             dungeon.getPlayer().attach(e);
+            e.startMoving();
         }
 
         return dungeon;
@@ -135,7 +136,7 @@ public abstract class DungeonLoader implements Observer{
             this.totalTreasure++;
             break;
         case "enemy":
-            Enemy enemy = new Enemy(x, y);
+            Enemy enemy = new Enemy(dungeon, x, y);
             onLoad(enemy);
             entity = enemy;
             enemies.add(enemy);
