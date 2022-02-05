@@ -6,10 +6,19 @@ import java.util.TimerTask;
 public class Enemy extends Entity implements Observer {
 
     private Strategy strategy;
+    private Player player;
 
     public Enemy(Dungeon d, int x, int y) {
         super(x, y);
         strategy = new MoveToward(d, this);
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     @Override
